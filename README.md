@@ -6,3 +6,4 @@ Problemática: Reducción en la capacidad de atención y concentración de las p
 
 - Benitez, Dante Flavian
 - López, Cristian Javier
+- Mercado, Eric Alejandro
