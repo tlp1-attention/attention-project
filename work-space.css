@@ -1,7 +1,11 @@
-body {
-    min-height: 100vh;
-}
-
 .text-purple {
     color: #6320EE !important;
+}
+
+.text-purple-dark {
+    color: #4100cc !important;
+}
+
+.logo {
+    max-height: 53px;
 }
