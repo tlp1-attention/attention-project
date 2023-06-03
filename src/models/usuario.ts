@@ -13,10 +13,10 @@ export type usuarioId = usuario[usuarioPk];
 export type usuarioCreationAttributes = usuarioAttributes;
 
 export class usuario extends Model<usuarioAttributes, usuarioCreationAttributes> implements usuarioAttributes {
-  id_usuario!: number;
-  nombre_usuario!: string;
-  contrasenia!: string;
-  correo_electronico!: string;
+  declare id_usuario: number;
+  declare nombre_usuario: string;
+  declare contrasenia: string;
+  declare correo_electronico: string;
 
 
   static initModel(sequelize: Sequelize.Sequelize): typeof usuario {

@@ -2,11 +2,11 @@
   "name": "attention-project",
   "version": "1.0.0",
   "description": "A web application that provides help to people who find it hard to mantain focus, with differentes functionalities",
-  "main": "./dist/app.js",
+  "main": "./dist/src/app.js",
   "scripts": {
-    "test": "tsc.cmd && jest",
-    "test:seq": "tsc.cmd && jest --runInBand",
-    "dev": "tsc.cmd && nodemon ./dist/app.js"
+    "test": "jest",
+    "test:seq": "jest --runInBand",
+    "dev": "tsc.cmd && nodemon ./dist/src/app.js"
   },
   "repository": {
     "type": "git",
