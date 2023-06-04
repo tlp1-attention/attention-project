@@ -1,9 +1,8 @@
-async function fetchOK(request, error) {
+async function fetchOK(request) {
     return fetch(request).then(res => {
         if (res.ok) return res
-        else throw error;
-    })
-                 
+        else throw res;
+    });
 }
 
 export default fetchOK;

@@ -1,9 +1,12 @@
 import fetchOK from './utils/fetch.js';
+import showError from './utils/showError.js'
 
 const userInput = document.querySelector('[name="username"]');
 const passwordInput = document.querySelector('[name="password"]');
 const emailInput = document.querySelector('[name="email"]');
 const form = document.querySelector('form');
+
+const errorMessage = document.querySelector('#error-message');
 
 form.addEventListener('submit', async (evt) => {
 
@@ -16,8 +19,7 @@ form.addEventListener('submit', async (evt) => {
     const email = emailInput.value;
 
     if (!validatePassword(password)) {
-        alertUnsecurePassword();
-        return;
+        return showError('Contraseña insegura: Debe contener al menos 8 caracteres de longitud, al menos una mayúscula, una minúscula y un número', errorMessage);
     }
 
     const body = JSON.stringify({
@@ -35,18 +37,21 @@ form.addEventListener('submit', async (evt) => {
         body
     })
 
-    const response = await fetchOK(request)
+    const response = fetchOK(request);
     
     response
         .then(handleRegister)
-        .catch(handleError)
+        .catch(failedResponse => {
+            if (failedResponse.status === 409) {
+                return showError('Usuario no disponible', errorMessage);
+            }
+            return showError('Error inesperado: ', failedResponse);
+        })
 })
 
 function handleRegister() {
-    document.location = './login.html'
+    window.location.assign('./login.html');
 }
-
-function handleError() {}
 
 function validatePassword(pass) {
 
@@ -58,21 +63,11 @@ function validatePassword(pass) {
     if (!(pass.match(/[A-Z]/) &&
         pass.match(/[a-z]/) &&
         pass.match(/\d/))) {
-            return false
+            return false;
     };
 
     return true;
 }
 
-const errorMessage = document.querySelector('#error-message');
 
-function alertUnsecurePassword() {
-    
-    errorMessage.textContent = 'Contraseña insegura: Debe contener al menos 8 caracteres de longitud, al menos una mayúscula, una minúscula y un número';
 
-    const errorToast = document.querySelector('.toast');
-    const bootstrapToast = bootstrap.Toast.getOrCreateInstance(errorToast);
-
-    bootstrapToast.show();
-
-}

@@ -5,8 +5,6 @@ import morgan  from 'morgan'
 
 const app = express();
 
-let id_usuario = 1;
-
 const PORT = process.env.PORT || 8080;
 
 // Sequelize Models
@@ -18,6 +16,8 @@ app.use(express.static('./public'));
 app.use(morgan('dev'));
 
 class ValidationError extends Error {}
+
+class IncorrectRegisterError extends Error {}
 
 // Routes
 app.post('/register/', async (req, res) => {
@@ -31,37 +31,56 @@ app.post('/register/', async (req, res) => {
         throw new ValidationError('Información de registro incorrecta.');
     }
 
-    await Usuario.create({
-        id_usuario: ++id_usuario,
-        nombre_usuario: username,
-        contrasenia: password,
-        correo_electronico: email
-    });
-
-    res.sendStatus(200);
-});
-
-class IncorrectLoginError extends Error {}
-
-app.get('/login/', async (req, res) => {
-
-    const { username, password, email } = req.body;
-
     const finded = await Usuario.findAll({
         where: {
             nombre_usuario: username,
-            contrasenia: password,
-            correo_electronico: email
         }
     })
 
-    if (finded.length > 1) {
-        throw new IncorrectLoginError('Hay más de un usuario con el mismo nombre.')
+    if (finded.length == 0) {
+        await Usuario.create({
+            nombre_usuario: username, 
+            contrasenia: password,
+            correo_electronico: email,
+        });
+    
+        return res.sendStatus(201);
+
     } else if (finded.length == 1) {
-        res.status(201).end();
+        return res.sendStatus(409);
     } else {
-        res.status(404).end();
+        throw new IncorrectRegisterError('Too many users with the same name.')
     }
 });
+
+app.get('/login', async (req, res) => {
+
+    const { username, password, email } = req.body;
+
+    let findedUser;
+    if (!email) {
+        findedUser = await Usuario.findOne({
+            where: {
+                nombre_usuario: username,
+                contrasenia: password,
+            },
+        });
+    } else {
+        findedUser = await Usuario.findOne({
+            where: {
+                correo_electronico: email,
+                contrasenia: password,
+            }
+        })
+    }
+
+    if (!findedUser) {
+        return res.sendStatus(404);
+    } else {
+        return res.sendStatus(200);
+    }
+})
+
+
 
 app.listen(PORT, () => console.log(`Server listening in port: ${PORT}`));
