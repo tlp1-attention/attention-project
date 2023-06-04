@@ -53,26 +53,16 @@ app.post('/register/', async (req, res) => {
     }
 });
 
-app.get('/login', async (req, res) => {
+app.head('/login/:username/:password', async (req, res) => {
 
-    const { username, password, email } = req.body;
+    const { username, password } = req.params;
 
-    let findedUser;
-    if (!email) {
-        findedUser = await Usuario.findOne({
-            where: {
-                nombre_usuario: username,
-                contrasenia: password,
-            },
-        });
-    } else {
-        findedUser = await Usuario.findOne({
-            where: {
-                correo_electronico: email,
-                contrasenia: password,
-            }
-        })
-    }
+    const findedUser = await Usuario.findOne({
+        where: {
+            nombre_usuario: username,
+            contrasenia: password,
+        }
+    });
 
     if (!findedUser) {
         return res.sendStatus(404);
