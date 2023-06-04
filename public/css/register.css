@@ -7,6 +7,8 @@
     --clr-accent-400:  #36498c;
     --clr-accent-200: #d77dec;
 
+    --clr-warning-400: #ffc107;
+    --clr-warning-200: hsla(45, 100%, 51%, 0.4);
     font-size: 0.76rem;
 }
 
@@ -52,6 +54,10 @@ form > * {
         flex-grow: 1;
         width: auto;
     }
+}
+
+.text-bg-info-subtle {
+    background-color: var(--clr-warning-200);
 }
 
 .form-small-text {
