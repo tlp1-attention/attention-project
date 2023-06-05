@@ -1,6 +1,8 @@
 import * as Sequelize from 'sequelize';
 import { DataTypes, Model, Optional } from 'sequelize';
 
+
+
 export interface usuarioAttributes {
   id_usuario: number;
   nombre_usuario: string;
@@ -33,7 +35,7 @@ export class usuario extends Model<usuarioAttributes, usuarioCreationAttributes>
     },
     contrasenia: {
       type: DataTypes.STRING(255),
-      allowNull: false
+      allowNull: false,
     },
     correo_electronico: {
       type: DataTypes.STRING(255),
@@ -52,7 +54,7 @@ export class usuario extends Model<usuarioAttributes, usuarioCreationAttributes>
           { name: "id_usuario" },
         ]
       },
-    ]
+    ],
   });
   }
 }

@@ -1,7 +1,8 @@
 import express from 'express'
-import { sequelize, Models } from './db';
-import path from 'path';
+import { Models } from './db';
 import morgan  from 'morgan'
+import { hashPassword, comparePassword } from './utils/hash'
+
 
 const app = express();
 
@@ -24,29 +25,30 @@ app.post('/register/', async (req, res) => {
 
     const { username, password, email } = req.body;
 
+    const hashedPassword = await hashPassword(password);
+
     if (username == "" ||
         password == "" ||
         email == "") {
 
-        throw new ValidationError('Información de registro incorrecta.');
+        throw new ValidationError('Incorrect register information');
     }
 
-    const finded = await Usuario.findAll({
+    const found = await Usuario.findAll({
         where: {
             nombre_usuario: username,
         }
     })
 
-    if (finded.length == 0) {
+    if (found.length == 0) {
         await Usuario.create({
             nombre_usuario: username, 
-            contrasenia: password,
+            contrasenia: hashedPassword,
             correo_electronico: email,
         });
     
         return res.sendStatus(201);
-
-    } else if (finded.length == 1) {
+    } else if (found.length == 1) {
         return res.sendStatus(409);
     } else {
         throw new IncorrectRegisterError('Too many users with the same name.')
@@ -57,14 +59,15 @@ app.head('/login/:username/:password', async (req, res) => {
 
     const { username, password } = req.params;
 
-    const findedUser = await Usuario.findOne({
+    const foundUser = await Usuario.findOne({
         where: {
             nombre_usuario: username,
-            contrasenia: password,
         }
     });
 
-    if (!findedUser) {
+    const isCorrectPassword = await comparePassword(password, foundUser.contrasenia);
+
+    if (!isCorrectPassword) {
         return res.sendStatus(404);
     } else {
         return res.sendStatus(200);
