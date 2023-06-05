@@ -15,21 +15,26 @@ form.addEventListener('submit', async (evt) => {
     const password = passwordInput.value;
 
     const requestBody = JSON.stringify({
-          username,
-          password      
+        username,
+        password
     });
 
-    const request = new Request(`/login/${username}/${password}`, {
-        method: 'HEAD',
+    const request = new Request(`/login/`, {
+        method: 'POST',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: requestBody
     });
 
     await fetchOK(request)
           .then(handleLogin)
           .catch(failedResponse => {
 
-            console.log()
+            console.log(failedResponse)
 
-            if (failedResponse.statusCode == 404) {
+            if (failedResponse.status == 404) {
                 return showError('Error al iniciar sesión: Usuario o contraseña incorrectos.', errorMessage);
             }
 
