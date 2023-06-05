@@ -9,7 +9,9 @@ afterAll(async () => {
         }
     });
 
-    await created.forEach(async user => await user.destroy());
+    await Promise.all(created.map(user => user.destroy()));
+
+    await sequelize.close();
 })
 
 const { usuario: Usuario } = Models;
@@ -26,16 +28,16 @@ describe('Testing comparing hashed password', () => {
             correo_electronico: 'example@gmail.com'
         });
 
-        const finded = await Usuario.findAll({
+        const founded = await Usuario.findAll({
             where: {
                 nombre_usuario: 'JohnUser0123'
             }
         })
 
-        expect(finded.find(user => user.id_usuario == mockUser.id_usuario))
+        expect(founded.find(user => user.id_usuario == mockUser.id_usuario))
         .toBeTruthy();
 
-        expect(finded.some(user => {
+        expect(founded.some(user => {
             return comparePassword('0123456789', user.contrasenia);
         }))
         .toBe(true)

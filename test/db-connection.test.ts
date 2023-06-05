@@ -1,8 +1,6 @@
 import { sequelize, Models } from '../src/db'
 
-afterAll(() => {
-    sequelize.close();
-})
+
 
 const Usuario = Models['usuario'];
 

@@ -27,11 +27,13 @@ form.addEventListener('submit', async (evt) => {
           .then(handleLogin)
           .catch(failedResponse => {
 
-            if (failedResponse.statusCode != 404) {
+            console.log()
+
+            if (failedResponse.statusCode == 404) {
                 return showError('Error al iniciar sesión: Usuario o contraseña incorrectos.', errorMessage);
             }
 
-            return showError('Error inesperado: ' + failedResponse.statusText);
+            return showError('No se estableció conexión con el servidor', errorMessage);
           })
 })
 
