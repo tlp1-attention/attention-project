@@ -3,21 +3,21 @@ import { hashPassword, comparePassword } from '../utils/hash';
 import type { Response, Request } from 'express'
 
 
-const { usuario: Usuario } = Models;
+const { Users } = Models;
 
 async function loginController(req: Request, res: Response) {
 
     const { username, password } = req.body;
 
 
-    const foundUser = await Usuario.findOne({
+    const foundUser = await Users.findOne({
         where: {
-            nombre_usuario: username,
+            name: username,
         }
     });
 
     let isCorrectPassword;
-    if (foundUser) isCorrectPassword = await comparePassword(password, foundUser.contrasenia);
+    if (foundUser) isCorrectPassword = await comparePassword(password, foundUser.password);
 
     if (!isCorrectPassword) {
         return res.sendStatus(404);
@@ -44,17 +44,19 @@ async function registerController(req: Request, res: Response) {
         throw new ValidationError('Incorrect register information');
     }
 
-    const found = await Usuario.findAll({
+    const found = await Users.findAll({
         where: {
-            nombre_usuario: username,
+            name: username,
         }
     })
 
     if (found.length == 0) {
-        await Usuario.create({
-            nombre_usuario: username, 
-            contrasenia: hashedPassword,
-            correo_electronico: email,
+        await Users.create({
+            name: username, 
+            password: hashedPassword,
+            email: email,
+            createdAt: new Date(),
+            updatedAt: new Date()
         });
     
         return res.sendStatus(201);

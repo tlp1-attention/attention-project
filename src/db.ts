@@ -16,6 +16,16 @@ const sequelize = new Sequelize({
 
 const Models = initModels(sequelize);
 
+const { Users, Reports, TypeExercises, Exercises, CompleteExercises, Preferences, Answers, Responses } = Models;
+
+Users.hasOne(Preferences);
+Users.hasMany(Reports);
+Reports.hasMany(CompleteExercises);
+TypeExercises.hasMany(CompleteExercises);
+Exercises.hasMany(CompleteExercises);
+Exercises.hasMany(Answers);
+Exercises.hasMany(Responses);
+
 export {
     sequelize,
     Models

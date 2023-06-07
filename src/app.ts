@@ -14,4 +14,6 @@ app.use(morgan('dev'));
 app.use(loginRouter);
 
 
-app.listen(PORT, () => console.log(`Server listening in port: ${PORT}`));
+app.listen(PORT, () => {
+    console.log(`Server listening in port: ${PORT}`);
+});

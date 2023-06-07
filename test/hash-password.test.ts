@@ -3,9 +3,9 @@ import { sequelize, Models } from '../src/db'
 
 afterAll(async () => {
 
-    const created = await Usuario.findAll({
+    const created = await Users.findAll({
         where: {
-            nombre_usuario: 'JohnUser0123'
+            name: 'JohnUser0123'
         }
     });
 
@@ -14,7 +14,7 @@ afterAll(async () => {
     await sequelize.close();
 })
 
-const { usuario: Usuario } = Models;
+const { Users } = Models;
 
 describe('Testing comparing hashed password', () => {
 
@@ -22,23 +22,23 @@ describe('Testing comparing hashed password', () => {
 
         const hashedPassword = await hashPassword('0123456789');
 
-        const mockUser = await Usuario.create({
-            nombre_usuario: 'JohnUser0123',
-            contrasenia: hashedPassword,
-            correo_electronico: 'example@gmail.com'
+        const mockUser = await Users.create({
+            name: 'JohnUser0123',
+            password: hashedPassword,
+            email: 'example@gmail.com'
         });
 
-        const founded = await Usuario.findAll({
+        const founded = await Users.findAll({
             where: {
-                nombre_usuario: 'JohnUser0123'
+                name: 'JohnUser0123'
             }
         })
 
-        expect(founded.find(user => user.id_usuario == mockUser.id_usuario))
+        expect(founded.find(user => user.id == mockUser.id))
         .toBeTruthy();
 
         expect(founded.some(user => {
-            return comparePassword('0123456789', user.contrasenia);
+            return comparePassword('0123456789', user.password);
         }))
         .toBe(true)
     })
