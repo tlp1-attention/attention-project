@@ -10,3 +10,23 @@
     text-decoration: none;
     color: var(--clr-secondary-200);
 }
+
+.timer-text {
+    position: absolute;
+    background: transparent;
+}
+
+.timer-container section {
+    font-size: 3rem;
+    min-height: 320px;
+    min-width: 250px;
+    max-height: 300px;
+    max-width: 350px;
+    border-radius: 2rem;
+}
+
+.rounded-timer {
+    border: 1.7rem solid var(--clr-accent-800);
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+}
