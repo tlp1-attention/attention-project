@@ -1,0 +1,81 @@
+:root {
+    --clr-secondary-800: #5b5c61;
+    --clr-secondary-200: #f8f8f8;
+    --clr-secondary-400: #dcdcdc;
+
+    --clr-accent-800: #673a8b;
+    --clr-accent-400:  #36498c;
+    --clr-accent-200: #d77dec;
+
+    --clr-warning-400: #ffc107;
+    --clr-warning-200: hsla(45, 100%, 51%, 0.4);
+    font-size: 0.76rem;
+}
+
+body {
+    font-size: 1.1rem;
+    background-color: var(--clr-secondary-200);
+    color: var(--clr-accent-400);
+}
+
+h1 {
+    color: var(--clr-accent-800);
+}
+
+form > * {
+    margin: min(7px, 0.4rem);
+}
+
+.form-button {
+    border: none;
+    color: var(--clr-secondary-200);
+    padding-inline: 2rem;
+    padding-block: 1rem;
+    background-color: var(--clr-accent-400);
+    border-radius: 25px;
+
+    transition: background-color 300ms;
+}
+
+.form-button:hover {
+    background-color: var(--clr-accent-200);
+}
+
+.form-img {
+    object-fit: cover;
+}
+
+@media (min-width: 768px) {
+    .form-img {
+        max-width: 45%;
+    }
+
+    section {
+        flex-grow: 1;
+        width: auto;
+    }
+}
+
+.text-bg-info-subtle {
+    background-color: var(--clr-warning-200);
+}
+
+.form-small-text {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.1rem;
+    color: var(--clr-accent-800);
+}
+
+.animated-link {
+    transition: all 150ms ease-in;
+}
+
+.animated-link:hover {
+    background-color: var(--clr-accent-400);
+    color: var(--clr-secondary-200);
+}
+
+label {
+    font-size: 1.2rem;
+}
