@@ -1,7 +1,8 @@
 :root {
     --clr-secondary-800: #5b5c61;
     --clr-secondary-200: #f8f8f8;
-    --clr-secondary-400: #dcdcdc;
+    --clr-secondary-400: #dfe6e9;
+
 
     --clr-accent-800: #673a8b;
     --clr-accent-400:  #36498c;
@@ -78,4 +79,22 @@ form > * {
 
 label {
     font-size: 1.2rem;
+}
+
+.btn-primary-brand {
+    color: var(--clr-secondary-200);
+    background-color: var(--clr-accent-400);
+    transition: all 300ms ease;
+}
+
+.btn:first-child:hover {
+    color: var(--clr-secondary-200);
+    background-color: var(--clr-accent-800);
+}
+
+.btn-primary-brand:hover,
+.btn-primary-brand:active,
+.btn-primary-brand:first-child:active {
+    color: var(--clr-secondary-200);
+    background-color: var(--clr-accent-800);
 }

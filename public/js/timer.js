@@ -1,50 +1,4 @@
-class Timer {
-    interval;
-
-    constructor(timeInSecs, domNode) {
-        this.dom = domNode;
-        this.timeInSecs = timeInSecs;
-    }
-
-    start() {
-       return new Promise(resolve => {
-            this.interval = setInterval(() => {
-
-                if (this.timeInSecs == 0) {
-                    this.stop();
-                    resolve(null);
-                }
-
-                let seconds = this.timeInSecs;
-
-                let minutes = Math.floor(
-                      seconds / 60
-                );
-
-                seconds = seconds % 60;
-
-                this.dom.textContent = `
-                  ${padZero(minutes)}:${padZero(seconds)}
-                `;
-
-                this.timeInSecs--;
-            }, 1000)
-       });
-    }
-
-    stop() {
-        clearInterval(this.interval);
-    }
-
-    restart() {
-        this.dom.textContent = "00:00";
-        this.timeInSecs = this.initial;
-    }
-}
-
-function padZero(num) {
-    return num.toString().padStart(2, '0');
-}
+import Timer from './utils/timer-class.js'
 
 const Mode = {
     Work: 'WORK',
@@ -106,7 +60,13 @@ const totalTimeSelect = document.querySelector('[name="total-time"]');
 
 const submitButton = document.querySelector('button[type="submit"]')
 
+const newTimerButton = document.querySelector('#new-timer');
+
 const modal = bootstrap.Modal.getOrCreateInstance(document.querySelector('.modal'), { show: false });
+
+newTimerButton.addEventListener('click', () => {
+    modal.show()
+})
 
 submitButton.addEventListener('click', (evt) => {
 
@@ -121,13 +81,13 @@ submitButton.addEventListener('click', (evt) => {
     modal.hide();
 })
 
-document.addEventListener('DOMContentLoaded', () => {
-    // modal.show();
-})
 
 const workTimer = document.querySelector('#work');
 
 const freeTimer = document.querySelector('#free');
+
+const workProgress = document.querySelector('#work-progress');
+const freeProgress = document.querySelector('#free-progress');
 
 async function runTimers(intervals) {
 
@@ -136,8 +96,17 @@ async function runTimers(intervals) {
        const node = interval.mode == Mode.Work
                     ? workTimer
                     : freeTimer
+        const indicator = interval.mode == Mode.Work 
+                    ? workProgress
+                    : freeProgress
 
-       const timer = new Timer(interval.time * 60, node);
+       const timer = new Timer(interval.time * 60, {
+            node,
+            onValueChange: (currentTime, total) => {
+                const currentValue = (currentTime * 100 / total);
+                indicator.setAttribute('style', `stroke-dashoffset:${currentValue-100}`)
+            }
+       });
 
        timerContainer.classList.add(
            interval.mode

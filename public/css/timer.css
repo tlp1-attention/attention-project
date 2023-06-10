@@ -13,7 +13,10 @@
 
 .timer-text {
     position: absolute;
-    background: transparent;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 4rem;
 }
 
 .timer-container section {
@@ -30,3 +33,20 @@
     aspect-ratio: 1 / 1;
     border-radius: 50%;
 }
+
+.timer svg {
+    width: 200px;
+}
+
+.timer path {
+    stroke: var(--clr-accent-800);
+    stroke-dasharray: 1238;
+    stroke-width: 3;
+    stroke-linecap: round;
+    animation: decrease 2s ease infinite;
+}
+
+.bg-circle {
+    stroke: var(--clr-secondary-400) !important;
+}
+ 

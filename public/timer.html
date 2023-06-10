@@ -14,38 +14,53 @@
 </head>
 <body class="min-vh-100">
     <main class="h-100">
+        <button id="new-timer" class="btn btn-primary-brand d-flex justify-content-center gap-3 align-items-center mx-auto mt-3">
+            <i class="bi bi-plus-circle fs-2"></i>
+            Nuevo temporizador
+        </button>
         <article id="timer-container" class="timer-container vh-100 d-flex flex-wrap justify-content-center align-items-center align-content-center">
             <section class="m-4 d-flex justify-content-start align-items-center flex-column border shadow p-4">
                 <h3 class="fs-2 fw-medium text-uppercase mt-2">Tiempo libre</h3>
-                <div class="p-4 timer d-flex justify-content-center align-items-center m-auto">
+                <div class="position-relative timer d-flex justify-content-center align-items-center m-auto">
                     <svg class="flex-shrink-0" viewBox="0 0 36 36">
                         <path
                           d="M18 2.0845
                             a 15.9155 15.9155 0 0 1 0 31.831
                             a 15.9155 15.9155 0 0 1 0 -31.831"
                           fill="none"
-                          stroke="#444";
-                          stroke-width="1"
+                          class="bg-circle"
+                        />
+                        <path
+                          d="M18 2.0845
+                            a 15.9155 15.9155 0 0 1 0 31.831
+                            a 15.9155 15.9155 0 0 1 0 -31.831"
+                          fill="none"
+                          id="free-progress"
                         />
                     </svg>
                     <span id="free" class="timer-text">00:00</span>
                 </div>
             </section>
-            <section id="free" class="m-4 d-flex justify-content-start align-items-center flex-column border shadow p-4">
+            <section class="m-4 d-flex justify-content-start align-items-center flex-column border shadow p-4">
                 <h3 class="fs-2 fw-medium text-uppercase mt-2">Trabajo</h3>
-                
-                <div id="work" class="p-4 timer d-flex justify-content-center align-items-center m-auto bg-transparent">
+                <div class="position-relative timer d-flex justify-content-center align-items-center m-auto bg-transparent">
                     <svg class="flex-shrink-0" viewBox="0 0 36 36">
                         <path
                           d="M18 2.0845
                             a 15.9155 15.9155 0 0 1 0 31.831
                             a 15.9155 15.9155 0 0 1 0 -31.831"
                           fill="none"
-                          stroke="#444";
-                          stroke-width="1"
+                          class="bg-circle"
+                        />
+                        <path
+                          d="M18 2.0845
+                            a 15.9155 15.9155 0 0 1 0 31.831
+                            a 15.9155 15.9155 0 0 1 0 -31.831"
+                          fill="none"
+                          id="work-progress"
                         />
                     </svg>
-                    <span id="work" class="timer-text">00:00</span>
+                    <span id="work"class="timer-text">00:00</span>
                 </div>
             </section>
         </article>
