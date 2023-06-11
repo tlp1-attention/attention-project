@@ -32,9 +32,7 @@ form.addEventListener('submit', async (evt) => {
           .then(handleLogin)
           .catch(failedResponse => {
 
-            console.log(failedResponse)
-
-            if (failedResponse.status == 404) {
+            if (failedResponse.status == 400) {
                 return showError('Error al iniciar sesión: Usuario o contraseña incorrectos.', errorMessage);
             }
 

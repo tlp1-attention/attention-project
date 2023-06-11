@@ -61,7 +61,7 @@ async function registerController(req: Request, res: Response) {
     
         return res.sendStatus(201);
     } else if (found.length == 1) {
-        return res.sendStatus(409);
+        return res.sendStatus(400);
     } else {
         throw new IncorrectRegisterError('Too many users with the same name.')
     }

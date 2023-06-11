@@ -1,6 +1,6 @@
 import express from 'express'
 import morgan  from 'morgan'
-import loginRouter from './routes/login-register.routes';
+import loginRouter from './routes/auth.routes';
 import staticServer from './middleware/server-static.middleware';
 import indexRouter from './routes/index.routes'
 
