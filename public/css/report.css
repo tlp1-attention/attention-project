@@ -1,0 +1,64 @@
+@import url(./general.css);
+
+:root {
+    --clr-blue-400: hsl(210, 76%, 53%);
+    --clr-blue-100: hsla(210, 60%, 72%, 0.6);
+
+    --clr-green-400: hsla(146, 44%, 38%);
+    --clr-green-100: hsla(129, 26%, 72%, 0.6);
+
+    --clr-yellow-600: hsl(61, 74%, 56%);
+    --clr-yellow-100: hsla(62, 88%, 66%, 0.4);
+
+    --fnt-size-500: 1.7rem;
+}
+
+body {
+    padding: min(5rem, 1000px);
+}
+
+.colored-item {
+    --color: var(--clr-accent-400);
+    --bg-color: var(--clr-accent-200);
+    font-weight: bold;
+    font-size: var(--fnt-size-500);
+    color: var(--color);
+    border-radius: 8px;
+    padding: 5px;
+    aspect-ratio: 1 / 1;
+    background-color: var(--bg-color);
+}
+
+.color-green {
+    --color: var(--clr-green-400);
+    --bg-color: var(--clr-green-100)
+}
+
+.color-yellow {
+    --color: var(--clr-yellow-600);
+    --bg-color: var(--clr-yellow-100);
+}
+
+.color-blue {
+    --color: var(--clr-blue-400);
+    --bg-color: var(--clr-blue-100);
+}
+
+.text-brand {
+    color: var(--clr-accent-400);
+}
+
+.report-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    border-radius: 2rem;
+    border: .1rem solid var(--clr-secondary-400);
+}
+
+.report-table td,
+.report-table th {
+    padding-block: min(2rem, 10px);
+}
+
+

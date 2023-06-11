@@ -30,7 +30,6 @@ function divideTime(minutes) {
     let intervals = [];
 
     const { timeOfWork, timeFree } = getTimerConfig(minutes);
-
     let timeTaken = 0;
     let i = 0;
 
@@ -50,7 +49,6 @@ function divideTime(minutes) {
         }
         i++;
     }
-
     return intervals;
 }
 
