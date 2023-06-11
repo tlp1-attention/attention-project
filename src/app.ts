@@ -4,7 +4,7 @@ import loginRouter from './routes/auth.routes';
 import staticServer from './middleware/server-static.middleware';
 import indexRouter from './routes/index.routes'
 import helmet from 'helmet'
-
+import cors from 'cors'
 
 const app = express();
 
@@ -17,17 +17,18 @@ app.set('view engine', 'ejs');
 // Library Middleware
 app.use(express.json());
 app.use(morgan('dev'));
-app.use(helmet());
+app.use(cors());
+app.use(helmet({
+    contentSecurityPolicy: false
+}));
 
 // Custom middleware
 app.use(staticServer);
-
 
 // Routes
 app.use(loginRouter);
 app.use(indexRouter);
 
-
 app.listen(PORT, () => {
-    console.log(`Server listening in port: ${PORT}`);
+    console.log(`Server listening in port: http://localhost:${PORT}`);
 });
