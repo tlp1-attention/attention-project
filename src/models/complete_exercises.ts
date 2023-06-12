@@ -92,6 +92,7 @@ export class CompleteExercises extends Model<CompleteExercisesAttributes, Comple
     sequelize,
     tableName: 'complete_exercises',
     timestamps: true,
+    paranoid: true,
     indexes: [
       {
         name: "PRIMARY",

@@ -73,6 +73,7 @@ export class Reports extends Model<ReportsAttributes, ReportsCreationAttributes>
     sequelize,
     tableName: 'reports',
     timestamps: true,
+    paranoid: true,
     indexes: [
       {
         name: "PRIMARY",

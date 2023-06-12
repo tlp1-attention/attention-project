@@ -84,6 +84,7 @@ export class Preferences extends Model<PreferencesAttributes, PreferencesCreatio
     sequelize,
     tableName: 'preferences',
     timestamps: true,
+    paranoid: true,
     indexes: [
       {
         name: "PRIMARY",

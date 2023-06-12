@@ -57,6 +57,7 @@ export class TypeExercises extends Model<TypeExercisesAttributes, TypeExercisesC
     sequelize,
     tableName: 'type_exercises',
     timestamps: true,
+    paranoid: true,
     indexes: [
       {
         name: "PRIMARY",

@@ -119,6 +119,7 @@ export class Exercises extends Model<ExercisesAttributes, ExercisesCreationAttri
     sequelize,
     tableName: 'exercises',
     timestamps: true,
+    paranoid: true,
     indexes: [
       {
         name: "PRIMARY",

@@ -2,51 +2,57 @@ import * as Sequelize from 'sequelize';
 import { DataTypes, Model, Optional } from 'sequelize';
 import type { Exercises, ExercisesId } from './exercises';
 
-export interface AnswersAttributes {
+export interface EventsAttributes {
   id: number;
-  answer: string;
+  title: string;
+  description: string;
   createdAt: Date;
   updatedAt: Date;
-  exerciseId?: number;
+  userId: number;
 }
 
-export type AnswersPk = "id";
-export type AnswersId = Answers[AnswersPk];
-export type AnswersOptionalAttributes = "id" | "createdAt" | "updatedAt" | "exerciseId";
-export type AnswersCreationAttributes = Optional<AnswersAttributes, AnswersOptionalAttributes>;
+export type EventsPk = "id";
+export type EventsId = Events[EventsPk];
+export type EventsOptionalAttributes = "id" | "createdAt" | "updatedAt" | "userId";
+export type EventsCreationAttributes = Optional<EventsAttributes, EventsOptionalAttributes>;
 
-export class Answers extends Model<AnswersAttributes, AnswersCreationAttributes> implements AnswersAttributes {
+export class Events extends Model<EventsAttributes, EventsCreationAttributes> implements EventsAttributes {
   declare id: number;
-  declare answer: string;
+  declare title: string;
+  declare description: string;
   declare createdAt: Date;
   declare updatedAt: Date;
-  declare exerciseId?: number;
+  declare userId: number;
 
-  // Answers belongsTo Exercises via exerciseId
+  // Events belongsTo Exercises via exerciseId
   exercise!: Exercises;
   getExercise!: Sequelize.BelongsToGetAssociationMixin<Exercises>;
   setExercise!: Sequelize.BelongsToSetAssociationMixin<Exercises, ExercisesId>;
   createExercise!: Sequelize.BelongsToCreateAssociationMixin<Exercises>;
 
-  static initModel(sequelize: Sequelize.Sequelize): typeof Answers {
-    return Answers.init({
+  static initModel(sequelize: Sequelize.Sequelize): typeof Events {
+    return Events.init({
     id: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true
     },
-    answer: {
+    title: {
       type: DataTypes.STRING(255),
       allowNull: false
     },
-    exerciseId: {
-      type: DataTypes.INTEGER,
+    description: {
+      type: DataTypes.STRING(255),
       allowNull: true,
-      references: {
-        model: 'exercises',
-        key: 'id'
-      }
+    },
+    userId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+            model: 'users',
+            key: 'id'
+        }
     },
     createdAt: {
       type: DataTypes.DATE,
@@ -58,7 +64,7 @@ export class Answers extends Model<AnswersAttributes, AnswersCreationAttributes>
     }
   }, {
     sequelize,
-    tableName: 'answers',
+    tableName: 'Events',
     timestamps: true,
     paranoid: true,
     indexes: [
@@ -68,6 +74,13 @@ export class Answers extends Model<AnswersAttributes, AnswersCreationAttributes>
         using: "BTREE",
         fields: [
           { name: "id" },
+        ]
+      },
+      {
+        name: "userId",
+        using: "BTREE",
+        fields: [
+          { name: "userId" },
         ]
       },
     ]

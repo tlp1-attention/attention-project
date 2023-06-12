@@ -100,6 +100,7 @@ export class Users extends Model<UsersAttributes, UsersCreationAttributes> imple
     sequelize,
     tableName: 'users',
     timestamps: true,
+    paranoid: true,
     indexes: [
       {
         name: "PRIMARY",

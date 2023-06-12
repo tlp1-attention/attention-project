@@ -15,6 +15,8 @@ import { TypeExercises as _TypeExercises } from "./type_exercises";
 import type { TypeExercisesAttributes, TypeExercisesCreationAttributes } from "./type_exercises";
 import { Users as _Users } from "./users";
 import type { UsersAttributes, UsersCreationAttributes } from "./users";
+import { Events as _Events } from './events'
+import type { EventsAttributes, EventsCreationAttributes } from "./events";
 
 export {
   _Answers as Answers,
@@ -44,6 +46,8 @@ export type {
   TypeExercisesCreationAttributes,
   UsersAttributes,
   UsersCreationAttributes,
+  EventsAttributes,
+  EventsCreationAttributes
 };
 
 export function initModels(sequelize: Sequelize) {
@@ -55,21 +59,7 @@ export function initModels(sequelize: Sequelize) {
   const Responses = _Responses.initModel(sequelize);
   const TypeExercises = _TypeExercises.initModel(sequelize);
   const Users = _Users.initModel(sequelize);
-
-  Answers.belongsTo(Exercises, { as: "exercise", foreignKey: "exerciseId"});
-  Exercises.hasMany(Answers, { as: "answers", foreignKey: "exerciseId"});
-  CompleteExercises.belongsTo(Exercises, { as: "exercise", foreignKey: "exerciseId"});
-  Exercises.hasMany(CompleteExercises, { as: "complete_exercises", foreignKey: "exerciseId"});
-  Responses.belongsTo(Exercises, { as: "exercise", foreignKey: "exerciseId"});
-  Exercises.hasMany(Responses, { as: "responses", foreignKey: "exerciseId"});
-  CompleteExercises.belongsTo(Reports, { as: "report", foreignKey: "reportId"});
-  Reports.hasMany(CompleteExercises, { as: "complete_exercises", foreignKey: "reportId"});
-  CompleteExercises.belongsTo(TypeExercises, { as: "typeExercise", foreignKey: "typeExerciseId"});
-  TypeExercises.hasMany(CompleteExercises, { as: "complete_exercises", foreignKey: "typeExerciseId"});
-  Preferences.belongsTo(Users, { as: "user", foreignKey: "userId"});
-  Users.hasMany(Preferences, { as: "preferences", foreignKey: "userId"});
-  Reports.belongsTo(Users, { as: "user", foreignKey: "userId"});
-  Users.hasMany(Reports, { as: "reports", foreignKey: "userId"});
+  const Events = _Events.initModel(sequelize);
 
   return {
     Answers: Answers,
@@ -80,5 +70,6 @@ export function initModels(sequelize: Sequelize) {
     Responses: Responses,
     TypeExercises: TypeExercises,
     Users: Users,
+    Events: Events
   };
 }

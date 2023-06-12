@@ -36,7 +36,7 @@ async function registerController(req: Request, res: Response) {
 
     const hashedPassword = await hashPassword(password);
 
-    let found
+    let found;
     try {
         found = await Users.findAll({
             where: {

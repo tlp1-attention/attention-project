@@ -5,6 +5,7 @@ import staticServer from './middleware/server-static.middleware';
 import indexRouter from './routes/index.routes'
 import helmet from 'helmet'
 import cors from 'cors'
+import { sequelize } from './db';
 
 const app = express();
 
@@ -30,5 +31,6 @@ app.use(loginRouter);
 app.use(indexRouter);
 
 app.listen(PORT, () => {
+
     console.log(`Server listening in port: http://localhost:${PORT}`);
 });

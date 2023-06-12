@@ -66,6 +66,7 @@ export class Responses extends Model<ResponsesAttributes, ResponsesCreationAttri
     sequelize,
     tableName: 'responses',
     timestamps: true,
+    paranoid: true,
     indexes: [
       {
         name: "PRIMARY",
