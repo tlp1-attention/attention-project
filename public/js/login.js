@@ -28,16 +28,16 @@ form.addEventListener('submit', async (evt) => {
         body: requestBody
     });
 
-    await fetchOK(request)
-          .then(handleLogin)
-          .catch(failedResponse => {
+    fetchOK(request)
+        .then(handleLogin)
+        .catch(failedResponse => {
 
             if (failedResponse.status == 400) {
                 return showError('Error al iniciar sesión: Usuario o contraseña incorrectos.', errorMessage);
             }
 
             return showError('No se estableció conexión con el servidor', errorMessage);
-          })
+        })
 })
 
 function handleLogin() {

@@ -19,7 +19,8 @@ form.addEventListener('submit', async (evt) => {
     const email = emailInput.value;
 
     if (!validatePassword(password)) {
-        return showError('Contraseña insegura: Debe contener al menos 8 caracteres de longitud, al menos una mayúscula, una minúscula y un número', errorMessage);
+        return showError('Contraseña insegura: Debe contener al menos 8 caracteres de longitud,'+ 
+                         'al menos una mayúscula, una minúscula y un número', errorMessage);
     }
 
     const body = JSON.stringify({
@@ -42,7 +43,7 @@ form.addEventListener('submit', async (evt) => {
     response
         .then(handleRegister)
         .catch(failedResponse => {
-            if (failedResponse.status === 409) {
+            if (failedResponse.status === 400) {
                 return showError('Usuario no disponible', errorMessage);
             }
             return showError('Error inesperado: ' + failedResponse.statusText, errorMessage);

@@ -1,0 +1,148 @@
+:root {
+  --nav-width: 300px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  outline: none;
+  border: none;
+}
+body {
+  background-color: white;
+  display: grid;
+  grid-template-columns: 1fr 9fr;
+  grid-template-areas: 
+    'nav main'
+    'nav main'
+    'footer footer';
+}
+
+main {
+  grid-area: main;
+}
+
+footer {
+  grid-area: footer;
+}
+
+header {
+  grid-area: nav;
+}
+
+nav {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  height: 100%;
+  left: 0;
+  background: white;
+  width: 90px;
+  overflow: hidden;
+  transition: width 0.2s linear;
+  box-shadow: 0 20px 35px rgba(0, 0, 0, 0.1);
+  border-right: solid rgb(241, 237, 237);
+}
+.logo {
+  text-align: center;
+  display: flex;
+  transition: all 0.5s ease;
+  margin: 10px 0 0 10px;
+}
+.logo img {
+  width: 45px;
+  height: 45px;
+}
+
+.logo {
+  font-size: 2rem;
+}
+
+.logo-sm img {
+  width: 40px;
+  height: 40px;
+}
+.logo span {
+  font-weight: bold;
+  padding-left: 15px;
+  font-size: 18px;
+  text-transform: uppercase;
+}
+a {
+  position: relative;
+  color: #430071;
+  font-size: 14px;
+  display: table;
+  width: 300px;
+  padding: 10px;
+}
+.fas {
+  position: relative;
+  width: 70px;
+  height: 40px;
+  top: 14px;
+  font-size: 20px;
+  text-align: center;
+}
+.nav-item {
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  position: relative;
+  top: 12px;
+  margin-left: 10px;
+  font-weight: 900;
+}
+.nav-item:first {
+  font-size: 30px;
+}
+
+#a-1:hover {
+  background: #430071;
+  color: white;
+}
+
+@media (max-width: 576px) {
+  nav {
+    width: 0;
+    transition: all 300ms infinite;
+  }
+  nav.open {
+    --max-width: 100%;
+    display: block;
+  }
+}
+
+@media (min-width: 992px) {
+  nav.open {
+    --max-width: 300px;
+    width: 300px;
+    transition: all 0.5s ease;
+  }
+}
+
+.slide-button {
+  z-index: 10;
+  left: 80px;
+  background: transparent;
+  color: var(--clr-accent-800);
+}
+
+.open {
+  width: var(--max-width, 100%);
+}
+
+.logout {
+  position: absolute;
+  bottom: 0;
+}
+.logo-f {
+  width: 25px;
+  margin: 5px;
+}
+footer {
+  bottom: 0;
+}
+
+#lateral-bar {
+  
+}

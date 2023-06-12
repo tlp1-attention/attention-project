@@ -14,7 +14,7 @@ async function loginController(req: Request, res: Response) {
                 name: username,
             }
         });
-    } catch (error) {
+    } catch (_error) {
         return res.sendStatus(500);
     }
 
@@ -28,8 +28,6 @@ async function loginController(req: Request, res: Response) {
     }
 }
 
-class ValidationError extends Error {}
-
 class IncorrectRegisterError extends Error {}
 
 async function registerController(req: Request, res: Response) {
@@ -37,13 +35,6 @@ async function registerController(req: Request, res: Response) {
     const { username, password, email } = req.body;
 
     const hashedPassword = await hashPassword(password);
-
-    if (username == "" ||
-        password == "" ||
-        email == "") {
-
-        throw new ValidationError('Incorrect register information');
-    }
 
     let found
     try {

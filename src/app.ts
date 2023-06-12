@@ -19,7 +19,7 @@ app.use(express.json());
 app.use(morgan('dev'));
 app.use(cors());
 app.use(helmet({
-    contentSecurityPolicy: false
+    contentSecurityPolicy: false // Allow CDN's resources to be delivered
 }));
 
 // Custom middleware
