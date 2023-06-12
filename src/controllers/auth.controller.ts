@@ -22,7 +22,7 @@ async function loginController(req: Request, res: Response) {
     if (foundUser) isCorrectPassword = await comparePassword(password, foundUser.password);
 
     if (!isCorrectPassword) {
-        return res.sendStatus(404);
+        return res.sendStatus(400);
     } else {
         return res.sendStatus(200);
     }
@@ -31,7 +31,6 @@ async function loginController(req: Request, res: Response) {
 class ValidationError extends Error {}
 
 class IncorrectRegisterError extends Error {}
-
 
 async function registerController(req: Request, res: Response) {
 
