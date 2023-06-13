@@ -41,5 +41,5 @@ form.addEventListener('submit', async (evt) => {
 })
 
 function handleLogin() {
-    window.location.assign('./index.html');
+    window.location.assign('./workspace/timer');
 }

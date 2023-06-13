@@ -30,6 +30,7 @@ form > * {
 
 .form-img {
     object-fit: cover;
+    max-width: 500px;
 }
 
 @media (min-width: 768px) {
