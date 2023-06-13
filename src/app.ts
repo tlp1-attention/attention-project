@@ -5,6 +5,7 @@ import staticServer from './middleware/server-static.middleware';
 import indexRouter from './routes/index.routes'
 import helmet from 'helmet'
 import cors from 'cors'
+import workSpaceRouter from './routes/workspace.routes'
 import { sequelize } from './db';
 
 const app = express();
@@ -29,8 +30,8 @@ app.use(staticServer);
 // Routes
 app.use(loginRouter);
 app.use(indexRouter);
+app.use(workSpaceRouter);
 
 app.listen(PORT, () => {
-    sequelize.sync({ force: true, alter: true });
     console.log(`Server listening in port: http://localhost:${PORT}`);
 });

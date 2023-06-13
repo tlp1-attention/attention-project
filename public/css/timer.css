@@ -38,8 +38,15 @@
     width: 200px;
 }
 
+.stroke-green {
+    stroke: var(--clr-green-400);
+}
+
+.stroke-blue {
+    stroke: var(--clr-blue-400);
+}
+
 .timer path {
-    stroke: var(--clr-accent-800);
     stroke-dasharray: 1238;
     stroke-width: 3;
     stroke-linecap: round;

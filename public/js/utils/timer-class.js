@@ -3,23 +3,32 @@ class Timer {
 
     constructor(timeInSecs, {
         node,
-        onValueChange = () => {}
+        onValueChange = () => {},
+        stopBtn
     }) {
         this.dom = node;
         this.timeInSecs = timeInSecs;
         this.initialTime = timeInSecs;
         this.onValueChange = onValueChange;
+        this.stopBtn = stopBtn;
     }
 
     start() {
-       return new Promise(resolve => {
+       return new Promise((resolve, reject) => {
+            if (this.stopBtn) {
+                
+                this.stopBtn.addEventListener('click', () => {
+                    this.stopBtn.toggleAttribute('disabled')
+                    this.stop();
+                    reject(null)
+                });
+            }
             this.interval = setInterval(() => {
 
                 if (this.timeInSecs == 0) {
                     this.stop();
                     resolve(null);
                 }
-
                 let seconds = this.timeInSecs;
 
                 let minutes = Math.floor(

@@ -60,7 +60,9 @@ const submitButton = document.querySelector('button[type="submit"]')
 
 const newTimerButton = document.querySelector('#new-timer');
 
-const modal = bootstrap.Modal.getOrCreateInstance(document.querySelector('.modal'), { show: false });
+const modal = bootstrap.Modal.getOrCreateInstance(document.querySelector('.modal'), { show: false, backdrop: true });
+
+const stopBtn = document.querySelector('#stop-btn'); 
 
 newTimerButton.addEventListener('click', () => {
     modal.show()
@@ -79,6 +81,7 @@ submitButton.addEventListener('click', (evt) => {
     modal.hide();
 })
 
+let currentTimer = null;
 
 const workTimer = document.querySelector('#work');
 
@@ -89,8 +92,12 @@ const freeProgress = document.querySelector('#free-progress');
 
 async function runTimers(intervals) {
 
-    for (let interval of intervals) {
+    if (currentTimer) return;
 
+    newTimerButton.toggleAttribute('disabled');
+    stopBtn.removeAttribute('disabled');
+
+    for (let interval of intervals) {
        const node = interval.mode == Mode.Work
                     ? workTimer
                     : freeTimer
@@ -98,21 +105,27 @@ async function runTimers(intervals) {
                     ? workProgress
                     : freeProgress
 
-       const timer = new Timer(interval.time * 60, {
+       currentTimer = new Timer(interval.time * 60, {
             node,
             onValueChange: (currentTime, total) => {
                 const currentValue = (currentTime * 100 / total);
                 indicator.setAttribute('style', `stroke-dashoffset:${currentValue-100}`)
-            }
+            },
+            stopBtn: stopBtn
        });
 
        timerContainer.classList.add(
            interval.mode
        );
 
-       await timer.start()
-             .then(() => timer.restart());
+       try {
+            await currentTimer.start();
+       } catch(e) {
+           currentTimer.restart();
+           break;
+       }
     }
-
-    timerContainer.remove();
+    currentTimer = null;
+    stopBtn.setAttribute('disabled', '');
+    newTimerButton.toggleAttribute('disabled');
 }

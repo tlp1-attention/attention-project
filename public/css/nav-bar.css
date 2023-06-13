@@ -20,6 +20,7 @@ body {
 
 main {
   grid-area: main;
+  height: 95vh;
 }
 
 footer {
@@ -118,13 +119,6 @@ a {
     width: 300px;
     transition: all 0.5s ease;
   }
-}
-
-.slide-button {
-  z-index: 10;
-  left: 80px;
-  background: transparent;
-  color: var(--clr-accent-800);
 }
 
 .open {

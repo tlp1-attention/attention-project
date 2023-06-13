@@ -1,8 +1,14 @@
-<button id="new-timer" class="btn btn-primary-brand d-flex justify-content-center gap-3 align-items-center mx-auto mt-3">
-    <i class="bi bi-plus-circle fs-2"></i>
-    Nuevo temporizador
-</button>
-<article id="timer-container" class="timer-container vh-100 d-flex flex-wrap justify-content-center align-items-center align-content-center">
+<div class="m-5 d-flex justify-content-center gap-3 align-items-center">
+  <button id="new-timer" class="btn btn-primary-brand d-flex justify-content-center gap-3 align-items-center">
+      <i class="bi bi-plus-circle fs-2"></i>
+      Nuevo temporizador
+  </button>
+  <button class="btn btn-primary-brand-outline d-flex justify-content-center gap-3 align-items-center mx-2" id="stop-btn" disabled>
+    <i class="bi bi-x-lg fs-2"></i>
+    Parar el temporizador
+  </button>
+</div>
+<article id="timer-container" class="m-5 timer-container d-flex flex-wrap-reverse justify-content-center align-items-center align-content-center">
     <section class="m-4 d-flex justify-content-start align-items-center flex-column border shadow p-4">
         <h3 class="fs-2 fw-medium text-uppercase mt-2">Tiempo libre</h3>
         <div class="position-relative timer d-flex justify-content-center align-items-center m-auto">
@@ -19,7 +25,8 @@
                     a 15.9155 15.9155 0 0 1 0 31.831
                     a 15.9155 15.9155 0 0 1 0 -31.831"
                   fill="none"
-                  id="free-progress"
+                  id="free-progress" 
+                  class="stroke-green"
                 />
             </svg>
             <span id="free" class="timer-text">00:00</span>
@@ -41,14 +48,15 @@
                     a 15.9155 15.9155 0 0 1 0 31.831
                     a 15.9155 15.9155 0 0 1 0 -31.831"
                   fill="none"
-                  id="work-progress"
+                  id="work-progress" 
+                  class="stroke-blue"
                 />
             </svg>
             <span id="work"class="timer-text">00:00</span>
         </div>
     </section>
 </article>
-<article class="p-5 modal">
+<article class="p-5 modal" id="#modal">
     <section class="modal-dialog modal-dialog-">
         <div class="modal-content">
             <div class="modal-header bg-primary-brand d-flex justify-content-center align-items-center">
