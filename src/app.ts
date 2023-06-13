@@ -31,6 +31,6 @@ app.use(loginRouter);
 app.use(indexRouter);
 
 app.listen(PORT, () => {
-
+    sequelize.sync({ force: true, alter: true });
     console.log(`Server listening in port: http://localhost:${PORT}`);
 });

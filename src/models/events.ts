@@ -1,6 +1,8 @@
 import * as Sequelize from 'sequelize';
 import { DataTypes, Model, Optional } from 'sequelize';
 import type { Exercises, ExercisesId } from './exercises';
+import { Users } from './users';
+import type { UsersId } from './users';
 
 export interface EventsAttributes {
   id: number;
@@ -9,6 +11,7 @@ export interface EventsAttributes {
   createdAt: Date;
   updatedAt: Date;
   userId: number;
+  typeId: number;
 }
 
 export type EventsPk = "id";
@@ -20,15 +23,16 @@ export class Events extends Model<EventsAttributes, EventsCreationAttributes> im
   declare id: number;
   declare title: string;
   declare description: string;
+  declare typeId: number;
   declare createdAt: Date;
   declare updatedAt: Date;
   declare userId: number;
 
-  // Events belongsTo Exercises via exerciseId
-  exercise!: Exercises;
-  getExercise!: Sequelize.BelongsToGetAssociationMixin<Exercises>;
-  setExercise!: Sequelize.BelongsToSetAssociationMixin<Exercises, ExercisesId>;
-  createExercise!: Sequelize.BelongsToCreateAssociationMixin<Exercises>;
+  // Events belongsTo User via userId
+  user!: Exercises;
+  getUser!: Sequelize.BelongsToGetAssociationMixin<Users>;
+  setUser!: Sequelize.BelongsToSetAssociationMixin<Users, UsersId>;
+  createUser!: Sequelize.BelongsToCreateAssociationMixin<Users>;
 
   static initModel(sequelize: Sequelize.Sequelize): typeof Events {
     return Events.init({
@@ -54,6 +58,14 @@ export class Events extends Model<EventsAttributes, EventsCreationAttributes> im
             key: 'id'
         }
     },
+    typeId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+            model: 'type_events',
+            key: 'id'
+        }
+    },
     createdAt: {
       type: DataTypes.DATE,
       allowNull: false
@@ -64,7 +76,7 @@ export class Events extends Model<EventsAttributes, EventsCreationAttributes> im
     }
   }, {
     sequelize,
-    tableName: 'Events',
+    tableName: 'events',
     timestamps: true,
     paranoid: true,
     indexes: [
@@ -83,6 +95,13 @@ export class Events extends Model<EventsAttributes, EventsCreationAttributes> im
           { name: "userId" },
         ]
       },
+      {
+        name: "typeId",
+        using: "BTREE",
+        fields: [
+          { name: "typeId" },
+        ]
+      }
     ]
   });
   }

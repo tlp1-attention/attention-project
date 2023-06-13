@@ -16,7 +16,7 @@ const sequelize = new Sequelize({
 
 const Models = initModels(sequelize);
 
-const { Users, Reports, TypeExercises, Exercises, CompleteExercises, Preferences, Answers, Responses, Events } = Models;
+const { Users, Reports, TypeExercises, Exercises, CompleteExercises, Preferences, Answers, Responses, Events, TypeEvent } = Models;
 
 Answers.belongsTo(Exercises, { as: "exercise", foreignKey: "exerciseId"});
 Exercises.hasMany(Answers, { as: "answers", foreignKey: "exerciseId"});
@@ -33,9 +33,12 @@ Users.hasMany(Preferences, { as: "preferences", foreignKey: "userId"});
 Reports.belongsTo(Users, { as: "user", foreignKey: "userId"});
 Users.hasMany(Reports, { as: "reports", foreignKey: "userId"});
 
-
 Events.belongsTo(Users, { as: "users", foreignKey: 'userId'});
 Users.hasMany(Events, { as: "events", foreignKey: 'userId' });
+Events.belongsTo(TypeEvent, { as: 'typeEvents', foreignKey: 'typeId'});
+TypeEvent.hasMany(Events, { as: 'events', foreignKey: 'typeId' });
+
+
 
 export {
     sequelize,
