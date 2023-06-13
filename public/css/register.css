@@ -19,14 +19,13 @@ form > * {
     color: var(--clr-secondary-200);
     padding-inline: 2rem;
     padding-block: 1rem;
-    background-color: var(--clr-accent-400);
-    border-radius: 25px;
-
+    background-color: var(--clr-accent-800);
+    border-radius: var(--border-radius);
     transition: background-color 300ms;
 }
 
 .form-button:hover {
-    background-color: var(--clr-accent-200);
+    background-color: var(--clr-accent-400);
 }
 
 .form-img {

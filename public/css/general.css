@@ -23,6 +23,7 @@
     --clr-yellow-100: hsla(62, 88%, 66%, 0.4);
 
     --fnt-size-500: 1.7rem;
+    --border-radius: 6px;
     font-size: 0.76rem;
 }
 
@@ -54,4 +55,18 @@
 .btn-primary-brand:first-child:active {
     color: var(--clr-secondary-200);
     background-color: var(--clr-accent-800);
+}
+
+.logo-f {
+    width: 25px;
+    margin: 5px;
+}
+
+
+.logo-with-text img {
+    max-width: 25rem;
+}
+
+.logo-with-text span {
+    font-size: 5rem;
 }
