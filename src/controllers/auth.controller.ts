@@ -14,7 +14,8 @@ async function loginController(req: Request, res: Response) {
                 name: username,
             }
         });
-    } catch (_error) {
+    } catch (err) {
+        console.error(err);
         return res.sendStatus(500);
     }
 
@@ -43,7 +44,8 @@ async function registerController(req: Request, res: Response) {
                 name: username,
             }
         })
-    } catch (_error) {
+    } catch (err) {
+        console.error(err);
         res.sendStatus(500);
     }
 

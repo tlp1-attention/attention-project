@@ -54,7 +54,7 @@ export class Answers extends Model<AnswersAttributes, AnswersCreationAttributes>
     },
     updatedAt: {
       type: DataTypes.DATE,
-      allowNull: false
+      allowNull: false,
     }
   }, {
     sequelize,
