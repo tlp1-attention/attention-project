@@ -19,7 +19,8 @@
     --clr-green-400: hsla(146, 44%, 38%);
     --clr-green-100: hsla(129, 26%, 72%, 0.6);
 
-    --clr-yellow-600: hsl(61, 74%, 56%);
+    --clr-red-600: #dd4139;
+    --clr-yellow-600: rgb(223, 226, 60);
     --clr-yellow-100: hsla(62, 88%, 66%, 0.4);
 
     --fnt-size-500: 1.7rem;

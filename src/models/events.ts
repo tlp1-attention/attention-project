@@ -10,6 +10,8 @@ export interface EventsAttributes {
   description: string;
   createdAt: Date;
   updatedAt: Date;
+  startTime: Date;
+  endTime: Date;
   userId: number;
   typeId: number;
 }
@@ -24,6 +26,8 @@ export class Events extends Model<EventsAttributes, EventsCreationAttributes> im
   declare title: string;
   declare description: string;
   declare typeId: number;
+  declare startTime: Date;
+  declare endTime: Date;
   declare createdAt: Date;
   declare updatedAt: Date;
   declare userId: number;
@@ -73,6 +77,14 @@ export class Events extends Model<EventsAttributes, EventsCreationAttributes> im
     updatedAt: {
       type: DataTypes.DATE,
       allowNull: false
+    },
+    startTime: {
+      type: DataTypes.DATE,
+      allowNull: false
+    },
+    endTime: {
+      type: DataTypes.DATE,
+      allowNull: true
     }
   }, {
     sequelize,
