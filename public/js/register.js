@@ -46,7 +46,7 @@ form.addEventListener('submit', async (evt) => {
             if (failedResponse.status === 400) {
                 return showError('Usuario no disponible', errorMessage);
             }
-            return showError('Error inesperado: ' + failedResponse.statusText, errorMessage);
+            return showError(failedResponse.statusText || "Error inesperado", errorMessage);
         })
 })
 

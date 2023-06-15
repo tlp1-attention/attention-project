@@ -66,7 +66,38 @@ async function registerController(req: Request, res: Response) {
     }
 }
 
+// change-password
+async function changePasswordController(req, res) {
+
+    const { email, password: newPassword } = req.body;
+    
+    try {
+        const foundUser = await Users.findOne({
+            where: {
+                email
+            }
+        })
+    
+        if (!foundUser) {
+            return res.sendStatus(400);
+        }
+
+        const hashedPassword = await hashPassword(newPassword);
+
+        foundUser.update({
+            password: hashedPassword,
+            updatedAt: new Date()
+        });
+        
+        return res.sendStatus(201);
+    } catch (err) {
+        console.error(err);
+        return res.sendStatus(500);
+    }
+}
+
 export {
     loginController,
-    registerController
+    registerController,
+    changePasswordController
 }
