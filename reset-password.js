@@ -1,6 +1,8 @@
-const btn = document.getElementById("btn")
+const btn = document.getElementById("btn");
 
 const form = document.getElementById("form");
+
+const email = document.getElementById("mail");
 
 form.addEventListener("submit", (e) => {
         e.preventDefault();
@@ -12,8 +14,9 @@ form.addEventListener("submit", (e) => {
         const apiKey = '5pImIaxqkTmuNIZnG';
 
         emailjs.sendForm(serviceID, templateID, form, apiKey)
-            .then(() => {
+            .then(async () => {
                 btn.value = 'Send Email';
+                localStorage.setItem('email', email.value)
                 alert('Sent!');
             }, (err) => {
                 btn.value = 'Send Email';
