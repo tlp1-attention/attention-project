@@ -1,6 +1,7 @@
 import { Models } from '../db'
 import { hashPassword, comparePassword } from '../utils/hash';
 import type { Response, Request } from 'express'
+import { Op } from 'sequelize'
 
 const { Users } = Models;
 
@@ -41,9 +42,12 @@ async function registerController(req: Request, res: Response) {
     try {
         found = await Users.findAll({
             where: {
-                name: username,
+                [Op.or]: {
+                    name: username,
+                    email: email
+                }
             }
-        })
+        });
     } catch (err) {
         console.error(err);
         res.sendStatus(500);
