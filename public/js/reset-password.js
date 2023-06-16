@@ -17,8 +17,8 @@ form.addEventListener("submit", (e) => {
             .then(async () => {
                 btn.value = 'Send Email';
                 localStorage.setItem('email', email.value)
-                window.location.assign('/reset-pass.html');
-            }, (err) => {
+                window.location.assign('/new-pass.html');
+            }, (_err) => {
                 btn.value = 'Send Email';
             });
 })

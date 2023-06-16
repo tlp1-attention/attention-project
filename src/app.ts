@@ -1,12 +1,11 @@
 import express from 'express'
 import morgan  from 'morgan'
 import loginRouter from './routes/auth.routes';
-import staticServer from './middleware/server-static.middleware';
+import staticServer from './middleware/__server-static.middleware';
 import indexRouter from './routes/index.routes'
 import helmet from 'helmet'
 import cors from 'cors'
 import workSpaceRouter from './routes/workspace.routes'
-import { sequelize } from './db';
 
 const app = express();
 
