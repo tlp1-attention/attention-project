@@ -12,7 +12,8 @@ export interface UsersAttributes {
   ocupation?: string;
   problem: string;
   createdAt: Date;
-  updatedAt: Date;
+  updatedAt: Date; 
+  deletedAt: Date;
 }
 
 export type UsersPk = "id";
@@ -30,6 +31,7 @@ export class Users extends Model<UsersAttributes, UsersCreationAttributes> imple
   declare problem: string;
   declare createdAt: Date;
   declare updatedAt: Date;
+  declare deletedAt: Date;
 
   // Users hasMany Preferences via userId
   preferences!: Preferences[];
@@ -91,8 +93,14 @@ export class Users extends Model<UsersAttributes, UsersCreationAttributes> imple
     createdAt: {
       type: DataTypes.DATE,
       allowNull: false,
+      defaultValue: sequelize.literal('CURRENT_TIMESTAMP')
     },
     updatedAt:{
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: sequelize.literal('CURRENT_TIMESTAMP')
+    },
+    deletedAt: {
       type: DataTypes.DATE,
       allowNull: false,
     }

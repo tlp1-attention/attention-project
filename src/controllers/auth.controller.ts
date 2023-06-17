@@ -1,6 +1,8 @@
 import { Models } from '../db'
 import { hashPassword, comparePassword } from '../utils/hash';
+import { createToken } from '../utils/token';
 import type { Response, Request } from 'express'
+
 
 const { Users } = Models;
 
@@ -24,7 +26,9 @@ async function loginController(req: Request, res: Response) {
     if (!isCorrectPassword) {
         return res.sendStatus(400);
     } else {
-        return res.sendStatus(200);
+        const token = await createToken(foundUser.id);
+
+        return res.json({ token });
     }
 }
 
@@ -48,15 +52,16 @@ async function registerController(req: Request, res: Response) {
     }
 
     if (found.length == 0) {
-        await Users.create({
+        const newUser = await Users.create({
             name: username, 
             password: hashedPassword,
             email: email,
-            createdAt: new Date(),
-            updatedAt: new Date()
         });
     
-        return res.sendStatus(201);
+        const token = await createToken(newUser.id);
+
+        return res.status(201).json({ token });
+
     } else if (found.length == 1) {
         return res.sendStatus(400);
     } else {
@@ -67,4 +72,4 @@ async function registerController(req: Request, res: Response) {
 export {
     loginController,
     registerController
-}
+}   
