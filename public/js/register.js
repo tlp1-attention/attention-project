@@ -1,5 +1,6 @@
 import fetchOK from './utils/fetch.js';
 import showError from './utils/showError.js'
+import validatePassword from './utils/validate-password.js'
 
 const userInput = document.querySelector('[name="username"]');
 const passwordInput = document.querySelector('[name="password"]');
@@ -54,21 +55,7 @@ function handleRegister() {
     window.location.assign('./login.html');
 }
 
-function validatePassword(pass) {
 
-    // Al menos 8 caracteres de longitud
-    if (pass.length < 8) return false;
-
-    // Una mayúscula,
-    // minúscula y número
-    if (!(pass.match(/[A-Z]/) &&
-        pass.match(/[a-z]/) &&
-        pass.match(/\d/))) {
-            return false;
-    };
-
-    return true;
-}
 
 
 
