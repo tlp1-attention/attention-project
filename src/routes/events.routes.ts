@@ -7,8 +7,6 @@ import {
     getEventsByUser
 } from '../controllers/events.contollers'
 
-
-
 const router = Router();
 
 router.get('/', [validateJWT], getEventsByUser);

@@ -89,7 +89,6 @@
 .event-delete-btn:active {
     display: none;
     color: var(--clr-red-600) !important;
-    background-color: var(--clr-secondary-400);
 }
 
 .event-delete-btn:hover .d-none,

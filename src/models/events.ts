@@ -48,7 +48,10 @@ export class Events extends Model<EventsAttributes, EventsCreationAttributes> im
     },
     title: {
       type: DataTypes.STRING(255),
-      allowNull: false
+      allowNull: false,
+      validate: {
+        notEmpty: true
+      }
     },
     description: {
       type: DataTypes.STRING(255),

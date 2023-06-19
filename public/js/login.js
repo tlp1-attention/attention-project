@@ -32,6 +32,8 @@ form.addEventListener('submit', async (evt) => {
         .then(handleLogin)
         .catch(failedResponse => {
 
+            console.log(failedResponse.ok)
+
             if (failedResponse.status == 400) {
                 return showError('Error al iniciar sesión: Usuario o contraseña incorrectos.', errorMessage);
             }
@@ -40,6 +42,12 @@ form.addEventListener('submit', async (evt) => {
         })
 })
 
-function handleLogin() {
-    window.location.assign('./workspace/timer');
+async function handleLogin(response) {
+    
+    const { token } = await response.json();
+
+    localStorage.setItem('token', token);
+    setTimeout(() => {
+        window.location.assign('./workspace/timer');
+    }, 10000);
 }
