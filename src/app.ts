@@ -12,6 +12,11 @@ const app = express();
 
 const PORT = process.env.PORT || 8080;
 
+// Check database connection
+sequelize.authenticate()
+    .then(() => console.log('Successful database connection'))
+    .catch(console.error);
+
 // Set ejs as template engine
 app.set('views', './src/views');
 app.set('view engine', 'ejs');
@@ -32,6 +37,8 @@ app.use(loginRouter);
 app.use(indexRouter);
 app.use(workSpaceRouter);
 
+
 app.listen(PORT, () => {
+    
     console.log(`Server listening in port: http://localhost:${PORT}`);
 });

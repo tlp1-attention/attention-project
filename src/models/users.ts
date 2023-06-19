@@ -102,7 +102,7 @@ export class Users extends Model<UsersAttributes, UsersCreationAttributes> imple
     },
     deletedAt: {
       type: DataTypes.DATE,
-      allowNull: false,
+      allowNull: true,
     }
   }, {
     sequelize,

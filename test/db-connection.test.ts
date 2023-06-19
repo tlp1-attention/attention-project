@@ -1,7 +1,5 @@
 import { sequelize, Models } from '../src/db'
 
-
-
 const { Users } = Models;
 
 describe('Database tests', () => {

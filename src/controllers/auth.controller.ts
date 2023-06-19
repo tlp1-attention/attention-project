@@ -16,7 +16,8 @@ async function loginController(req: Request, res: Response) {
                 name: username,
             }
         });
-    } catch (_error) {
+    } catch (error) {
+        console.error(error);
         return res.sendStatus(500);
     }
 

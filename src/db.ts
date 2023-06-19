@@ -4,14 +4,19 @@ import dotenv from 'dotenv'
 
 dotenv.config()
 
-const DATABASE_PASSWORD = process.env.DATABASE_PASSWORD;
+const {
+    DB_HOST,
+    DB_USERNAME,
+    DB_PASSWORD, 
+    DB_NAME,
+} = process.env;
 
-const sequelize = new Sequelize({
-    host: 'localhost',
+const sequelize = new Sequelize(DB_NAME, DB_USERNAME, DB_PASSWORD, {
+    host: DB_HOST,
     dialect: 'mysql',
-    password: DATABASE_PASSWORD,
-    database: 'attention',
-    username: 'root'
+    password: DB_PASSWORD,
+    database: DB_NAME,
+    username: DB_USERNAME
 });
 
 const Models = initModels(sequelize);
