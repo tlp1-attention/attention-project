@@ -1,12 +1,15 @@
 import express from 'express'
 import morgan  from 'morgan'
+import helmet from 'helmet'
+import cors from 'cors'
+import { sequelize } from './db';
+
+
 import loginRouter from './routes/auth.routes';
 import staticServer from './middleware/__server-static.middleware';
 import indexRouter from './routes/index.routes'
-import helmet from 'helmet'
-import cors from 'cors'
 import workSpaceRouter from './routes/workspace.routes'
-import { sequelize } from './db';
+import eventRouter from './routes/events.routes'
 
 const app = express();
 
@@ -36,9 +39,9 @@ app.use(staticServer);
 app.use(loginRouter);
 app.use(indexRouter);
 app.use(workSpaceRouter);
+app.use('/api/events', eventRouter);
 
 
 app.listen(PORT, () => {
-    
     console.log(`Server listening in port: http://localhost:${PORT}`);
 });

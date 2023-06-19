@@ -9,14 +9,14 @@ type JWTTokenReq = JwtPayload & { id: number}
 
 export type AuthRequest = Request & { user: UsersType }
 
-
-async function validateToken(req: AuthRequest, res: Response, next: NextFunction) {
+async function validateToken(req: Request, res: Response, next: NextFunction) {
 
     const { token } = req.headers;
 
-    const payload = jwt.verify(token as string, process.env.SECRET_KEY) as JWTTokenReq;
 
     try {
+
+        const payload = jwt.verify(token as string, process.env.SECRET_KEY) as JWTTokenReq;
 
         if ('id' in (payload as object)) {
 
@@ -24,7 +24,7 @@ async function validateToken(req: AuthRequest, res: Response, next: NextFunction
 
             const foundUser = await Users.findByPk(id);
 
-            req.user = foundUser;
+            (req as AuthRequest).user = foundUser;
 
             next();
             
@@ -42,3 +42,5 @@ async function validateToken(req: AuthRequest, res: Response, next: NextFunction
     }
 
 }
+
+export default validateToken;
