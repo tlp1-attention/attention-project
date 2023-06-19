@@ -130,10 +130,8 @@ a {
   bottom: 0;
 }
 
-footer {
-  bottom: 0;
-}
-
-#lateral-bar {
-  
+@media (max-width: 768px) {
+  footer {
+    margin-top: 18rem !important;
+  }
 }

@@ -2,6 +2,7 @@ import { Models } from '../db'
 import { hashPassword, comparePassword } from '../utils/hash';
 import { createToken } from '../utils/token';
 import type { Response, Request } from 'express'
+import { Op } from 'sequelize'
 
 
 const { Users } = Models;
@@ -16,8 +17,8 @@ async function loginController(req: Request, res: Response) {
                 name: username,
             }
         });
-    } catch (error) {
-        console.error(error);
+    } catch (err) {
+        console.error(err);
         return res.sendStatus(500);
     }
 
@@ -45,10 +46,14 @@ async function registerController(req: Request, res: Response) {
     try {
         found = await Users.findAll({
             where: {
-                name: username,
+                [Op.or]: {
+                    name: username,
+                    email: email
+                }
             }
-        })
-    } catch (_error) {
+        });
+    } catch (err) {
+        console.error(err);
         res.sendStatus(500);
     }
 
@@ -70,7 +75,38 @@ async function registerController(req: Request, res: Response) {
     }
 }
 
+// change-password
+async function changePasswordController(req, res) {
+
+    const { email, password: newPassword } = req.body;
+    
+    try {
+        const foundUser = await Users.findOne({
+            where: {
+                email
+            }
+        })
+    
+        if (!foundUser) {
+            return res.sendStatus(400);
+        }
+
+        const hashedPassword = await hashPassword(newPassword);
+
+        foundUser.update({
+            password: hashedPassword,
+            updatedAt: new Date()
+        });
+        
+        return res.sendStatus(201);
+    } catch (err) {
+        console.error(err);
+        return res.sendStatus(500);
+    }
+}
+
 export {
     loginController,
-    registerController
-}   
+    registerController,
+    changePasswordController
+}

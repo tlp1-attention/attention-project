@@ -44,9 +44,9 @@ form.addEventListener('submit', async (evt) => {
         .then(handleRegister)
         .catch(failedResponse => {
             if (failedResponse.status === 400) {
-                return showError('Usuario no disponible', errorMessage);
+                return showError('Usuario o correo electrónico no disponible', errorMessage);
             }
-            return showError('Error inesperado: ' + failedResponse.statusText, errorMessage);
+            return showError(failedResponse.statusText || "Error inesperado", errorMessage);
         })
 })
 
