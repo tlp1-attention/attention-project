@@ -20,7 +20,7 @@ body {
 
 main {
   grid-area: main;
-  height: 95vh;
+  min-height: 95vh;
 }
 
 footer {
@@ -128,7 +128,7 @@ a {
   }
 }
 
-@media (min-width: 992px) {
+@media (min-width: 768px) {
   nav.open {
     --max-width: 300px;
     width: 300px;

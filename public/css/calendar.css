@@ -75,7 +75,7 @@
     }
 }
 
-.event-delete-btn {
+.event-btns {
     position: absolute;
     right: 2.7rem;
     top: 2rem;
@@ -83,11 +83,26 @@
     border-radius: 50%;
     font-size: 2.7rem;
     color: var(--clr-red-600);
+    display: flex;
+    justify-content: center;
+}
+
+.event-btns * {
+    font-size: 2.7rem;
+}
+
+.event-btns *:hover {
+    background-color: transparent !important;
 }
 
 .event-delete-btn:hover,
 .event-delete-btn:active {
     color: var(--clr-red-600) !important;
+}
+
+.event-update-btn:hover,
+.event-update-btn:active {
+    color: var(--clr-blue-400) !important;
 }
 
 .event-delete-btn:hover .d-none,
