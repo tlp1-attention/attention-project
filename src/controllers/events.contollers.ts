@@ -1,5 +1,5 @@
 import { Models } from '../db'
-import type { Response } from 'express'
+import type { Request, Response } from 'express'
 
 const { Events } = Models;
 
@@ -145,9 +145,19 @@ async function deleteEvent(req: AuthRequest, res: Response) {
 
 }
 
+// Render events view on the workspace
+function renderEvents(req: Request, res: Response) {
+    res.render('layout-events', {
+        title: 'Agenda',
+        mainContentPartial: 'partials/events.ejs'
+    })
+}
+
+
 export {
     getEventsByUser,
     deleteEvent,
     createEvent,
     updateUserEvent,
+    renderEvents
 }

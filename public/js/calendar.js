@@ -1,5 +1,5 @@
 import showError from './utils/showError.js'
-import showSucces from './utils/showSuccess.js';
+import showSuccess from './utils/showSuccess.js';
 import fetchOK from './utils/fetch.js'
 
 const form = document.querySelector('form');
@@ -74,11 +74,19 @@ async function getEvents() {
 
 
 async function showEvents() {
+
+    while (eventContainer.hasChildNodes()) {
+        eventContainer.removeChild(eventContainer.firstChild);
+    }
+
     const events = await getEvents();
 
     if (events.length == 0) {
-        eventContainer.textContent = 'No se encontraron eventos';
+        eventContainer.innerHTML = `
+            <p class="display-5 text-center">No se han encontrado eventos</p>
+        `;
     }
+
 
     events.map(renderEvent)
           .forEach(event => eventContainer.appendChild(event));
@@ -98,18 +106,22 @@ async function deleteEvent(id) {
     })
 
     if (response.ok) {
-        return showSucces('Evento eliminado', '');
+        showSuccess('Evento eliminado', '');
+    } else {
+        showError('Algo salió mal', errorMessage);
     }
+
+    showEvents();
 }
 
 document.addEventListener('DOMContentLoaded', showEvents); 
 
 // Manejan el renderizado de los eventos
 
-const typeColorsMap = new Map();
-
-typeColorsMap.set(1, "var(--clr-green-400)");
-typeColorsMap.set(2, "var(--clr-red-600)");
+const typeColorsMap = new Map([
+    [1, "var(--clr-green-400)"],
+    [2, "var(--clr-red-600)"]
+]);
 
 const months = [
     "Enero",
@@ -127,13 +139,12 @@ const months = [
 ];
 
 
-function renderEvent({ id, title, description, startTime, typeEvent }) {
-
+function renderEvent({ id, title, description, startTime, typeId }) {
     const template = document.createElement('template');
 
     const startDate = new Date(startTime);
 
-    const eventColor = typeColorsMap.get(typeEvent);
+    const eventColor = typeColorsMap.get(typeId);
 
     template.innerHTML = `
     <section class="d-flex position-relative flex-column flex-md-row border border-3 shadow event-container align-content-center">
@@ -141,8 +152,9 @@ function renderEvent({ id, title, description, startTime, typeEvent }) {
             <span class="event-month">${months[startDate.getMonth()].slice(0, 3)}</span>
             <span class="event-day">${startDate.getDate()}</span>
         </div>
-        <button onclick="() => deleteEvent(${id})" class="btn">
-            <button class="visually-hidden" >Eliminar</button>
+        <button class="btn event-delete-btn" id="delete-btn">
+            <i class="bi bi-trash"></i>
+            <span class="visually-hidden">Eliminar</span>
         </button>
         <div class="p-2 my-2 mx-3 event-text flex-shrink-1">
             <h3 class="display-5">${title}</h3>
@@ -152,6 +164,8 @@ function renderEvent({ id, title, description, startTime, typeEvent }) {
         </div>
     </section>
 `
+    template.content.querySelector('#delete-btn').addEventListener('click', () => deleteEvent(id));
+
     return template.content;
 }
 

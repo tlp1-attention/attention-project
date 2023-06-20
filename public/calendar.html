@@ -12,55 +12,36 @@
     <link rel="stylesheet" href="css/timer.css">
 </head>
 <body>
-    <main>
+    <main class="p-5">
+        <hgroup class="d-flex justify-content-center flex-column justify-content-md-between align-items-center">
+            <h class="m-3 fs-1">Lista de eventos</h>
+            <button class="btn btn-primary-brand-outline fs-2" id="new-event">
+                <i class="bi bi-plus-circle"></i>
+                Nuevo evento
+            </button>
+        </hgroup>
         <article class="p-5" id="event-container">
-            <hgroup class="d-flex justify-content-between">
-                <h class="m-3 fs-1">Lista de eventos</h>
-                <button class="btn btn-primary-brand-outline" id="new-event">
-                    <i class="bi bi-plus-circle"></i>
-                    Nuevo evento
-                </button>
-            </hgroup>
-            <section class="d-flex position-relative flex-column flex-md-row border border-3 shadow event-container align-content-center">
-                <div class="event-date flex-shrink-0">
-                    <span class="event-month">May</span>
-                    <span class="event-day">10</span>
-                </div>
-                <button class="btn event-delete-btn">
-                    <i class="bi bi-trash-fill d-none"></i>
-                    <i class="bi bi-trash"></i>
-                    <span class="visually-hidden">Eliminar</span>
-                </button>
-                <div class="p-2 my-2 mx-3 event-text flex-shrink-1">
-                    <h3 class="display-5">Título de evento</h3>
-                    <p class="fs-3">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-                        Quo earum aut eaque sunt eveniet modi nisi, doloribus perferendis expedita 
-                        temporibus quos labore nesciunt inventore sapiente praesentium ipsum nam. Eum, sapiente.
-                    </p>
-                </div>
-            </section>
         </article>
-        <article class="p-5 modal fs-1">
+        <article class="px-3 py-5 modal fs-1 w-50">
             <section class="modal-dialog">
-                <div class="modal-content">
+                <div class="modal-content w-100">
                     <div class="modal-header bg-primary-brand d-flex justify-content-center align-items-center">
                         <h1 class="text-white modal-title p-4">Crear Evento</h1>
                         <button class="btn text-white p-4" data-bs-dismiss="modal" aria-label="close">
                             <i class="bi bi-x-lg fs-2"></i>
                         </button>
                     </div>
-                    <form class="bg-white shadow modal-body p-3">
-                        <label for="title">Título: </label>
+                    <form class="bg-white shadow modal-body p-5">
+                        <label for="title" class="form-label">Título: </label>
                         <input type="text" name="title" id="title" class="form-control" required>
 
-                        <label for="description">Descripcion</label>
-                        <textarea name="description" id="description" cols="30" rows="5" class="form-small-text" maxlength="200" required></textarea>
+                        <label for="description" class="form-label">Descripcion</label>
+                        <textarea name="description" id="description" cols="30" rows="5" class="form-control-plaintext w-100" maxlength="200" required></textarea>
 
-                        <label for="startDate">Fecha de inicio: </label>
+                        <label for="startDate" class="form-label">Fecha de inicio: </label>
                         <input type="date" name="startDate" id="" class="form-control" required>
 
-                        <label for="endDate">Fecha final: </label>
+                        <label for="endDate" class="form-label">Fecha final: </label>
                         <input type="date" name="endDate" id="" class="form-control">
 
                         <label for="importance" class="form-label">Elija la importancia del evento: </label>
@@ -72,23 +53,6 @@
                             Enviar
                         </button>
                     </form>
-
-                    <div class="toast-container position-fixed bottom-0 end-0 p-3 text-bg-warning-subtle">
-                        <div class="toast fs-5">
-                            <hgroup class="toast-header text-bg-info-subtle">
-                                <i class="m-2 bi bi-exclamation-circle text-danger"></i>
-                                <strong class="me-auto">
-                                    Error al enviar evento
-                                </strong>
-                                <button class="btn-close" data-bs-dismiss="toast">
-                                    <i class="bi bi-close"></i>
-                                </button>
-                            </hgroup>
-                            <p class="toast-body" id="error-message">
-                            </p>
-                        </div>
-                    </div>
-                </div>
             </section>
         </article>
     </main>

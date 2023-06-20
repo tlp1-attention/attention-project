@@ -1,4 +1,4 @@
-import jwt, { JwtPayload } from 'jsonwebtoken'
+import jwt, { JsonWebTokenError, JwtPayload } from 'jsonwebtoken'
 import type { NextFunction, Request, Response } from 'express'
 import { Models} from '../db';
 import type { Users as UsersType } from '../models/users'
@@ -33,8 +33,9 @@ async function validateToken(req: Request, res: Response, next: NextFunction) {
         }
 
     } catch(err) {
+        console.error(err);
 
-        if (err.status == 401) {
+        if (err.status == 401 || err instanceof JsonWebTokenError) {
             return res.sendStatus(401);
         }
 

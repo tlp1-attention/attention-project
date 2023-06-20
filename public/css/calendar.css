@@ -28,7 +28,7 @@
 }
 
 .event-date {
-    z-index: 10;
+    z-index: 2;
     width: var(--date-size);
     height: var(--date-size);
     color: var(--clr-secondary-200);
@@ -87,11 +87,31 @@
 
 .event-delete-btn:hover,
 .event-delete-btn:active {
-    display: none;
     color: var(--clr-red-600) !important;
 }
 
 .event-delete-btn:hover .d-none,
 .event-delete-btn:active .d-none {
     display: block;
+}
+
+.event-form {
+    min-width: 90vw;
+}
+
+.modal,
+.modal-dialog * {
+    --bs-modal-width: min(800px, 90vw);
+    font-size: 2rem;
+}
+
+textarea {
+    resize: none;
+    width: 100%;
+    border-bottom: 5px solid var(--clr-accent-400);
+}
+
+textarea:focus,
+textarea:active {
+    
 }
