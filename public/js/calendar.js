@@ -92,6 +92,32 @@ async function showEvents() {
           .forEach(event => eventContainer.appendChild(event));
 }
 
+async function updateEvent(id) {
+
+    const response = fetch('/api/events', {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            token
+        },
+        body: JSON.stringify({
+            title: eventTitle.value,
+            description: eventDesc.value,
+            startDate: startDate.value,
+            endDate: endDate.value,
+            typeEvent: importance.value
+        })
+    })
+
+    if (response.ok) {
+        showSuccess('Evento eliminado', '');
+    } else {
+        showError('Algo salió mal', errorMessage);
+    }
+
+    showEvents();
+}
+
 async function deleteEvent(id) {
     
     const response = await fetch('/api/events', {
