@@ -123,6 +123,7 @@
 textarea {
     resize: none;
     width: 100%;
+    font-size: 6rem;
     border-bottom: 5px solid var(--clr-accent-400);
 }
 

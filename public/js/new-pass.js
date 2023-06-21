@@ -16,7 +16,7 @@ form.addEventListener("submit", (e) => {
     if (!email) return;
 
     if (!validatePassword(password.value)) {
-        return showError('Contraseña insegura: Debe contener al menos 8 caracteres de longitud,'+ 
+        return showError('Contraseña insegura: Debe contener al menos 8 caracteres de longitud, ' + 
                          'al menos una mayúscula, una minúscula y un número', errorMessage);
     }
 

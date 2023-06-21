@@ -64,3 +64,4 @@ export class TypeEvent extends Model<TypeEventAttributes, TypeEventCreationAttri
   });
   }
 }
+
