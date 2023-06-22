@@ -1,0 +1,25 @@
+<article class="p-5 modal-static">
+    <section class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-primary-brand d-flex justify-content-center align-items-center">
+                <h1 class="text-white modal-title p-4">Crear temporizador</h1>
+                <button class="btn text-white p-4" data-bs-dismiss="modal" aria-label="close">
+                    <i class="bi bi-x-lg fs-2"></i>
+                </button>
+            </div>
+            <form class="bg-white shadow modal-body p-3">
+                <label for="total-time" class="form-label">Elija el tiempo del temporizador: </label>
+                <select name="total-time" class="form-select w-100 fs-2 m-2">
+                    <option value="30">30 minutos</option>
+                    <option value="45">45 minutos</option>
+                    <option value="60">1 hora</option>
+                    <option value="90">1 hora y 30 minutos</option>
+                    <option value="120">2 horas</option>
+                </select>
+                <button type="submit" class="btn bg-primary-brand fs-2 mx-5 my-3">
+                    Iniciar temporizador
+                </button>
+            </form>
+        </div>
+    </section>
+</article>

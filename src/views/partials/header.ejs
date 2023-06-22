@@ -1,0 +1,27 @@
+<header>
+    <nav class="sticky-top">
+        <input type="checkbox" id="check">
+          <label for="check"  class="check">
+            <i class="fas fa-bars"></i>
+          </label>
+          <a href="#" class="enlace">
+            <img src="./assets/atenttion-logo.png"alt="imagen logo" class="logo"/>
+          </a>
+          <ul>
+          <li><a href="#" class="text-decoration-none">Contacto</a></li>
+          <% if (registered) { %>
+            <%- 
+                `<li>
+                    <a href="#">
+                        <i class="bi bi-person-icon"></i>
+                    </a>
+                </li>`
+            %>
+          <% } else { %>
+            <%-`<li><a href="./login.html" class="text-decoration-none">Iniciar sesión</a></li>
+                <li><a href="./register.html" class="active text-decoration-none">Registrate</a></li>` 
+            %>
+          <% } %>
+        </ul>
+    </nav>
+</header>

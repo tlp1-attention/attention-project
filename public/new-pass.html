@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Recuperación de contraseña</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="/css/new-pass.css">
+    <link rel="stylesheet" href="/css/timer.css">
+  </head>
+  <body>
+    <main class="principal d-flex justify-content-center align-items-center">
+      <section class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-primary-brand d-flex justify-content-center align-items-center">
+              Resetear contraseña
+            </div>
+            <form class="bg-white shadow modal-body p-3" id="form">
+                <label for="total-time" class="form-label">Introduce tu nueva contraseña: </label>
+                <input type="password" name="password" class="form-control" placeholder="nuevaContraseñasegura" id="mail"/>
+                <input type="submit" class="btn btn-primary-brand mx-auto" id="btn" value="Enviar" /></input>
+            </form>
+        </div>
+      </section>
+      <section class="toast-container position-fixed bottom-0 end-0 p-3 text-bg-warning-subtle">
+        <div class="toast fs-5">
+          <hgroup class="toast-header text-bg-info-subtle">
+              <i class="m-2 bi bi-exclamation-circle text-danger"></i>
+              <strong class="me-auto">
+                  Error al registrarte:
+              </strong>
+              <button class="btn-close" data-bs-dismiss="toast">
+                  <i class="bi bi-close"></i>
+              </button>
+          </hgroup>
+          <p class="toast-body" id="error-message">
+          </p>
+        </div>
+      </section>
+    </main>    
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+      crossorigin="anonymous"
+    ></script>
+    <script src="/js/new-pass.js" type="module"></script>
+  </body>
+</html>

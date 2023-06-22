@@ -1,0 +1,141 @@
+@import url(./general.css);
+
+.event-container {
+    border-radius: var(--border-radius);
+    margin-block: 3rem;
+}
+
+
+.event-date {
+    --date-size: 13rem;
+    position: relative;
+    width: var(--date-size);
+    height: var(--date-size);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    background-color: var(--clr-green-400);
+}
+
+@media (max-width: 578px) {
+    .event-date {
+        width: 50px;
+    }
+}
+
+.event-date img {
+    width: var(--date-size);
+    height: var(--date-size);
+}
+
+.event-date {
+    z-index: 2;
+    width: var(--date-size);
+    height: var(--date-size);
+    color: var(--clr-secondary-200);
+    font-weight: bold;
+    font-size: 3rem;
+    text-transform: uppercase;
+    text-align: center;
+    margin: 0;
+    position: relative;
+    bottom: 30px;
+    left: -7px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.event-month {
+    position: absolute;
+    top: .5rem;
+    left: auto;
+    height: 25%;
+    font-size: 3.5rem;
+}
+
+.event-day {
+    position: absolute;
+    top: 3.2rem;
+    left: auto;
+    font-size: 7rem;
+    width: 100%;
+    text-align: center;
+    height: 75%;
+}
+
+.event-text {
+    max-width: 100%;
+}
+
+@media (min-width: 578px) {
+    .event-text {
+        max-width: 65%;
+    }
+}
+
+.event-btns {
+    position: absolute;
+    right: 2.7rem;
+    top: 2rem;
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+    font-size: 2.7rem;
+    color: var(--clr-red-600);
+    display: flex;
+    justify-content: center;
+}
+
+.event-btns * {
+    font-size: 2.7rem;
+}
+
+.event-btns *:hover {
+    background-color: transparent !important;
+}
+
+.event-delete-btn:hover,
+.event-delete-btn:active {
+    color: var(--clr-red-600) !important;
+}
+
+.event-update-btn:hover,
+.event-update-btn:active {
+    color: var(--clr-blue-400) !important;
+}
+
+.event-delete-btn:hover .d-none,
+.event-delete-btn:active .d-none {
+    display: block;
+}
+
+.event-form {
+    padding: 1.2rem;
+}
+
+.modal,
+.modal-dialog * {
+    --bs-modal-width: min(500px, 95vw);
+    font-size: 2rem;
+}
+
+@media (max-width: 578px) {
+    .modal,
+    .modal-dialog * {
+        font-size: 1.5rem;
+        margin: 0;
+    }
+}
+
+textarea {
+    resize: none;
+    width: 100%;
+    font-size: 6rem;
+    border-bottom: 5px solid var(--clr-accent-400);
+}
+
+textarea:focus,
+textarea:active {
+    outline: var(--clr-accent-400);
+}

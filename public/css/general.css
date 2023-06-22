@@ -1,0 +1,73 @@
+@import url(./general.css);
+
+:root {
+    --clr-secondary-800: #5b5c61;
+    --clr-secondary-200: #f8f8f8;
+    --clr-secondary-400: #dfe6e9;
+
+
+    --clr-accent-800: #430071;
+    --clr-accent-400:  #36498c;
+    --clr-accent-200: #d77dec;
+
+    --clr-warning-400: #ffc107;
+    --clr-warning-200: hsla(45, 100%, 51%, 0.4);
+
+    --clr-blue-400: hsl(210, 76%, 53%);
+    --clr-blue-100: hsla(210, 60%, 72%, 0.6);
+
+    --clr-green-400: hsla(146, 44%, 38%);
+    --clr-green-100: hsla(129, 26%, 72%, 0.6);
+
+    --clr-red-600: #dd4139;
+    --clr-yellow-600: rgb(223, 226, 60);
+    --clr-yellow-100: hsla(62, 88%, 66%, 0.4);
+
+    --fnt-size-500: 1.7rem;
+    --border-radius: 6px;
+    font-size: 0.76rem;
+}
+
+.btn-primary-brand {
+    color: var(--clr-secondary-200);
+    background-color: var(--clr-accent-400);
+    transition: all 300ms ease;
+}
+
+.btn-primary-brand-outline {
+    color: var(--clr-accent-400);
+    background-color: var(--clr-secondary-200);
+    outline: 1px solid var(--clr-accent-400);
+    transition: aññ 300ms ease;
+}
+
+.btn-primary-brand-outline:hover {
+    background-color: var(--clr-accent-400);
+    color: var(--clr-secondary-200);
+}
+
+.btn:first-child:hover {
+    color: var(--clr-secondary-200);
+    background-color: var(--clr-accent-800);
+}
+
+.btn-primary-brand:hover,
+.btn-primary-brand:active,
+.btn-primary-brand:first-child:active {
+    color: var(--clr-secondary-200);
+    background-color: var(--clr-accent-800);
+}
+
+.logo-f {
+    width: 25px;
+    margin: 5px;
+}
+
+
+.logo-with-text img {
+    max-width: 25rem;
+}
+
+.logo-with-text span {
+    font-size: 5rem;
+}
