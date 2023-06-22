@@ -3,11 +3,27 @@
 <body>
     <main class="px-3">
         <hgroup class="d-flex justify-content-center flex-column flex-sm-row justify-content-md-between align-items-stretch align-items-sm-center">
-            <h class="m-3 fs-1">Lista de eventos</h>
-            <button class="btn btn-primary-brand-outline fs-2" id="new-event">
-                <i class="bi bi-plus-circle"></i>
-                Nuevo evento
-            </button>
+            <h1 class="m-3 fs-1">Lista de eventos</h1>
+            <div class="d-flex gap-3 align-items-stretch m-2">
+                <button class="btn btn-primary-brand-outline fs-2" id="new-event">
+                    <i class="bi bi-plus-circle"></i>
+                    <span class="visually-hidden">Nuevo evento</span>
+                </button>
+                <form id="preference-criteria" class="d-flex align-items-stretch">
+                    <select class="btn btn-primary-brand-outline fs-2 form-control" id="filter-criteria" class="">
+                        <option value="-" selected>Filtrar</option>
+                        <option value="future-dates">Fechas futuras</option>
+                        <option value="important">Importantes</option>
+                        <option value="non-important">No importantes</option>
+                    </select>
+                    <select class="btn btn-primary-brand-outline fs-2 form-control" id="sort-criteria">
+                        <option value="-" selected>Ordenar por</option>
+                        <option value="by-date" selected>Por fecha</option>
+                        <option value="by-relevance-imp">Importantes primero</option>
+                        <option value="by-relevance-no-imp">No importantes primero</option>
+                    </select>
+                </form>
+            </div>
         </hgroup>
         <article class="px-3" id="event-container">
         </article>
@@ -20,7 +36,7 @@
                             <i class="bi bi-x-lg fs-2"></i>
                         </button>
                     </div>
-                    <form class="bg-white shadow modal-body fs-1 event-form">
+                    <form class="bg-white shadow modal-body fs-1 event-form" id="new-event-form">
                         <label for="title">Título: </label>
                         <input type="text" name="title" id="title" class="form-control" required>
 

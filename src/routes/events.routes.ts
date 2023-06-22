@@ -4,8 +4,7 @@ import {
     createEvent,
     deleteEvent,
     updateUserEvent,
-    getEventsByUser,
-    renderEvents
+    getEventsByUser
 } from '../controllers/events.contollers'
 
 const router = Router();
