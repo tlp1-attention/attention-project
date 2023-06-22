@@ -1,9 +1,8 @@
-import express from 'express'
+import { Router } from 'express'
 import { renderTimer } from '../controllers/workspace.controller' 
 import { renderEvents } from '../controllers/events.contollers';
-import validateJWT from '../middleware/validate_jwt'
 
-const router = express.Router();
+const router = Router();
 
 router.get('/workspace/timer', renderTimer);
 router.get('/workspace/events', renderEvents);

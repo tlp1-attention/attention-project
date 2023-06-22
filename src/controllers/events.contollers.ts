@@ -146,10 +146,11 @@ async function deleteEvent(req: AuthRequest, res: Response) {
 }
 
 // Render events view on the workspace
-function renderEvents(req: Request, res: Response) {
+function renderEvents(req: AuthRequest, res: Response) {
     res.render('layout-events', {
         title: 'Agenda',
-        mainContentPartial: 'partials/events.ejs'
+        mainContentPartial: 'partials/events.ejs',
+        username: req.user?.name || "Desconocido",
     })
 }
 

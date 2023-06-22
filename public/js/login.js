@@ -49,5 +49,5 @@ async function handleLogin(response) {
     localStorage.setItem('token', token);
     setTimeout(() => {
         window.location.assign('./workspace/timer');
-    }, 3000);
+    }, 1000);
 }

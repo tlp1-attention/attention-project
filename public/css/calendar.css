@@ -111,13 +111,21 @@
 }
 
 .event-form {
-    min-width: 90vw;
+    padding: 1.2rem;
 }
 
 .modal,
 .modal-dialog * {
-    --bs-modal-width: min(800px, 90vw);
+    --bs-modal-width: min(500px, 95vw);
     font-size: 2rem;
+}
+
+@media (max-width: 578px) {
+    .modal,
+    .modal-dialog * {
+        font-size: 1.5rem;
+        margin: 0;
+    }
 }
 
 textarea {
@@ -129,5 +137,5 @@ textarea {
 
 textarea:focus,
 textarea:active {
-    
+    outline: var(--clr-accent-400);
 }

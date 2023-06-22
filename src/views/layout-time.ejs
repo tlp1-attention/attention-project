@@ -5,7 +5,9 @@
   <body>
     <%- include('partials/workspace-lateral-bar.ejs') %>
     <main>
-        <%- include(mainContentPartial) %>
+        <%- include(mainContentPartial, {
+          username: username
+        }) %>
     </main>
     <%- include('partials/workspace-footer.ejs') %>
   </body>
