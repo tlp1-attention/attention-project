@@ -32,7 +32,7 @@ form.addEventListener("submit", (e) => {
     btn.value = "Sending..."
 
     user
-    .then(res => {
+    .then(_res => {
         window.location.assign('/login.html');
     })
     .catch(console.log)
