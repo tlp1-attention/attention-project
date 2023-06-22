@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 const btn = document.getElementById("btn");
 
 const form = document.getElementById("form");
@@ -9,9 +11,9 @@ form.addEventListener("submit", (e) => {
 
         btn.value = "Sending..."
 
-        const serviceID = 'service_1iywyzn';
-        const templateID = 'template_3kewoy7';
-        const apiKey = '5pImIaxqkTmuNIZnG';
+        const serviceID = process.env.SERVICE_ID;
+        const templateID = process.env.TEMPLATE_ID;
+        const apiKey = process.env.API_KEY;
 
         emailjs.sendForm(serviceID, templateID, form, apiKey)
             .then(async () => {
