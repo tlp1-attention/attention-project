@@ -11,8 +11,9 @@ export type AuthRequest = Request & { user: UsersType }
 
 async function validateToken(req: Request, res: Response, next: NextFunction) {
 
-    const { token } = req.headers;
+    const token = req.cookies['session-token'];
 
+    if (!token) res.sendStatus(401);
 
     try {
 

@@ -30,7 +30,12 @@ async function loginController(req: Request, res: Response) {
     } else {
         const token = await createToken(foundUser.id);
 
-        return res.json({ token });
+        return res.cookie('session-token', token, {
+            httpOnly: true,
+            sameSite: true,
+            secure: true,
+            maxAge: 1000 * 60 * 60 * 24 * 7
+        }).sendStatus(200);
     }
 }
 

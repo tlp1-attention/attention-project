@@ -1,11 +1,12 @@
 import fetchOK from "./utils/fetch.js";
-import showError from "./utils/showError.js";
+import _showError from "./utils/showError.js";
 
 const usernameInput = document.querySelector('[name="login"');
 const passwordInput = document.querySelector('[name="password"]'); 
 const form = document.querySelector('form');
 
 const errorMessage = document.querySelector('#error-message');
+const showError = (message) => _showError(message, errorMessage);
 
 form.addEventListener('submit', async (evt) => {
 
@@ -27,25 +28,26 @@ form.addEventListener('submit', async (evt) => {
         },
         body: requestBody
     });
+    
+    try {
+        const response = await fetchOK(request);
+        
+        handleLogin(response);
+    } catch (failedResponse) {
 
-    fetchOK(request)
-        .then(handleLogin)
-        .catch(failedResponse => {
-
-            if (failedResponse.status == 400) {
-                return showError('Error al iniciar sesión: Usuario o contraseña incorrectos.', errorMessage);
-            }
-
-            return showError('No se estableció conexión con el servidor', errorMessage);
-        })
+        if (failedResponse.status == 400) {
+            return showError('Error al iniciar sesión: Usuario o contraseña incorrectos.');
+        }
+        console.log(failedResponse.status);
+        return showError('No se estableció conexión con el servidor')
+    };
 })
 
-async function handleLogin(response) {
-    
-    const { token } = await response.json();
-    document.cookie = `;token="${token}"`;
-    localStorage.setItem('token', token);
-    setTimeout(() => {
+async function handleLogin() {
+
+    console.log(document.cookie)
+
+    await setTimeout(() => {
         window.location.assign('./workspace/timer');
-    }, 1000);
+    });
 }

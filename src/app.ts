@@ -3,7 +3,7 @@ import morgan  from 'morgan'
 import helmet from 'helmet'
 import cors from 'cors'
 import { sequelize } from './db';
-
+import cookieParser from 'cookie-parser'
 
 import loginRouter from './routes/auth.routes';
 import staticServer from './middleware/__server-static.middleware';
@@ -31,6 +31,7 @@ app.use(cors());
 app.use(helmet({
     contentSecurityPolicy: false // Allow CDN's resources to be delivered
 }));
+app.use(cookieParser());
 
 // Custom middleware
 app.use(staticServer);

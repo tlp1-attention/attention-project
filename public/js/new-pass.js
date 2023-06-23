@@ -1,10 +1,11 @@
 import validatePassword from './utils/validate-password.js'
-import showError from './utils/showError.js'
+import _showError from './utils/showError.js'
 
 const btn = document.getElementById("btn");
 const form = document.getElementById("form");
 const password = document.querySelector('[name=password]');
 const errorMessage = document.querySelector('#error-message');
+const showError = (msg) => _showError(msg, errorMessage);
 
 form.addEventListener("submit", (e) => {
     e.preventDefault();
@@ -17,7 +18,7 @@ form.addEventListener("submit", (e) => {
 
     if (!validatePassword(password.value)) {
         return showError('Contraseña insegura: Debe contener al menos 8 caracteres de longitud, ' + 
-                         'al menos una mayúscula, una minúscula y un número', errorMessage);
+                         'al menos una mayúscula, una minúscula y un número');
     }
 
     const user = fetch(`/change-password`,{
