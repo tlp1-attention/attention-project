@@ -42,7 +42,6 @@ async function validateToken(req: Request, res: Response, next: NextFunction) {
 
         res.sendStatus(500);
     }
-
 }
 
 export default validateToken;

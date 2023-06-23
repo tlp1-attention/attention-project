@@ -110,8 +110,14 @@ async function changePasswordController(req, res) {
     }
 }
 
+async function logoutController(req: Request, res: Response) {
+    res.clearCookie('session-token');
+    return res.redirect('/login.html');
+}
+
 export {
     loginController,
     registerController,
-    changePasswordController
+    changePasswordController,
+    logoutController
 }
