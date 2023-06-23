@@ -123,10 +123,11 @@ a {
   nav.open {
     --max-width: 100%;
     display: block;
+    color: transparent;
   }
 
   nav * {
-    width: 100%;
+    scale: 100%;
   }
 }
 
