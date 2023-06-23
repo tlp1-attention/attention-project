@@ -11,21 +11,7 @@
     <title>Attention</title>
   </head>
   <body>
-      <nav class="sticky-top">
-          <input type="checkbox" id="check">
-            <label for="check"  class="check">
-              <i class="fas fa-bars"></i>
-            </label>
-            <a href="#" class="enlace">
-              <img src="./assets/logo-1.png" alt="logo pequeño" class="logo-1">
-              <img src="./assets/logo-2.png"alt="imagen logo" class="logo"/>
-            </a>
-            <ul>
-            <li><a href="#" class="text-decoration-none">Contacto</a></li>
-            <li><a href="/login.html" class="text-decoration-none">Iniciar sesión</a></li>
-            <li><a href="/register.html" class="active text-decoration-none">Registrate</a></li>
-          </ul>
-      </nav>
+      <%- include('partials/header', { username: username }) %>
     <main>
       <hgroup class="m-large d-flex justify-content-start align-items-center flex-column gap-2 height-full">
           <h1 class="header-font">

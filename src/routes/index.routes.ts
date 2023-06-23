@@ -1,8 +1,11 @@
 import express from 'express'
-import indexController from '../controllers/index.controller'
+import { renderIndex, renderIndexWithAuth} from '../controllers/index.controller'
+import validateJWT from '../middleware/validate_jwt'
 
 const router = express.Router();
 
-router.get( ['/', '/index.html'], indexController);
+router.get(['/', '/index.html'], [validateJWT], renderIndexWithAuth);
+router.get( ['/', '/index.html'], renderIndex);
+
 
 export default router;
