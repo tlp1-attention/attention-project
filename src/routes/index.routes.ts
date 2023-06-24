@@ -1,11 +1,10 @@
 import express from 'express'
-import { renderIndex, renderIndexWithAuth} from '../controllers/index.controller'
-import validateJWT from '../middleware/validate_jwt'
+import { renderIndex } from '../controllers/index.controller'
+import { verifySession } from '../middleware/validate_jwt'
 
 const router = express.Router();
 
-router.get(['/', '/index.html'], [validateJWT], renderIndexWithAuth);
-router.get( ['/', '/index.html'], renderIndex);
+router.get( ['/', '/index.html'], [verifySession], renderIndex);
 
 
 export default router;
