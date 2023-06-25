@@ -10,6 +10,7 @@ import staticServer from './middleware/__server-static.middleware';
 import indexRouter from './routes/index.routes'
 import workSpaceRouter from './routes/workspace.routes'
 import eventRouter from './routes/events.routes'
+import webPushRouter from './routes/push-subscription.routes';
 
 const app = express();
 
@@ -41,6 +42,7 @@ app.use(loginRouter);
 app.use(indexRouter);
 app.use(workSpaceRouter);
 app.use('/api/events', eventRouter);
+app.use(webPushRouter);
 
 
 app.listen(PORT, () => {

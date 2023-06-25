@@ -5,8 +5,12 @@
         <hgroup class="d-flex justify-content-center flex-column flex-sm-row justify-content-md-between align-items-stretch align-items-sm-center">
             <h1 class="m-3 fs-1">Lista de eventos</h1>
             <div class="d-flex gap-3 align-items-stretch m-2">
+                <button id="notify" class="btn btn-primary-brand-outline">
+                    <i class="bi bi-bell fs-2"></i>
+                    <span class="visually-hidden">Notíficame</span>
+                </button>
                 <button class="btn btn-primary-brand-outline fs-2" id="new-event">
-                    <i class="bi bi-plus-circle"></i>
+                    <i class="bi bi-plus-circle fs"></i>
                     <span class="visually-hidden">Nuevo evento</span>
                 </button>
                 <form id="preference-criteria" class="d-flex align-items-stretch">
@@ -82,3 +86,4 @@
     <!-- Sweet Alert 2-->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="/js/calendar.js" type="module"></script>
+    <script type="module" src="/js/notifications.js"></script>
