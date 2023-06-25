@@ -1,4 +1,4 @@
-import jwt, { JsonWebTokenError, JwtPayload } from 'jsonwebtoken'
+import jwt, { JsonWebTokenError, JwtPayload, TokenExpiredError } from 'jsonwebtoken'
 import type { NextFunction, Request, Response } from 'express'
 import { Models} from '../db';
 import type { Users as UsersType } from '../models/users'
@@ -54,9 +54,9 @@ async function verifySession(req: Request, res: Response, next: NextFunction) {
         await _validateToken(req, res, next);
     } catch(err) {
         // Check if the exception has been thrown by _validateToken's 
-        // body with status == 401. If not, then throw to propagate
+        // body with status == 401 or if the token expired. If not, then throw to propagate
         // bugs
-        if (err.status !== 401) {
+        if (err.status !== 401 && !(err instanceof TokenExpiredError)) {
             throw err;
         }
     } finally {

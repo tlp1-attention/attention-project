@@ -1,6 +1,11 @@
 self.addEventListener('push', async (event) => {
-    event.waitUntil(self.Notification('ServiceWorker Cookbook', {
-        body: 'Push Notcifiation Subscription Management',
-        icon: '/assets/logo.'
+
+    const { data } = event;
+
+    const pushMessage = await data.json();
+ 
+    event.waitUntil(self.Notification(pushMessage.title, {
+        body: pushMessage.message,
+        icon: '/assets/logo-1.png'
     }));
 })

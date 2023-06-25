@@ -10,7 +10,8 @@ webpush.setVapidDetails(
 
 function sendMessage(message: string, subscription: webpush.PushSubscription) { 
     const payload = JSON.stringify({ 
-         title: 'Test Push Notificaction', message: message
+         title: 'Test Push Notificaction', 
+         message: message
     });
     return webpush.sendNotification(subscription, payload);
 }
@@ -23,10 +24,7 @@ async function createSubscription(req: Request, res: Response) {
     try {
         const result = await sendMessage('Subscription enabled!', subscription);
 
-        console.log('%cSuccesful result: ' + result, {
-            color: 'green',
-            'font-weight': '500'
-        });
+        console.log('Succesful result: ' + result);
 
         res.sendStatus(201);
 
