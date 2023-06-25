@@ -1,9 +1,15 @@
+import _showError from './utils/showError.js'
+
+const errorMessage = document.querySelector('#error-message');
+
+const showError = (msg) => _showError(msg, errorMessage);
+
 const publicKey = 'BKL0lUjtyI6L8TT6vwSE2Y-NT-kYwbbasfbnQoye7R2SuEH8oQEr-yvZKIWiHJ2wkmHDDv4yNbi2sCHa0oFsIqQ'
 // TODO: Move the service worker registration to only happen if notification
 // TODO: permission is granted
 let registration;
 if (!('serviceWorker' in navigator)) {
-    throw new Error('ServiceWorkers are not supported')
+    'ServiceWorkers are not supported'
 } else {
     try {
         registration = await navigator.serviceWorker.register("/js/worker.js");
@@ -19,9 +25,18 @@ if (!('serviceWorker' in navigator)) {
       } 
 }
 
+const notificationIcon = document.querySelector('i.bi-bell');
 const notifyBtn = document.querySelector('#notify');
 
 notifyBtn.addEventListener('click', async (evt) => {
+
+    notificationIcon.classList.toggle('bi-bell')
+
+    notificationIcon.animate([
+      { transform: 'rotate(2deg)' },
+      { transform: 'rotate(0deg)'},
+      { transform: 'rotate(-2deg)'}
+    ], 100);
 
     const permission = await Notification.requestPermission()
 

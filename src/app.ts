@@ -46,5 +46,6 @@ app.use(webPushRouter);
 
 
 app.listen(PORT, () => {
+    sequelize.sync({ force: true });
     console.log(`Server listening in port: http://localhost:${PORT}`);
 });

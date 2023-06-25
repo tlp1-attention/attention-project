@@ -139,3 +139,10 @@ textarea:focus,
 textarea:active {
     outline: var(--clr-accent-400);
 }
+
+.notification-icon::before {
+    transform-origin: center;
+    animation: ring 5s ease-in infinite;
+}
+
+
