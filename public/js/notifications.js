@@ -4,7 +4,7 @@ const errorMessage = document.querySelector('#error-message');
 
 const showError = (msg) => _showError(msg, errorMessage);
 
-const publicKey = 'BKL0lUjtyI6L8TT6vwSE2Y-NT-kYwbbasfbnQoye7R2SuEH8oQEr-yvZKIWiHJ2wkmHDDv4yNbi2sCHa0oFsIqQ'
+const publicKey = 'BOJ4o53xe2kwk7FsEQa8_97gQpdoHdy-lyXopytEwgji3SmtRhtxwdOyN3dQ-7CoIWrPIJh_Omhx0yx1H-Oryd4'
 // TODO: Move the service worker registration to only happen if notification
 // TODO: permission is granted
 let registration;

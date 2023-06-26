@@ -80,7 +80,7 @@ async function registerController(req: Request, res: Response) {
     }
 }
 
-// change-password
+// Change password controller
 async function changePasswordController(req, res) {
 
     const { email, password: newPassword } = req.body;
@@ -110,7 +110,7 @@ async function changePasswordController(req, res) {
     }
 }
 
-async function logoutController(req: Request, res: Response) {
+async function logoutController(_req: Request, res: Response) {
     res.clearCookie('session-token');
     return res.redirect('/login.html');
 }
