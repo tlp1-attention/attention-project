@@ -2,7 +2,7 @@ import * as Sequelize from 'sequelize';
 import { DataTypes, Model, Optional } from 'sequelize';
 import type { Preferences, PreferencesId } from './preferences';
 import type { Reports, ReportsId } from './reports';
-
+import type { Events, EventsId } from './events';
 import type { PushSubscription } from 'web-push';
 
 export interface UsersAttributes {
@@ -16,7 +16,7 @@ export interface UsersAttributes {
   createdAt: Date;
   updatedAt: Date; 
   deletedAt: Date;
-  subscriptionPayload?: PushSubscription;
+  subscriptionPayload?: string;
 }
 
 export type UsersPk = "id";
@@ -35,7 +35,7 @@ export class Users extends Model<UsersAttributes, UsersCreationAttributes> imple
   declare createdAt: Date;
   declare updatedAt: Date;
   declare deletedAt: Date;
-  declare subscriptionPayload?: PushSubscription;
+  declare subscriptionPayload?: string;
 
   // Users hasMany Preferences via userId
   preferences!: Preferences[];
@@ -61,6 +61,18 @@ export class Users extends Model<UsersAttributes, UsersCreationAttributes> imple
   hasReport!: Sequelize.HasManyHasAssociationMixin<Reports, ReportsId>;
   hasReports!: Sequelize.HasManyHasAssociationsMixin<Reports, ReportsId>;
   countReports!: Sequelize.HasManyCountAssociationsMixin;
+  // Users hasMany Events via userId
+  events!: Events[];
+  declare getEvents: Sequelize.HasManyGetAssociationsMixin<Events>;
+  setEvents!: Sequelize.HasManySetAssociationsMixin<Events, EventsId>;
+  addEvent!: Sequelize.HasManyAddAssociationMixin<Events, EventsId>;
+  addEvents!: Sequelize.HasManyAddAssociationsMixin<Events, EventsId>;
+  createEvent!: Sequelize.HasManyCreateAssociationMixin<Events>;
+  removeEvent!: Sequelize.HasManyRemoveAssociationMixin<Events, EventsId>;
+  removeEvents!: Sequelize.HasManyRemoveAssociationsMixin<Events, EventsId>;
+  hasEvent!: Sequelize.HasManyHasAssociationMixin<Events, EventsId>;
+  hasEvents!: Sequelize.HasManyHasAssociationsMixin<Events, EventsId>;
+  countEvents!: Sequelize.HasManyCountAssociationsMixin;
 
   static initModel(sequelize: Sequelize.Sequelize): typeof Users {
     return Users.init({

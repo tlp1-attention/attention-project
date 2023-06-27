@@ -4,6 +4,8 @@ import helmet from 'helmet'
 import cors from 'cors'
 import { sequelize } from './db';
 import cookieParser from 'cookie-parser'
+import { sendMessage } from './controllers/push-subscriber.controller';
+import { Model, Op } from 'sequelize';
 
 import loginRouter from './routes/auth.routes';
 import staticServer from './middleware/__server-static.middleware';
@@ -11,6 +13,10 @@ import indexRouter from './routes/index.routes'
 import workSpaceRouter from './routes/workspace.routes'
 import eventRouter from './routes/events.routes'
 import webPushRouter from './routes/push-subscription.routes';
+import { Models } from './db';
+import { TypeEvent } from './models/type_events';
+
+const { Events, Users } = Models;
 
 const app = express();
 
@@ -44,7 +50,47 @@ app.use(workSpaceRouter);
 app.use('/api/events', eventRouter);
 app.use('/api/notifications', webPushRouter);
 
+const ONE_DAY_MS = 1000 * 60 * 60 * 24;
+
+setInterval(async () => {
+    const subscribers = await Users.findAll({
+        where: {
+            [Op.not]: {
+                subscriptionPayload: null
+            }
+        }
+    })
+
+    for (const user of subscribers) {
+
+        const events = await Events.findAll({
+            where: {
+                userId: user.id
+            }
+        });
+
+        for (const event of events) {
+
+            if (event.startTime.getTime() - Date.now() < ONE_DAY_MS) {
+
+                const typeEvent = await TypeEvent.findOne({
+                    where: {
+                        id: event.typeId
+                    }
+                });
+    
+                const payload = {
+                    title: `Recordatorio de evento ${(typeEvent).description.toLowerCase()}`,
+                    message: `${event.title}`
+                }
+                
+                sendMessage(payload, JSON.parse(user.subscriptionPayload));
+            }
+        }
+    }
+}, 5000);
 
 app.listen(PORT, () => {
     console.log(`Server listening in port: http://localhost:${PORT}`);
 });
+

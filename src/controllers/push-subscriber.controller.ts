@@ -10,14 +10,9 @@ webpush.setVapidDetails(
 );
 
 
-function sendMessage(message: string, subscription: webpush.PushSubscription) { 
-    const payload = JSON.stringify({ 
-         title: 'Test Push Notificaction', 
-         message: message
-    });
-    return webpush.sendNotification(subscription, payload);
+function sendMessage(payload: any, subscription: webpush.PushSubscription) { 
+    return webpush.sendNotification(subscription, JSON.stringify(payload));
 }
-
 
 async function createSubscription(req: AuthRequest, res: Response) {
 

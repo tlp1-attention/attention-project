@@ -9,3 +9,7 @@ self.addEventListener('push', async (event) => {
         icon: '/assets/logo-1.png'
     }));
 })
+
+addEventListener('notificationclick', () => {
+    return self.clients.openWindow('https://localhost:8080/workspace/events');
+})

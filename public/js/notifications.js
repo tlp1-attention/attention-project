@@ -15,10 +15,6 @@ async function promptUser(
       cancelButtonColor: 'var(--clr-red-600)',
       confirmButtonText: confirmText,
       cancelButtonText: cancelText
-    }).then((result) => {
-      if (result.isConfirmed) {
-        console.log(result);
-      }
     });
 
   return result;
@@ -32,12 +28,14 @@ let publicKey = localStorage.getItem('vapidPublicKey');
 
 let enabledNotifications = publicKey !== null;
 
-notificationIcon.addEventListener('DOMContentLoaded', () => {
-  notificationIcon.toggleAttribute('bi-bell', enabledNotifications);
-})
+
 
 const notificationIcon = document.querySelector('i.bi-bell');
 const notifyBtn = document.querySelector('#notify');
+
+notificationIcon.addEventListener('DOMContentLoaded', () => {
+  notificationIcon.classList.toggle('bi-bell', enabledNotifications);
+})
 
 async function promptNotificationPermission() {
   const result = await promptUser({
@@ -63,7 +61,7 @@ notifyBtn.addEventListener('click', async (_evt) => {
 
     const permission = await promptNotificationPermission();
 
-    if (!('Notification.requestPermission' in window)) {
+    if (!('Notification' in window)) {
       return showError('Su navegador no soporta notificaciones');
     }
 
@@ -76,6 +74,8 @@ notifyBtn.addEventListener('click', async (_evt) => {
         }
 
         const registration = await registerNotificationWorker();
+
+        if (!registration) return;
 
         const subscription = await registration.pushManager.subscribe({
             userVisibleOnly: true,
@@ -93,11 +93,13 @@ notifyBtn.addEventListener('click', async (_evt) => {
         if (!response.ok) return showError('Error al solicitar subscripción: ', response);
 
         console.log(response);
+    } else {
+      localStorage.removeItem('vapidPublicKey');
     }
 })
 
 async function registerNotificationWorker() {
-  if (!('ServiceWorker' in navigator)) {
+  if (!('serviceWorker' in navigator)) {
     return showError('Su navegador no soporta Service Workers');
   }
   let registration;
