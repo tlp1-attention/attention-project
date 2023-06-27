@@ -9,7 +9,7 @@ type JWTTokenReq = JwtPayload & { id: number}
 
 export type AuthRequest = Request & { user: UsersType }
 
-async function _validateToken(req: Request, res: Response, next: NextFunction) {
+async function _validateToken(req: Request, _res: Response, next: NextFunction) {
 
     const token = req.cookies['session-token'];
 

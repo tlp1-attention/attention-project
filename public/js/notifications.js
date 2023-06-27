@@ -24,7 +24,6 @@ async function promptUser(
   return result;
 }
 
-
 const errorMessage = document.querySelector('#error-message');
 
 const showError = (msg) => _showError(msg, errorMessage);
@@ -33,26 +32,9 @@ let publicKey = localStorage.getItem('vapidPublicKey');
 
 let enabledNotifications = publicKey !== null;
 
-'BOJ4o53xe2kwk7FsEQa8_97gQpdoHdy-lyXopytEwgji3SmtRhtxwdOyN3dQ-7CoIWrPIJh_Omhx0yx1H-Oryd4'
-// TODO: Move the service worker registration to only happen if notification
-// TODO: permission is granted
-let registration;
-if (!('serviceWorker' in navigator)) {
-    'ServiceWorkers are not supported'
-} else {
-    try {
-        registration = await navigator.serviceWorker.register("/js/worker.js");
-        if (registration.installing) {
-          console.log("Service worker installing");
-        } else if (registration.waiting) {
-          console.log("Service worker installed");
-        } else if (registration.active) {
-          console.log("Service worker active");
-        }
-      } catch (error) {
-        console.error(`Registration failed with ${error}`);
-      } 
-}
+notificationIcon.addEventListener('DOMContentLoaded', () => {
+  notificationIcon.toggleAttribute('bi-bell', enabledNotifications);
+})
 
 const notificationIcon = document.querySelector('i.bi-bell');
 const notifyBtn = document.querySelector('#notify');
@@ -66,47 +48,64 @@ async function promptNotificationPermission() {
     cancelText: 'Cancelar'
   });
 
-  if (result.isConfirmed) {
-    enabledNotifications = true;
-    notificationIcon.classList.add('bi-bell');
-    notifyBtn.textContent
-  }
+  enabledNotifications = result.isConfirmed;
+
+  notificationIcon.classList.toggle('bi-bell', enabledNotifications);
+  const permission = await Notification.requestPermission();
+  return permission;
 }
 
 notificationIcon.toggleAttribute('bi-bell', enabledNotifications);
 
-notifyBtn.addEventListener('click', async (evt) => {
+notifyBtn.addEventListener('click', async (_evt) => {
 
     notificationIcon.classList.toggle('bi-bell');
 
-    promptNotificationPermission()
-    
-    console.log(Swal);
+    const permission = await promptNotificationPermission();
 
-    const permission = await Notification.requestPermission();
+    if (!('Notification.requestPermission' in window)) {
+      return showError('Su navegador no soporta notificaciones');
+    }
 
-    if (permission != 'granted') {
+    if (permission == 'granted') {
+
+        if (!publicKey) {
+          const resp = await fetch('/api/notifications/vapid-key');
+          const { publicKey: key } = await resp.json();
+          publicKey = key;
+        }
+
+        const registration = await registerNotificationWorker();
+
         const subscription = await registration.pushManager.subscribe({
             userVisibleOnly: true,
             applicationServerKey: publicKey
-        })
+        });
 
-        const response = await fetch('/subscribe', {
+        const response = await fetch('/api/notifications/subscription', {
             method: 'POST',
             body: JSON.stringify(subscription),
             headers: {
-            'content-type': 'application/json'
+              'content-type': 'application/json'
             }
         });
 
-        if (!response.ok) throw new Error('Something happened  to the request');
-
+        if (!response.ok) return showError('Error al solicitar subscripción: ', response);
 
         console.log(response);
-
-    } else {
-        throw new Error('Something happened  to the request')
     }
 })
 
-
+async function registerNotificationWorker() {
+  if (!('ServiceWorker' in navigator)) {
+    return showError('Su navegador no soporta Service Workers');
+  }
+  let registration;
+  try {
+    registration = await navigator.serviceWorker.register("/js/worker.js");
+  } catch (error) {
+    console.error(`Registration failed with ${error}`);
+    return showError('No se pudo completar la acción.');
+  } 
+  return registration;
+}
