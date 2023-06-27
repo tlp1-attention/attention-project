@@ -30,6 +30,8 @@ async function loginController(req: Request, res: Response) {
     } else {
         const token = await createToken(foundUser.id);
 
+        console.log(token);
+
         return res.cookie('session-token', token, {
             httpOnly: true,
             sameSite: true,

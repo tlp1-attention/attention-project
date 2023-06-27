@@ -1,10 +1,39 @@
 import _showError from './utils/showError.js'
 
+async function promptUser(
+  {
+    title, message, type = 'text',
+    confirmText = 'Sí', cancelText = 'Cancelar'
+  }
+) {
+  const result = Swal.fire({
+      title: title,
+      text: message,
+      icon: type,
+      showCancelButton: true,
+      confirmButtonColor: 'var(--clr-accent-800)',
+      cancelButtonColor: 'var(--clr-red-600)',
+      confirmButtonText: confirmText,
+      cancelButtonText: cancelText
+    }).then((result) => {
+      if (result.isConfirmed) {
+        console.log(result);
+      }
+    });
+
+  return result;
+}
+
+
 const errorMessage = document.querySelector('#error-message');
 
 const showError = (msg) => _showError(msg, errorMessage);
 
-const publicKey = 'BOJ4o53xe2kwk7FsEQa8_97gQpdoHdy-lyXopytEwgji3SmtRhtxwdOyN3dQ-7CoIWrPIJh_Omhx0yx1H-Oryd4'
+let publicKey = localStorage.getItem('vapidPublicKey');
+
+let enabledNotifications = publicKey !== null;
+
+'BOJ4o53xe2kwk7FsEQa8_97gQpdoHdy-lyXopytEwgji3SmtRhtxwdOyN3dQ-7CoIWrPIJh_Omhx0yx1H-Oryd4'
 // TODO: Move the service worker registration to only happen if notification
 // TODO: permission is granted
 let registration;
@@ -28,19 +57,35 @@ if (!('serviceWorker' in navigator)) {
 const notificationIcon = document.querySelector('i.bi-bell');
 const notifyBtn = document.querySelector('#notify');
 
+async function promptNotificationPermission() {
+  const result = await promptUser({
+    title: '¿Quiere recibir notificaciones sobre sus eventos cuando se acercan?',
+    message: '',
+    type: 'question',
+    confirmText: 'Sí',
+    cancelText: 'Cancelar'
+  });
+
+  if (result.isConfirmed) {
+    enabledNotifications = true;
+    notificationIcon.classList.add('bi-bell');
+    notifyBtn.textContent
+  }
+}
+
+notificationIcon.toggleAttribute('bi-bell', enabledNotifications);
+
 notifyBtn.addEventListener('click', async (evt) => {
 
-    notificationIcon.classList.toggle('bi-bell')
+    notificationIcon.classList.toggle('bi-bell');
 
-    notificationIcon.animate([
-      { transform: 'rotate(2deg)' },
-      { transform: 'rotate(0deg)'},
-      { transform: 'rotate(-2deg)'}
-    ], 100);
+    promptNotificationPermission()
+    
+    console.log(Swal);
 
-    const permission = await Notification.requestPermission()
+    const permission = await Notification.requestPermission();
 
-    if (permission == 'granted') {
+    if (permission != 'granted') {
         const subscription = await registration.pushManager.subscribe({
             userVisibleOnly: true,
             applicationServerKey: publicKey

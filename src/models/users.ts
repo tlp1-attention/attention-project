@@ -3,6 +3,8 @@ import { DataTypes, Model, Optional } from 'sequelize';
 import type { Preferences, PreferencesId } from './preferences';
 import type { Reports, ReportsId } from './reports';
 
+import type { PushSubscription } from 'web-push';
+
 export interface UsersAttributes {
   id: number;
   name: string;
@@ -14,11 +16,12 @@ export interface UsersAttributes {
   createdAt: Date;
   updatedAt: Date; 
   deletedAt: Date;
+  subscriptionPayload?: PushSubscription;
 }
 
 export type UsersPk = "id";
 export type UsersId = Users[UsersPk];
-export type UsersOptionalAttributes = "id" | "description" | "ocupation" | "createdAt" | "updatedAt";
+export type UsersOptionalAttributes = "id" | "description" | "ocupation" | "createdAt" | "updatedAt" | 'subscriptionPayload';
 export type UsersCreationAttributes = Optional<UsersAttributes, UsersOptionalAttributes>;
 
 export class Users extends Model<UsersAttributes, UsersCreationAttributes> implements UsersAttributes {
@@ -32,6 +35,7 @@ export class Users extends Model<UsersAttributes, UsersCreationAttributes> imple
   declare createdAt: Date;
   declare updatedAt: Date;
   declare deletedAt: Date;
+  declare subscriptionPayload?: PushSubscription;
 
   // Users hasMany Preferences via userId
   preferences!: Preferences[];
@@ -112,6 +116,10 @@ export class Users extends Model<UsersAttributes, UsersCreationAttributes> imple
     deletedAt: {
       type: DataTypes.DATE,
       allowNull: true,
+    },
+    subscriptionPayload: {
+      type: DataTypes.JSON,
+      allowNull: true
     }
   }, {
     sequelize,

@@ -42,7 +42,7 @@ app.use(loginRouter);
 app.use(indexRouter);
 app.use(workSpaceRouter);
 app.use('/api/events', eventRouter);
-app.use(webPushRouter);
+app.use('/api/notifications', webPushRouter);
 
 
 app.listen(PORT, () => {
