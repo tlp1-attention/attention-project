@@ -28,8 +28,6 @@ let publicKey = localStorage.getItem('vapidPublicKey');
 
 let enabledNotifications = publicKey !== null;
 
-
-
 const notificationIcon = document.querySelector('i.bi-bell');
 const notifyBtn = document.querySelector('#notify');
 
@@ -49,7 +47,10 @@ async function promptNotificationPermission() {
   enabledNotifications = result.isConfirmed;
 
   notificationIcon.classList.toggle('bi-bell', enabledNotifications);
-  const permission = await Notification.requestPermission();
+  
+  const permission = enabledNotifications
+                     ? await Notification.requestPermission()
+                     : 'denied';
   return permission;
 }
 
