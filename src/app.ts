@@ -62,33 +62,35 @@ setInterval(async () => {
     })
 
     for (const user of subscribers) {
-
-        const events = await Events.findAll({
-            where: {
-                userId: user.id
-            }
-        });
-
+        const events = await user.getEvents();
         for (const event of events) {
+            // Only remind of important events
+            if (event.typeId !== 1) continue;
 
-            if (event.startTime.getTime() - Date.now() < ONE_DAY_MS) {
+            const now = Date.now();
 
-                const typeEvent = await TypeEvent.findOne({
-                    where: {
-                        id: event.typeId
-                    }
-                });
-    
+            if (event.startTime.getTime() - now< ONE_DAY_MS
+                && event.remindedAt.getTime() - now > ONE_DAY_MS / 2) {
+                const typeEvent = await event.getType();
                 const payload = {
-                    title: `Recordatorio de evento ${(typeEvent).description.toLowerCase()}`,
+                    title: `Recordatorio de evento ${typeEvent.description.toLowerCase()}`,
                     message: `${event.title}`
                 }
-                
-                sendMessage(payload, JSON.parse(user.subscriptionPayload));
+                try {
+                    const result = await sendMessage(payload, JSON.parse(user.subscriptionPayload));
+                } catch(err) {
+
+                }
+
+                // Once the reminder is sent, update the remindedAt column to avoid 
+                // doing it again in other 12 hours 
+                await event.update({
+                    remindedAt: new Date()
+                });
             }
         }
     }
-}, 5000);
+}, 1000 * 60);
 
 app.listen(PORT, () => {
     console.log(`Server listening in port: http://localhost:${PORT}`);

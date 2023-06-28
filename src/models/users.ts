@@ -38,41 +38,41 @@ export class Users extends Model<UsersAttributes, UsersCreationAttributes> imple
   declare subscriptionPayload?: string;
 
   // Users hasMany Preferences via userId
-  preferences!: Preferences[];
-  getPreferences!: Sequelize.HasManyGetAssociationsMixin<Preferences>;
-  setPreferences!: Sequelize.HasManySetAssociationsMixin<Preferences, PreferencesId>;
-  addPreference!: Sequelize.HasManyAddAssociationMixin<Preferences, PreferencesId>;
-  addPreferences!: Sequelize.HasManyAddAssociationsMixin<Preferences, PreferencesId>;
-  createPreference!: Sequelize.HasManyCreateAssociationMixin<Preferences>;
-  removePreference!: Sequelize.HasManyRemoveAssociationMixin<Preferences, PreferencesId>;
-  removePreferences!: Sequelize.HasManyRemoveAssociationsMixin<Preferences, PreferencesId>;
-  hasPreference!: Sequelize.HasManyHasAssociationMixin<Preferences, PreferencesId>;
-  hasPreferences!: Sequelize.HasManyHasAssociationsMixin<Preferences, PreferencesId>;
-  countPreferences!: Sequelize.HasManyCountAssociationsMixin;
+  declare preferences: Preferences[];
+  declare getPreferences: Sequelize.HasManyGetAssociationsMixin<Preferences>;
+  declare setPreferences: Sequelize.HasManySetAssociationsMixin<Preferences, PreferencesId>;
+  declare addPreference: Sequelize.HasManyAddAssociationMixin<Preferences, PreferencesId>;
+  declare addPreferences: Sequelize.HasManyAddAssociationsMixin<Preferences, PreferencesId>;
+  declare createPreference: Sequelize.HasManyCreateAssociationMixin<Preferences>;
+  declare removePreference: Sequelize.HasManyRemoveAssociationMixin<Preferences, PreferencesId>;
+  declare removePreferences: Sequelize.HasManyRemoveAssociationsMixin<Preferences, PreferencesId>;
+  declare hasPreference: Sequelize.HasManyHasAssociationMixin<Preferences, PreferencesId>;
+  declare hasPreferences: Sequelize.HasManyHasAssociationsMixin<Preferences, PreferencesId>;
+  declare countPreferences: Sequelize.HasManyCountAssociationsMixin;
   // Users hasMany Reports via userId
-  reports!: Reports[];
-  getReports!: Sequelize.HasManyGetAssociationsMixin<Reports>;
-  setReports!: Sequelize.HasManySetAssociationsMixin<Reports, ReportsId>;
-  addReport!: Sequelize.HasManyAddAssociationMixin<Reports, ReportsId>;
-  addReports!: Sequelize.HasManyAddAssociationsMixin<Reports, ReportsId>;
-  createReport!: Sequelize.HasManyCreateAssociationMixin<Reports>;
-  removeReport!: Sequelize.HasManyRemoveAssociationMixin<Reports, ReportsId>;
-  removeReports!: Sequelize.HasManyRemoveAssociationsMixin<Reports, ReportsId>;
-  hasReport!: Sequelize.HasManyHasAssociationMixin<Reports, ReportsId>;
-  hasReports!: Sequelize.HasManyHasAssociationsMixin<Reports, ReportsId>;
-  countReports!: Sequelize.HasManyCountAssociationsMixin;
+  declare reports: Reports[];
+  declare getReports: Sequelize.HasManyGetAssociationsMixin<Reports>;
+  declare setReports: Sequelize.HasManySetAssociationsMixin<Reports, ReportsId>;
+  declare addReport: Sequelize.HasManyAddAssociationMixin<Reports, ReportsId>;
+  declare addReports: Sequelize.HasManyAddAssociationsMixin<Reports, ReportsId>;
+  declare createReport: Sequelize.HasManyCreateAssociationMixin<Reports>;
+  declare removeReport: Sequelize.HasManyRemoveAssociationMixin<Reports, ReportsId>;
+  declare removeReports: Sequelize.HasManyRemoveAssociationsMixin<Reports, ReportsId>;
+  declare hasReport: Sequelize.HasManyHasAssociationMixin<Reports, ReportsId>;
+  declare hasReports: Sequelize.HasManyHasAssociationsMixin<Reports, ReportsId>;
+  declare countReports: Sequelize.HasManyCountAssociationsMixin;
   // Users hasMany Events via userId
   events!: Events[];
   declare getEvents: Sequelize.HasManyGetAssociationsMixin<Events>;
-  setEvents!: Sequelize.HasManySetAssociationsMixin<Events, EventsId>;
-  addEvent!: Sequelize.HasManyAddAssociationMixin<Events, EventsId>;
-  addEvents!: Sequelize.HasManyAddAssociationsMixin<Events, EventsId>;
-  createEvent!: Sequelize.HasManyCreateAssociationMixin<Events>;
-  removeEvent!: Sequelize.HasManyRemoveAssociationMixin<Events, EventsId>;
-  removeEvents!: Sequelize.HasManyRemoveAssociationsMixin<Events, EventsId>;
-  hasEvent!: Sequelize.HasManyHasAssociationMixin<Events, EventsId>;
-  hasEvents!: Sequelize.HasManyHasAssociationsMixin<Events, EventsId>;
-  countEvents!: Sequelize.HasManyCountAssociationsMixin;
+  declare setEvents: Sequelize.HasManySetAssociationsMixin<Events, EventsId>;
+  declare addEvent: Sequelize.HasManyAddAssociationMixin<Events, EventsId>;
+  declare addEvents: Sequelize.HasManyAddAssociationsMixin<Events, EventsId>;
+  declare createEvent: Sequelize.HasManyCreateAssociationMixin<Events>;
+  declare removeEvent: Sequelize.HasManyRemoveAssociationMixin<Events, EventsId>;
+  declare removeEvents: Sequelize.HasManyRemoveAssociationsMixin<Events, EventsId>;
+  declare hasEvent: Sequelize.HasManyHasAssociationMixin<Events, EventsId>;
+  declare hasEvents: Sequelize.HasManyHasAssociationsMixin<Events, EventsId>;
+  declare countEvents: Sequelize.HasManyCountAssociationsMixin;
 
   static initModel(sequelize: Sequelize.Sequelize): typeof Users {
     return Users.init({

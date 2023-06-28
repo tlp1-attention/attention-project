@@ -40,8 +40,8 @@ Users.hasMany(Reports, { as: "reports", foreignKey: "userId"});
 
 Events.belongsTo(Users, { foreignKey: 'userId'});
 Users.hasMany(Events, { foreignKey: 'userId' });
-Events.belongsTo(TypeEvent, { as: 'typeEvents', foreignKey: 'typeId'});
-TypeEvent.hasMany(Events, { as: 'events', foreignKey: 'typeId' });
+Events.belongsTo(TypeEvent, { as: 'type', foreignKey: 'typeId'});
+TypeEvent.hasMany(Events, { as: 'event', foreignKey: 'typeId' });
 
 // Automatically create events types if not present in the database
 TypeEvent.findOrCreate({

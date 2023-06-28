@@ -20,12 +20,6 @@ export class TypeEvent extends Model<TypeEventAttributes, TypeEventCreationAttri
   declare createdAt: Date;
   declare updatedAt: Date;
 
-  // Events belongsTo Exercises via exerciseId
-  exercise!: Exercises;
-  getExercise!: Sequelize.BelongsToGetAssociationMixin<Exercises>;
-  setExercise!: Sequelize.BelongsToSetAssociationMixin<Exercises, ExercisesId>;
-  createExercise!: Sequelize.BelongsToCreateAssociationMixin<Exercises>;
-
   static initModel(sequelize: Sequelize.Sequelize): typeof TypeEvent {
     return TypeEvent.init({
     id: {
