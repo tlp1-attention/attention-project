@@ -15,6 +15,8 @@ import eventRouter from './routes/events.routes'
 import webPushRouter from './routes/push-subscription.routes';
 import { Models } from './db';
 import { TypeEvent } from './models/type_events';
+import { scheduleReminders } from './utils/schedule-reminder';
+
 
 const { Events, Users } = Models;
 
@@ -24,7 +26,9 @@ const PORT = process.env.PORT || 8080;
 
 // Check database connection
 sequelize.authenticate()
-    .then(() => console.log('Successful database connection'))
+    .then(() => {
+        console.log('Succesful database connection');
+    })
     .catch(console.error);
 
 // Set ejs as template engine
@@ -50,49 +54,10 @@ app.use(workSpaceRouter);
 app.use('/api/events', eventRouter);
 app.use('/api/notifications', webPushRouter);
 
-const ONE_DAY_MS = 1000 * 60 * 60 * 24;
+app.listen(PORT, async () => {
 
-setInterval(async () => {
-    const subscribers = await Users.findAll({
-        where: {
-            [Op.not]: {
-                subscriptionPayload: null
-            }
-        }
-    })
+    await scheduleReminders();
 
-    for (const user of subscribers) {
-        const events = await user.getEvents();
-        for (const event of events) {
-            // Only remind of important events
-            if (event.typeId !== 1) continue;
-
-            const now = Date.now();
-
-            if (event.startTime.getTime() - now< ONE_DAY_MS
-                && event.remindedAt.getTime() - now > ONE_DAY_MS / 2) {
-                const typeEvent = await event.getType();
-                const payload = {
-                    title: `Recordatorio de evento ${typeEvent.description.toLowerCase()}`,
-                    message: `${event.title}`
-                }
-                try {
-                    const result = await sendMessage(payload, JSON.parse(user.subscriptionPayload));
-                } catch(err) {
-
-                }
-
-                // Once the reminder is sent, update the remindedAt column to avoid 
-                // doing it again in other 12 hours 
-                await event.update({
-                    remindedAt: new Date()
-                });
-            }
-        }
-    }
-}, 1000 * 60);
-
-app.listen(PORT, () => {
     console.log(`Server listening in port: http://localhost:${PORT}`);
 });
 

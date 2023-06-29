@@ -135,4 +135,3 @@ export class Events extends Model<EventsAttributes, EventsCreationAttributes> im
   });
   }
 }
-
