@@ -25,8 +25,9 @@ export function scheduleReminders() {
                 const now = Date.now();
 
                 const hasBeenReminded = event.remindedAt
-                                     ? now - event.remindedAt?.getTime() > ONE_DAY_MS / 2
+                                     ? now - event.remindedAt?.getTime() < ONE_DAY_MS / 2
                                      : false
+
 
                 if (event.startTime.getTime() - now < ONE_DAY_MS &&
                     !hasBeenReminded) {

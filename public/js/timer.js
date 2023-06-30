@@ -1,4 +1,4 @@
-import Timer from './utils/timer-class.js'
+import Timer from './components/timer-component.js'
 
 const Mode = {
     Work: 'WORK',
