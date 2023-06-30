@@ -7,7 +7,6 @@ class Quiz {
         onEnd = f => f,
         onTimeout = f => f
     }) {
-
         this.questions = questions;
         this.onMouseOver = onMouseOver;
         this.onRightAnswer = onRightAnswer;
@@ -37,7 +36,7 @@ class Quiz {
         if (!this.dom.firstChild) {
             this.dom.append(dom);
         } else {
-            this.dom.replaceChild(dom, this.dom.firstChild);
+        this.dom.replaceChild(dom, this.dom.firstChild);
         }
     }
 }
@@ -50,9 +49,11 @@ class Question {
         onWrongAnswer = f => f,
         onTimeout = f => f
     }) {
-
-
-
+        this.question = question;
+        this.onMouseOver = onMouseOver;
+        this.onRightAnswer = onRightAnswer;
+        this.onWrongAnswer = onWrongAnswer;
+        this.onTimeout = onTimeout;
     }
 
 

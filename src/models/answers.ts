@@ -44,7 +44,7 @@ export class Answers extends Model<AnswersAttributes, AnswersCreationAttributes>
     },
     isCorrect: {
       type: DataTypes.BOOLEAN,
-      allowNull: false
+      allowNull: true
     },
     exerciseId: {
       type: DataTypes.INTEGER,

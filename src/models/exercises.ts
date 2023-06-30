@@ -84,7 +84,7 @@ export class Exercises extends Model<ExercisesAttributes, ExercisesCreationAttri
       allowNull: true
     },
     question: {
-      type: DataTypes.STRING(255),
+      type: DataTypes.STRING(255),  
       allowNull: true
     },
     answer: {
