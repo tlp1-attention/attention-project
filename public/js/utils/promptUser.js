@@ -1,7 +1,7 @@
 async function promptUser(
     {
       title, message, type = 'text',
-      confirmText = 'Sí', cancelText = 'Cancelar'
+      confirmText = 'Sí', cancelText = 'Ignorar'
     }
   ) {
     const result = Swal.fire({
