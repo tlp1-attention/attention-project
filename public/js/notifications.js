@@ -1,38 +1,20 @@
 import _showError from './utils/showError.js'
-
-async function promptUser(
-  {
-    title, message, type = 'text',
-    confirmText = 'Sí', cancelText = 'Cancelar'
-  }
-) {
-  const result = Swal.fire({
-      title: title,
-      text: message,
-      icon: type,
-      showCancelButton: true,
-      confirmButtonColor: 'var(--clr-accent-800)',
-      cancelButtonColor: 'var(--clr-red-600)',
-      confirmButtonText: confirmText,
-      cancelButtonText: cancelText
-    });
-
-  return result;
-}
+import showSuccess from './utils/showSuccess.js'
+import promptUser from './utils/promptUser.js'
 
 const errorMessage = document.querySelector('#error-message');
 
 const showError = (msg) => _showError(msg, errorMessage);
 
-let publicKey = localStorage.getItem('vapidPublicKey');
+let enabledNotifications = localStorage.getItem('vapidPublicKey') !== null;
 
-let enabledNotifications = publicKey !== null;
+console.log(enabledNotifications);
 
 const notificationIcon = document.querySelector('i.bi-bell');
 const notifyBtn = document.querySelector('#notify');
 
 notificationIcon.addEventListener('DOMContentLoaded', () => {
-  notificationIcon.classList.toggle('bi-bell', enabledNotifications);
+  notificationIcon.classList.toggle('bi-bell', !enabledNotifications);
 })
 
 async function promptNotificationPermission() {
@@ -46,19 +28,17 @@ async function promptNotificationPermission() {
 
   enabledNotifications = result.isConfirmed;
 
-  notificationIcon.classList.toggle('bi-bell', enabledNotifications);
+  notificationIcon.classList.toggle('bi-bell', !enabledNotifications);
   
   const permission = enabledNotifications
                      ? await Notification.requestPermission()
                      : 'denied';
+
+                     
   return permission;
 }
 
-notificationIcon.toggleAttribute('bi-bell', enabledNotifications);
-
 notifyBtn.addEventListener('click', async (_evt) => {
-
-    notificationIcon.classList.toggle('bi-bell');
 
     const permission = await promptNotificationPermission();
 
@@ -67,20 +47,13 @@ notifyBtn.addEventListener('click', async (_evt) => {
     }
 
     if (permission == 'granted') {
-
-        if (!publicKey) {
-          const resp = await fetch('/api/notifications/vapid-key');
-          const { publicKey: key } = await resp.json();
-          publicKey = key;
-        }
-
         const registration = await registerNotificationWorker();
 
         if (!registration) return;
 
         const subscription = await registration.pushManager.subscribe({
             userVisibleOnly: true,
-            applicationServerKey: publicKey
+            applicationServerKey: await getPublicKey()
         });
 
         const response = await fetch('/api/notifications/subscription', {
@@ -92,23 +65,52 @@ notifyBtn.addEventListener('click', async (_evt) => {
         });
 
         if (!response.ok) return showError('Error al solicitar subscripción: ', response);
-
-        console.log(response);
     } else {
+      // Remove all registered service workers
+      navigator.serviceWorker.getRegistrations().then(function(registrations) {
+        for(let registration of registrations) {
+            registration.unregister();
+        } 
+      });
+      
+      // Delete subscription on back-end
+      const response = await fetch('/api/notifications/subscription', {
+        method: 'DELETE',
+        headers: {
+          'content-type': 'application/json'
+        }
+      });
+
+      if (response.ok) showSuccess('Notificaciones deshabilitadas correctamente')
+      else showError('Ocurrió un error al desuscribirlo')
+
       localStorage.removeItem('vapidPublicKey');
     }
 })
 
+const getPublicKey = async () => {
+  const publicKey = localStorage.getItem('vapidPublicKey');
+
+  if (publicKey) return publicKey;
+
+  const resp = await fetch('/api/notifications/vapid-key');
+  const { publicKey: key } = await resp.json();
+  localStorage.setItem('vapidPublicKey', key);
+  return key;
+}
+
 async function registerNotificationWorker() {
   if (!('serviceWorker' in navigator)) {
-    return showError('Su navegador no soporta Service Workers');
+    showError('Su navegador no soporta Service Workers');
+    return;
   }
   let registration;
   try {
     registration = await navigator.serviceWorker.register("/js/worker.js");
   } catch (error) {
     console.error(`Registration failed with ${error}`);
-    return showError('No se pudo completar la acción.');
+    showError('No se pudo completar la acción.');
+    return;
   } 
   return registration;
 }

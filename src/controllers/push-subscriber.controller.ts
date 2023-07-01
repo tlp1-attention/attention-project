@@ -1,4 +1,4 @@
-import type { Request, Response } from 'express';
+import type { Response } from 'express';
 import type { AuthRequest } from '../middleware/validate_jwt';
 import { Users } from '../models/users'
 import webpush from 'web-push'
@@ -45,20 +45,17 @@ async function sendPublicKey(_req: AuthRequest, res: Response) {
     });
 }
 
-async function deleteSubscription(req: Request, res: Response) {
-    const subscription = req.body;
+async function deleteSubscription(req: AuthRequest, res: Response) {
+    const { id: userId } = req.user;
     
     try {
-        const subscriptionFound = await Users.update({
-            subscriptionPayload: null,
-        }, {
-                where: {
-                    subscriptionPayload: subscription
-                }
-            }
-        );
+        const subscriptionFound = await Users.findByPk(userId);
 
         if (!subscriptionFound) throw ({ status: 404 });
+
+        subscriptionFound.update({
+            subscriptionPayload: null
+        });
 
         res.sendStatus(200);
 
@@ -66,7 +63,6 @@ async function deleteSubscription(req: Request, res: Response) {
         console.error('Error has ocurred: ', err);
         res.sendStatus(err.status || 500);
     }
-
 }
 
 export { 

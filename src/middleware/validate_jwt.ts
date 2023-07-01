@@ -13,11 +13,7 @@ async function _validateToken(req: Request, _res: Response, next: NextFunction) 
 
     const token = req.cookies['session-token'];
 
-    console.log(token);
-
     if (!token || token.length == 0) throw ({ status: 401} );
-
-    console.log(process.env.SECRET_KEY);
 
     const payload = jwt.verify(token as string, process.env.SECRET_KEY) as JWTTokenReq;
 
