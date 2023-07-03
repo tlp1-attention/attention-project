@@ -55,9 +55,7 @@ app.use('/api/events', eventRouter);
 app.use('/api/notifications', webPushRouter);
 
 app.listen(PORT, async () => {
-
-    await scheduleReminders();
-
+    // await scheduleReminders();
     console.log(`Server listening in port: http://localhost:${PORT}`);
 });
 

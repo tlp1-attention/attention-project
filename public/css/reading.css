@@ -1,0 +1,116 @@
+@import url(./general.css);
+@import url(./reading-list.css);
+
+main {
+    width: 100%;
+}
+
+@media (min-width: 578px) {
+    main {
+        margin-top: 3rem;
+    }
+}
+
+.presentation-header {
+    border: 1px solid red;
+    flex-grow: 0;
+    margin: 0.3rem;
+    border-radius: var(--border-radius);
+    max-height: 40vh;
+    overflow: hidden;
+    max-width: 100%;
+}
+
+.presentation-header img {
+    object-fit: cover;
+    width: 100%;
+}
+
+.reading {
+    position: absolute;
+    top: 15%;
+}
+
+@media (min-width: 992px) {
+    .reading {
+        padding-left: 8rem;
+    }
+
+    .reading-info {
+        display: flex;
+        justify-content: start;
+        align-items: start;
+        flex-direction: column;
+        margin-top: 4.2rem;
+        padding-left: 2rem;
+    }
+
+    .reading-info hgroup {
+        color: var(--clr-secondary-200);
+        font-weight: bold;
+    }
+
+    .reading-info p {
+        margin-block: 1rem;
+        max-width: 70%;
+    }
+
+    .reading-info h1 {
+        font-size: 5rem;
+    }
+}
+
+.reading-title {
+    font-size: 3rem;
+}
+
+.bordered-badge {
+    --clr-text: var(--clr-accent-800);
+    --clr-bg: var(--clr-accent-200);
+    outline: 2px solid var(--clr-text);
+    padding: 0.7rem;
+    padding-block: 0.3rem;
+    border-radius: var(--border-radius);
+    background-color: var(--clr-bg);
+    font
+}
+
+.badge-blue {
+    --clr-text: var(--clr-blue-400);
+    --clr-bg: var(--clr-blue-100);
+}
+
+.reading-info-container {
+    min-height: 800px;
+    max-height: 1000px;
+}
+
+@media (min-width: 768px) {
+    .reading-info-container {
+        min-height: 490px;
+    }
+}
+
+.reading-cover {
+    flex-shrink: 0;
+    width: 20rem;
+    height: 25rem;
+    border-radius: var(--border-radius);
+}
+
+.reading-cover img {
+    width: 20rem;
+    height: 25rem;
+}
+
+.img-read-btn {
+    position: relative;
+    margin: 0;
+}
+
+.reading-cover img {
+    object-fit: fill;
+}
+
+.complete-reading {
+}
