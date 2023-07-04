@@ -20,4 +20,12 @@ function renderEvents(req: AuthRequest, res: Response) {
     })
 }
 
-export { renderTimer, renderEvents };
+function renderReading(req: AuthRequest, res: Response) {
+    res.render('layout-readings', {
+        title: 'Lectura',
+        mainContentPartial: 'partials/.ejs',
+        username: req.user?.name || "Nombre de usuario",
+    })
+}
+
+export { renderTimer, renderEvents, renderReading };

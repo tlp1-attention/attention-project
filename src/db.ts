@@ -8,15 +8,21 @@ const {
     DB_USERNAME,
     DB_PASSWORD, 
     DB_NAME,
+    DB_URL
 } = process.env;
 
-const sequelize = new Sequelize(DB_NAME, DB_USERNAME, DB_PASSWORD, {
-    host: DB_HOST,
-    dialect: 'mysql',
-    password: DB_PASSWORD,
-    database: DB_NAME,
-    username: DB_USERNAME
-});
+let sequelize: Sequelize;
+if (!DB_URL) {
+  sequelize = new Sequelize(DB_NAME, DB_USERNAME, DB_PASSWORD, {
+      host: DB_HOST,
+      dialect: 'mysql',
+      password: DB_PASSWORD,
+      database: DB_NAME,
+      username: DB_USERNAME
+  });
+} else {
+  sequelize = new Sequelize(DB_URL);
+}
 
 const Models = initModels(sequelize);
 
