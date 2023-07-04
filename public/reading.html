@@ -36,7 +36,7 @@
             crossorigin="anonymous"
             defer
         ></script>
-        <script src="/js/nav-bar.js" type="module" defer></script>
+        <script src="./js/nav-bar.js" type="module" defer></script>
     </head>
     <header class="lateral-bar">
         <button
@@ -116,7 +116,7 @@
         </nav>
     </header>
     <body>
-        <main class="px-1 pe-md-5 position-relative">
+        <main class="px-1 pe-lg-5">
             <article class="flex-grow-1 reading-info-container">
                 <div class="presentation-header">
                     <img src="./assets/bg-placeholder-login.png" alt="" />
@@ -126,7 +126,7 @@
                 >
                     <div class="reading-cover shadow-lg">
                         <img src="./assets/reading-cover.jpg" alt="" />
-                        <div class="d-none d-md-block img-read-btn p-2">
+                        <div class="d-none d-lg-block img-read-btn p-2">
                             <button
                                 class="btn btn-primary-brand-outline fs-3 my-3 w-100"
                             >
@@ -147,7 +147,7 @@
                             absurdo encanto de vivir solo
                         </p>
                         <div
-                            class="d-flex gap-3 flex-column flex-md-row justify-content-center justify-content-lg-start align-items-center"
+                            class="d-flex gap-3 flex-column flex-lg-row justify-content-center justify-content-lg-start align-items-center"
                         >
                             <div class="reading-badges my-3">
                                 <span class="badge bg-green fs-6">Humor</span>
@@ -157,7 +157,7 @@
                             </div>
                             <div class="d-flex gap-3">
                                 <span
-                                    class="d-flex flex-wrap align-items-center gap-md-2 fs-5"
+                                    class="d-flex flex-wrap align-items-center gap-lg-2 fs-5"
                                 >
                                     <i class="bi bi-clock"></i>
                                     Tiempo estimado de lectura: 5m
@@ -167,7 +167,7 @@
                                 </span>
                             </div>
                         </div>
-                        <div class="d-block d-md-none px-1">
+                        <div class="d-block d-lg-none px-1">
                             <button
                                 class="btn btn-primary-brand-outline fs-3 my-4 w-100"
                             >
@@ -178,16 +178,94 @@
                     </div>
                 </section>
             </article>
-            <article class="complete-reading">
-                <section>
-                    <h3 class="text-brand">Lectura completa</h3>
+            <article class="complete-reading fs-4 mt-5">
+                <section
+                    class="accordion accordion-flush g-5"
+                    id="accordionFlushExample"
+                >
+                    <div class="accordion-item min-h-md border border-1">
+                        <h2 class="accordion-header">
+                            <button
+                                class="accordion-button collapsed shadow-lg"
+                                type="button"
+                                data-bs-toggle="collapse"
+                                data-bs-target="#flush-collapseOne"
+                                aria-expanded="false"
+                                aria-controls="flush-collapseOne"
+                            >
+                                <h3 class="text-brand fs-2">
+                                    Lectura completa
+                                </h3>
+                            </button>
+                        </h2>
+                        <div
+                            id="flush-collapseOne"
+                            class="accordion-collapse collapse"
+                        >
+                            <div class="accordion-body">
+                                <p>
+                                    ¡Bienvenidos a mi libro sobre la experiencia
+                                    de vivir solo con un toque de humor!
+                                </p>
+                                <p>
+                                    Imagínate esto: te levantas por la mañana,
+                                    te diriges a la cocina y descubres que no
+                                    hay café. ¡Pánico total! Pero espera, no hay
+                                    nadie más a quien culpar, solo tú y tu
+                                    despiste matutino. Ah, la vida solitaria,
+                                    donde los pequeños problemas se magnifican y
+                                    se convierten en grandes dramas cómicos.
+                                </p>
+                                <p>
+                                    Desde conversaciones existenciales con tus
+                                    plantas de interior hasta montar una fiesta
+                                    para uno solo, exploraremos los momentos más
+                                    absurdos y divertidos de la vida en
+                                    solitario. Porque, admitámoslo, vivir solo
+                                    tiene sus ventajas y desventajas, y hay que
+                                    aprender a reírse de ellas.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item min-h-md border border-1">
+                        <h2 class="accordion-header">
+                            <button
+                                class="accordion-button collapsed"
+                                type="button"
+                                data-bs-toggle="collapse"
+                                data-bs-target="#flush-collapseTwo"
+                                aria-expanded="false"
+                                aria-controls="flush-collapseTwo"
+                            >
+                                <h3 class="text-brand fs-2">
+                                    Preguntas de interpretación
+                                </h3>
+                            </button>
+                        </h2>
+                        <div
+                            id="flush-collapseTwo"
+                            class="accordion-collapse collapse"
+                        >
+                            <div class="accordion-body d-flex flex-column">
+                                <p>
+                                    Responde un pequeño cuestionario sobre el texto que 
+                                    acabas de leer para practicar comprensión y formar un hábito.
+                                </p>
+                                <button class="btn btn-primary-brand align-self-end fs-3 mt-3">
+                                    <i class="bi bi-question-mark"></i>
+                                    Contestar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </section>
             </article>
         </main>
 
         <!---Bootstrap JS-->
         <script
-            src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
             crossorigin="anonymous"
         ></script>

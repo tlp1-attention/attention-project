@@ -12,7 +12,6 @@ main {
 }
 
 .presentation-header {
-    border: 1px solid red;
     flex-grow: 0;
     margin: 0.3rem;
     border-radius: var(--border-radius);
@@ -28,7 +27,7 @@ main {
 
 .reading {
     position: absolute;
-    top: 15%;
+    top: 21%;
 }
 
 @media (min-width: 992px) {
@@ -72,7 +71,6 @@ main {
     padding-block: 0.3rem;
     border-radius: var(--border-radius);
     background-color: var(--clr-bg);
-    font
 }
 
 .badge-blue {
@@ -81,13 +79,13 @@ main {
 }
 
 .reading-info-container {
-    min-height: 800px;
+    min-height: 700px;
     max-height: 1000px;
 }
 
 @media (min-width: 768px) {
     .reading-info-container {
-        min-height: 490px;
+        min-height: 450px;
     }
 }
 
@@ -113,4 +111,27 @@ main {
 }
 
 .complete-reading {
+    padding-inline: 20px;
+}
+
+@media (min-width: 768px) {
+    .complete-reading {
+        padding-inline: 120px;
+    }
+}
+
+.accordion-button::after {
+    background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23430071'><path fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z' stroke-width='300'/></svg>");
+}
+
+.accordion-button:not(.collapsed)::after {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23430071'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+}
+
+.complete-reading .accordion-button {
+    border-radius: var(--border-radius) !important;
+    color: var(--clr-accent-800);
+    font-size: 3rem;
+    background-color: var(--clr-secondary-200);
+    padding-inline: 10rem;
 }
