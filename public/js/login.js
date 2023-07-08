@@ -1,7 +1,8 @@
 import fetchOK from "./utils/fetch.js";
 import _showError from "./utils/showError.js";
+import showSuccess from './utils/showSuccess.js';
 
-const usernameInput = document.querySelector('[name="login"');
+const usernameInput = document.querySelector('[name="username"');
 const passwordInput = document.querySelector('[name="password"]'); 
 const form = document.querySelector('form');
 
@@ -9,8 +10,6 @@ const errorMessage = document.querySelector('#error-message');
 const showError = (message) => _showError(message, errorMessage);
 
 form.addEventListener('submit', async (evt) => {
-
-    evt.preventDefault();
 
     const username = usernameInput.value;
     const password = passwordInput.value;
@@ -31,23 +30,17 @@ form.addEventListener('submit', async (evt) => {
     
     try {
         const response = await fetchOK(request);
-        
+
         handleLogin(response);
     } catch (failedResponse) {
 
         if (failedResponse.status == 400) {
             return showError('Error al iniciar sesión: Usuario o contraseña incorrectos.');
         }
-        console.log(failedResponse.status);
         return showError('No se estableció conexión con el servidor')
     };
 })
 
 async function handleLogin() {
-
-    console.log(document.cookie)
-
-    await setTimeout(() => {
-        window.location.assign('./workspace/timer');
-    });
+    showSuccess('Correct login!');
 }
