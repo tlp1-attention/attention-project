@@ -10,6 +10,7 @@ const errorMessage = document.querySelector('#error-message');
 const showError = (message) => _showError(message, errorMessage);
 
 form.addEventListener('submit', async (evt) => {
+    evt.preventDefault();
 
     const username = usernameInput.value;
     const password = passwordInput.value;
@@ -42,5 +43,7 @@ form.addEventListener('submit', async (evt) => {
 })
 
 async function handleLogin() {
-    showSuccess('Correct login!');
+
+    window.location.assign('/workspace/timer');
+
 }

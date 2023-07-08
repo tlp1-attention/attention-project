@@ -58,6 +58,7 @@ app.use(session({
     dir: './session-store'
   }) as session.Store
 }));
+app.use(passport.session());
 
 // Custom middleware
 app.use(staticServer);

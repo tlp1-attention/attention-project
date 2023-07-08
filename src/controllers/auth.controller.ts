@@ -9,8 +9,7 @@ import { passport } from '../middleware/passport';
 const { Users } = Models;
 
 const loginController = passport.authenticate('local', {
-    successRedirect: '/workspace/timer',
-    
+    successRedirect: '/workspace/timer', 
 });
 
 class IncorrectRegisterError extends Error {}

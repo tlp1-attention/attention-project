@@ -1,16 +1,17 @@
 import passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
+import type { Request } from 'express';
 import { comparePassword, hashPassword } from '../utils/hash';
 import type { Users as TUsers } from '../models/init-models';
-import { Router } from 'express';
 import { Models } from '../db';
 
 const { Users } = Models;
 
-async function verifyUser(username: string, password: string, cb: (...args:any[]) => void) {
+async function verifyUser(req: Request, _username: string, _password: string, cb: (...args:any[]) => void) {
+    
+    const { username, password } = req.body;
+    
     let foundUser: TUsers | undefined;
-    console.log('User: ', username);
-    console.log('Password: ', password);
     try {
         foundUser = await Users.findOne({
             where: {
@@ -34,11 +35,13 @@ async function verifyUser(username: string, password: string, cb: (...args:any[]
 
 // Use passport's Local Strategy to verify 
 // incoming username and password against database
-passport.use(new LocalStrategy(verifyUser));
+passport.use(new LocalStrategy({
+  passReqToCallback: true
+} ,verifyUser));
 
 passport.serializeUser(function(user: TUsers, cb) {
   process.nextTick(function() {
-    cb(null, { id: user.id, username: user.name });
+    cb(null, { id: user.id, name: user.name });
   });
 });
 
@@ -46,6 +49,7 @@ passport.deserializeUser(function(user, cb) {
   process.nextTick(function() {
     return cb(null, user);
   });
+
 });
 
 export { passport };
