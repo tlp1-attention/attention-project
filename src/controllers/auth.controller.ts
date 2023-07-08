@@ -1,7 +1,7 @@
 import { Models } from '../db'
 import { hashPassword, comparePassword } from '../utils/hash';
 import { createToken } from '../utils/token';
-import type { Response, Request } from 'express'
+import type { Response, Request, NextFunction } from 'express'
 import { Op } from 'sequelize'
 import type { Users as TUsers } from '../models/init-models';
 import { passport } from '../middleware/passport';
@@ -44,7 +44,7 @@ async function registerController(req: Request, res: Response) {
     
         const token = await createToken(newUser.id);
 
-        return res.status(201).json({ token });
+        return res.sendStatus(201);
 
     } else if (found.length == 1) {
         return res.sendStatus(400);
@@ -83,9 +83,11 @@ async function changePasswordController(req: Request, res: Response) {
     }
 }
 
-async function logoutController(_req: Request, res: Response) {
-    res.clearCookie('session-token');
-    return res.redirect('/login.html');
+async function logoutController(req: Request, res: Response, next: NextFunction) {
+    req.logout(function(err) {
+    if (err) { return next(err); }
+    res.redirect('/');
+  });
 }
 
 export {
