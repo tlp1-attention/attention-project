@@ -49,7 +49,8 @@ async function createEvent(evt) {
 
             return showSuccess('Evento creado exitosamente', '');
         }).catch(failedResponse => {
-
+            console.log(failedResponse);
+            console.log(failedResponse.status);
             if (failedResponse.status == 400) {
                 return showError('Datos enviados incorrectamente', errorMessage);
             }
@@ -245,7 +246,8 @@ function renderEvent({
             <p class="fs-3">
                 ${description}
             </p>
-            </div>
+            <input type="checkbox" onchange=handleCompletedChange(${id}) /> Completado
+        </div>
     </section>
     `
     template.content.querySelector('#delete-btn').addEventListener('click', () => deleteEvent(id))

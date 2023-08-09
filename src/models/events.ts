@@ -1,6 +1,6 @@
 import * as Sequelize from 'sequelize';
 import { DataTypes, Model, Optional } from 'sequelize';
-import type { Exercises, ExercisesId } from './exercises';
+import type { Exercises } from './exercises';
 import { Users } from './users';
 import type { UsersId } from './users';
 import { TypeEvent, TypeEventId } from './type_events';
@@ -15,6 +15,7 @@ export interface EventsAttributes {
   endTime: Date;
   userId: number;
   typeId: number;
+  completed: boolean;
   remindedAt: Date;
 }
 
@@ -34,6 +35,7 @@ export class Events extends Model<EventsAttributes, EventsCreationAttributes> im
   declare updatedAt: Date;
   declare userId: number;
   declare remindedAt: Date;
+  declare completed: boolean;
 
   // Events belongsTo User via userId
   declare user: Exercises;
@@ -73,6 +75,10 @@ export class Events extends Model<EventsAttributes, EventsCreationAttributes> im
             model: 'users',
             key: 'id'
         }
+    },
+    completed: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
     },
     typeId: {
         type: DataTypes.INTEGER,
@@ -135,3 +141,4 @@ export class Events extends Model<EventsAttributes, EventsCreationAttributes> im
   });
   }
 }
+
