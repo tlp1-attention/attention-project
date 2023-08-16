@@ -1,9 +1,7 @@
 import { Models } from '../db'
-import { hashPassword, comparePassword } from '../utils/hash';
-import { createToken } from '../utils/token';
+import { hashPassword } from '../utils/hash';
 import type { Response, Request, NextFunction } from 'express'
 import { Op } from 'sequelize'
-import type { Users as TUsers } from '../models/init-models';
 import { passport } from '../middleware/passport';
 
 const { Users } = Models;
@@ -36,13 +34,11 @@ async function registerController(req: Request, res: Response) {
     }
 
     if (found.length == 0) {
-        const newUser = await Users.create({
+        const _newUser = await Users.create({
             name: username, 
             password: hashedPassword,
             email: email,
         });
-    
-        const token = await createToken(newUser.id);
 
         return res.sendStatus(201);
 

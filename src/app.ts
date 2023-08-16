@@ -4,7 +4,6 @@ import helmet from 'helmet'
 import cors from 'cors'
 import { sequelize } from './db';
 import cookieParser from 'cookie-parser'
-import path from 'path';
 
 import { passport } from './middleware/passport';
 import session from 'express-session';
@@ -16,7 +15,6 @@ import indexRouter from './routes/index.routes'
 import workSpaceRouter from './routes/workspace.routes'
 import eventRouter from './routes/events.routes'
 import webPushRouter from './routes/push-subscription.routes';
-import { Models } from './db';
 
 const app = express();
 const SessionStore = connectSQLite(session);

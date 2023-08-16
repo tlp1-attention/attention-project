@@ -7,5 +7,4 @@ const router = Router();
 router.get('/workspace/events', [validateToken], renderEvents);
 router.get('/workspace/timer', renderTimer);
 
-
 export default router;
