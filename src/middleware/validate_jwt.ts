@@ -28,9 +28,14 @@ async function _validateToken(req: Request, _res: Response, next: NextFunction) 
         throw ({ status: 401 });
     }
 }
-
-// Verifies if a request has a session token and responds with an Unauthorized status code 
-// when it does not
+/**  
+ * 
+ * Verifies if a request has a session token and responds with an Unauthorized status code
+ * when it does not
+ * @param {Request} req
+ * @param {Response} res
+ * @param {NextFunction} next
+*/
 async function validateToken(req: Request, res: Response, next: NextFunction) {
 
     try {
@@ -47,9 +52,11 @@ async function validateToken(req: Request, res: Response, next: NextFunction) {
     }
 }
 
-// Verifies a JWT without responding if it's not present
-// To use when an user can interact with a route even if it's not logged in
-async function verifySession(req: Request, res: Response, next: NextFunction) {
+/**  
+ * Verifies a JWT without responding if it's not present.
+*  To use when an user can interact with a route even if it's not logged 
+*/
+async function verifySession(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
         await _validateToken(req, res, next);
     } catch(err) {

@@ -1,4 +1,4 @@
-import type { Request, Response } from 'express'
+import type { Response } from 'express'
 import { AuthRequest } from '../middleware/validate_jwt';
 
 // Render timer view on the workspace
@@ -17,7 +17,15 @@ function renderEvents(req: AuthRequest, res: Response) {
         title: 'Agenda',
         mainContentPartial: 'partials/events.ejs',
         username: req.user?.name || "Nombre de usuario",
-    })
+    });
 }
 
-export { renderTimer, renderEvents };
+function renderReading(req: AuthRequest, res: Response) {
+    res.render('layout-readings', {
+        title: 'Lectura',
+        mainContentPartial: 'partials/.ejs',
+        username: req.user?.name || "Nombre de usuario",
+    });
+}
+
+export { renderTimer, renderEvents, renderReading };

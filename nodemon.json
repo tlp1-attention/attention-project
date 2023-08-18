@@ -1,0 +1,7 @@
+{
+    "ext": "js,html,css,ejs,ts",
+    "events": {
+        "start": "tsc.cmd",
+        "restart": "tsc.cmd"
+    }
+}
