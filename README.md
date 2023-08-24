@@ -43,7 +43,9 @@ SECRET_KEY es la clave privada de JWT a utilizar. Puede establecer el valor que 
 
 Para generar claves VAPID válidas, puede ejecutar el método `.generateVapidKeys()` del módulo `web-push`.
 
-3. Por último, ejecute:
+3. De ser necesario, deberá sincronizar los modelos con la Base de datos. Para ello, ejecute sólo una vez el método `sequelize.sync({ force: true })`.
+
+4. Por último, ejecute:
 
 ```
 npm run dev
