@@ -3,6 +3,7 @@ import type { AuthRequest } from '../middleware/validate_jwt';
 import { Users } from '../models/users'
 import webpush from 'web-push'
 
+
 webpush.setVapidDetails(
     'mailto:benitezdante123@gmail.com',
     process.env.VAPID_PUBLIC_KEY,

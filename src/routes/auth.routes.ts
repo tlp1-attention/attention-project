@@ -1,9 +1,9 @@
 import { loginController, registerController, changePasswordController, logoutController } from '../controllers/auth.controller'
-import express from 'express'
+import { Router } from 'express'
 import { validate } from '../middleware/validation';
 import { changePasswordSchema, createUserSchema, loginUserSchema } from '../schemas/user.schema';
 
-const router = express.Router();
+const router = Router();
 
 router.post('/register', validate(createUserSchema), registerController);
 router.post('/login', validate(loginUserSchema), loginController);
