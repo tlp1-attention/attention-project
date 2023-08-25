@@ -54,7 +54,7 @@ async function validateToken(req: Request, res: Response, next: NextFunction) {
 
 /**  
  * Verifies a JWT without responding if it's not present.
-*  To use when an user can interact with a route even if it's not logged 
+*  To use when an user can interact with a route even if it's not logged in
 */
 async function verifySession(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {

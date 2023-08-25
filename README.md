@@ -36,12 +36,16 @@ SECRET_KEY=
 
 VAPID_PUBLIC_KEY=
 VAPID_PRIVATE_KEY=
+
+NOTIFICATION_EMAIL=
 ```
 
 Las variables que comiencen con DB hacen referencia a la base de datos correspondientes.
-SECRET_KEY es la clave privada de JWT a utilizar. Puede establecer el valor que desee
+SECRET_KEY es la clave privada de JWT a utilizar. Puede establecer el valor que desee, preferiblemente uno seguro.
 
 Para generar claves VAPID válidas, puede ejecutar el método `.generateVapidKeys()` del módulo `web-push`.
+
+La variable `NOTIFICATION_EMAIL` debe contener una dirección de correo electrónico válida de la forma `mailto:example@domain.com`. Esta información es necesaria para enviar recordatorios mediante `web-push`.
 
 3. De ser necesario, deberá sincronizar los modelos con la Base de datos. Para ello, ejecute sólo una vez el método `sequelize.sync({ force: true })`.
 
