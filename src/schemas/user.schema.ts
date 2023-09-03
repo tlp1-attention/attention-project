@@ -1,76 +1,68 @@
-import { checkSchema } from 'express-validator';
+import { body } from 'express-validator'
 
-export const createUserSchema = checkSchema({
-    username: {
-        errorMessage: 'Users must have a name',
-        isString: true,
-        isEmpty: false,
-    },
-    password: {
-        isLength: {
-            errorMessage: 'Password must be at least 8 characters long',
-            options: {
-                min: 8,
-            }
-        },
-        contains: {
-            errorMessage: 'Password must contain at least one upper case letter, one lower case letter, and a number',
-            options: {
-                isLowerCase: true,
-                isUpperCase: true,
-                isFinite: true,
-            }
-        }
-    },
-    email: {
-        isEmail: true,
-    }
-});
+const commonUserSchemaOptions = {
+    usernameValidation: [
+        body('username')
+            .exists()
+            .withMessage('Debe proporcionar un nombre de usuario')
+            .not()
+            .isEmpty({ ignore_whitespace: true })
+            .withMessage('El nombre de usuario no puede estar vacío')
+            .isString()
+            .withMessage('El nombre de usuario debe ser un string')
+            .isLength({ min: 1, max: 255 })
+            .withMessage(
+                'El nombre de usuario debe tener entre 1 y 255 caracteres'
+            ),
+    ],
+    passwordValidation: [
+        body('password')
+            .exists()
+            .withMessage('Debe proporcionar una contraseña para el usuario')
+            .not()
+            .isEmpty({ ignore_whitespace: true })
+            .isStrongPassword({
+                minLength: 8,
+                minLowercase: 1,
+                minUppercase: 1,
+                minNumbers: 1,
+                minSymbols: 0,
+            })
+            .withMessage(
+                'La contraseña debe contener al menos ocho caracteres, una mayúscula, una minúscula y un número'
+            ),
+    ],
+    emailValidation: [
+        body('email')
+            .exists()
+            .withMessage('Debe proporcionar una dirección de correo')
+            .isEmail()
+            .withMessage(
+                'Debe proporcionar una dirección de correo electrónico válida'
+            ),
+    ],
+}
 
-export const loginUserSchema = checkSchema({
-    username: {
-        errorMessage: 'Users must have a name',
-        isString: true,
-        isEmpty: false,
-    },
+export const createUserSchema = [
+    ...commonUserSchemaOptions.emailValidation,
+    ...commonUserSchemaOptions.passwordValidation,
+    ...commonUserSchemaOptions.usernameValidation,
+];
 
-    password: {
-        isLength: {
-            errorMessage: 'Password must be at least 8 characters long',
-            options: {
-                min: 8,
-            }
-        },
-        contains: {
-            errorMessage: 'Password must contain at least one upper case letter, one lower case letter, and a number',
-            options: {
-                isLowerCase: true,
-                isUpperCase: true,
-                isFinite: true,
-            }
-        }
-    },
-});
-
-export const changePasswordSchema = checkSchema({
-    email: {
-        errorMessage: 'Must provide an email to change the password',
-        isEmail: true
-    },
-    password: {
-        isLength: {
-            errorMessage: 'Password must be at least 8 characters long',
-            options: {
-                min: 8,
-            }
-        },
-        contains: {
-            errorMessage: 'Password must contain at least one upper case letter, one lower case letter, and a number',
-            options: {
-                isLowerCase: true,
-                isUpperCase: true,
-                isFinite: true,
-            }
-        }
-    },
-});
+export const loginUserSchema = [
+    body('username')
+        .exists()
+        .withMessage('Debe iniciar sesión con su usuario')
+        .not()
+        .isEmpty()
+        .withMessage('El nombre de usuario no puede estar vacío'),
+    body('password')
+        .exists().withMessage('Debe iniciar sesión con su contraseña')
+        .not().isEmpty().withMessage('Su contraseña no puede estar vacía')
+];
+export const changePasswordSchema = [
+    body('email')
+        .exists().withMessage('Debe proveer un email para cambiar su contraseña')
+        .isEmail().withMessage('Debe proveer un email válido'),
+    ...commonUserSchemaOptions.passwordValidation
+];
