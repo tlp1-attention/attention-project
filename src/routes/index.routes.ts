@@ -6,5 +6,4 @@ const router = express.Router();
 
 router.get( ['/', '/index.html'], [verifySession], renderIndex);
 
-
 export default router;
