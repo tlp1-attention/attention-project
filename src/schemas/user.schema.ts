@@ -47,7 +47,7 @@ export const createUserSchema = [
     ...commonUserSchemaOptions.emailValidation,
     ...commonUserSchemaOptions.passwordValidation,
     ...commonUserSchemaOptions.usernameValidation,
-];
+]
 
 export const loginUserSchema = [
     body('username')
@@ -57,12 +57,17 @@ export const loginUserSchema = [
         .isEmpty()
         .withMessage('El nombre de usuario no puede estar vacío'),
     body('password')
-        .exists().withMessage('Debe iniciar sesión con su contraseña')
-        .not().isEmpty().withMessage('Su contraseña no puede estar vacía')
-];
+        .exists()
+        .withMessage('Debe iniciar sesión con su contraseña')
+        .not()
+        .isEmpty()
+        .withMessage('Su contraseña no puede estar vacía'),
+]
 export const changePasswordSchema = [
     body('email')
-        .exists().withMessage('Debe proveer un email para cambiar su contraseña')
-        .isEmail().withMessage('Debe proveer un email válido'),
-    ...commonUserSchemaOptions.passwordValidation
-];
+        .exists()
+        .withMessage('Debe proveer un email para cambiar su contraseña')
+        .isEmail()
+        .withMessage('Debe proveer un email válido'),
+    ...commonUserSchemaOptions.passwordValidation,
+]
