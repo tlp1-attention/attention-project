@@ -2,7 +2,7 @@ import express from 'express'
 import morgan  from 'morgan'
 import helmet from 'helmet'
 import cors from 'cors'
-import { sequelize } from './db';
+import { sequelize } from './database/connection';
 import cookieParser from 'cookie-parser'
 
 import { passport } from './middleware/passport';
@@ -15,9 +15,12 @@ import indexRouter from './routes/index.routes'
 import workSpaceRouter from './routes/workspace.routes'
 import eventRouter from './routes/events.routes'
 import webPushRouter from './routes/push-subscription.routes';
+import { resolve } from 'path';
+import configEnv from './config/env';
 
 const app = express();
 const SessionStore = connectSQLite(session);
+const SESSION_PATH = resolve('./session-store');
 
 const PORT = process.env.PORT || 8080;
 
@@ -43,7 +46,7 @@ app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 
 app.use(session({
-  secret: process.env.SECRET_KEY,
+  secret: configEnv.SECRET,
   resave: false,
   saveUninitialized: false,
   cookie: {
@@ -53,7 +56,8 @@ app.use(session({
   },
   store: new SessionStore({
     db: 'session.db',
-    dir: './session-store'
+    table: 'sessions',
+    dir: SESSION_PATH
   }) as session.Store
 }));
 app.use(passport.session());

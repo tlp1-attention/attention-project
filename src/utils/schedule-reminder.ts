@@ -1,4 +1,4 @@
-import { Models } from "../db";
+import { Models } from "../database/models";
 import { Op } from 'sequelize';
 import { sendMessage } from "../controllers/push-subscriber.controller";
 const {  Users } = Models;

@@ -1,6 +1,6 @@
 import jwt, { JsonWebTokenError, JwtPayload, TokenExpiredError } from 'jsonwebtoken'
 import type { NextFunction, Request, Response } from 'express'
-import { Models} from '../db';
+import { Models} from '../database/models';
 import type { Users as UsersType } from '../models/users'
 
 const { Users } = Models;

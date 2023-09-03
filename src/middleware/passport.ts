@@ -1,9 +1,9 @@
 import passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
 import type { Request } from 'express';
-import { comparePassword, hashPassword } from '../utils/hash';
+import { comparePassword } from '../utils/hash';
 import type { Users as TUsers } from '../models/init-models';
-import { Models } from '../db';
+import { Models } from '../database/models';
 
 const { Users } = Models;
 

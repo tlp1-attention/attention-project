@@ -8,8 +8,6 @@ lib-cov
 *.gz
 *.swp
 
-session-store
-
 pids
 logs
 results

@@ -1,4 +1,4 @@
-import { Models } from '../db'
+import { Models } from '../database/models'
 import type { Request, Response } from 'express'
 
 const { Events } = Models;

@@ -1,6 +1,4 @@
-import { sequelize, Models } from '../src/db'
-
-const { Users } = Models;
+import { sequelize } from '../src/database/connection'
 
 describe('Database tests', () => {
     test('Testing database connection', async () => {

@@ -1,4 +1,4 @@
-import { Models } from '../db'
+import { Models } from '../database/models'
 import { hashPassword } from '../utils/hash';
 import type { Response, Request, NextFunction } from 'express'
 import { Op } from 'sequelize'

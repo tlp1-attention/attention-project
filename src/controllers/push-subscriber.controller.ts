@@ -1,13 +1,15 @@
+import configEnv from '../config/env';
 import type { Response } from 'express';
 import type { AuthRequest } from '../middleware/validate_jwt';
 import { Users } from '../models/users'
 import webpush from 'web-push'
 
+const { WEB_PUSH } = configEnv;
 
 webpush.setVapidDetails(
-    process.env.NOTIFICATION_EMAIL,
-    process.env.VAPID_PUBLIC_KEY,
-    process.env.VAPID_PRIVATE_KEY
+    WEB_PUSH.NOTIFICATION_EMAIL,
+    WEB_PUSH.VAPID_PUBLIC_KEY,
+    WEB_PUSH.VAPID_PRIVATE_KEY
 );
 
 
