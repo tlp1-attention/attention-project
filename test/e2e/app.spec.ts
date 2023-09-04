@@ -10,11 +10,12 @@ afterAll(async () => {
         throw new Error('Should not run tests outside of the `test` environment. ')
     }
     await sequelize.close();
+    server.close();
 }, 10_000_000);
 
 beforeEach(async () => {
-    await sequelize.sync({ force: true });
-    server.close();
+    // Reset databases after each Integration Test
+    await sequelize.truncate();
 }, 10_000_000);
 
 describe('App E2E Testing', () => {
