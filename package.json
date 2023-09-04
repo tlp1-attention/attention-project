@@ -8,8 +8,8 @@
     "test:seq": "cross-env NODE_ENV=test \"jest --runInBand\"",
     "watch": "tsc-watch --onSuccess \"node ./dist/src/index.js\"",
     "dev": "cross-env-shell NODE_ENV=development \"npm run watch\"",
-    "build": "npm install && npx tsc",
-    "start": "cross-env-shell NODE_ENV=production \"node ./dist/src/index.js\""
+    "build": "npm install && tsc",
+    "start": "cross-env-shell NODE_ENV=production \"npm run build && node ./dist/src/index.js\""
   },
   "repository": {
     "type": "git",
