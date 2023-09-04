@@ -10,7 +10,7 @@ const { Users } = Models;
 async function verifyUser(req: Request, _username: string, _password: string, cb: (...args:any[]) => void) {
     
     const { username, password } = req.body;
-    
+     
     let foundUser: TUsers | undefined;
     try {
         foundUser = await Users.findOne({

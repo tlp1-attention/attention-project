@@ -8,6 +8,8 @@ if (!DB.URL) {
   sequelize = new Sequelize(DB.NAME, DB.USER, DB.PASSWORD, {
       host: DB.HOST,
       dialect: DB.DIALECT,
+      // Disable logging when testing to clear output
+      logging: envConfig.NODE_ENV !== 'test'
   });
 } else {
   sequelize = new Sequelize(DB.URL);
