@@ -1,57 +1,50 @@
 import { Models } from '../database/models'
 import { hashPassword } from '../utils/hash'
 import type { Response, Request, NextFunction } from 'express'
-import { Op } from 'sequelize'
-import { passport } from '../middleware/passport'
-import type { Users as TUsers } from '../models/users'
+import { userService } from '../services/user.service'
+import { createToken } from '../utils/token'
 
 const { Users } = Models
 
-const loginController = passport.authenticate('local', {
-    successRedirect: '/workspace/timer',
-})
+async function loginController(req: Request, res: Response) {
+    const { username, password } = req.body
 
-class IncorrectRegisterError extends Error {}
+    const loggedUser = await userService.login(username, password)
+
+    if (!loggedUser) {
+        return res.status(409).json({
+            message: 'Usuario o contraseña incorrectos',
+        });
+    }
+
+    const { id } = loggedUser;
+
+    const token = await createToken(id)
+
+    return res.status(200).json({
+        message: 'Sesión iniciada correctamente',
+        token,
+    })
+}
 
 async function registerController(req: Request, res: Response) {
     const { username, password, email } = req.body
 
-    const hashedPassword = await hashPassword(password)
+    const registeredUser = await userService.register(username, email, password)
 
-    let found: TUsers[]
-    try {
-        found = await Users.findAll({
-            where: {
-                [Op.or]: {
-                    name: username,
-                    email: email,
-                },
-            },
-        })
-    } catch (err) {
-        console.error(err)
-        res.sendStatus(500)
-    }
-
-    if (found.length == 0) {
-        const _newUser = await Users.create({
-            name: username,
-            password: hashedPassword,
-            email: email,
-        })
-
-        return res.status(201).json({
-            message: 'Registrado exitosamente',
-        })
-    } else if (found.length == 1) {
+    if (!registeredUser) {
         return res.status(409).json({
             message: 'Usuario o correo electrónico no disponibles',
         })
-    } else {
-        throw new IncorrectRegisterError(
-            'Demasiados usuarios con el mismo nombre.'
-        );
     }
+    const { id } = registeredUser
+
+    const token = createToken(id)
+
+    return res.status(201).json({
+        message: 'Registrado exitosamente',
+        token,
+    })
 }
 
 // Change password controller
