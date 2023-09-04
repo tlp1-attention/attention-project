@@ -4,7 +4,7 @@
   "description": "A web application that provides help to people who find it hard to mantain focus, with differentes functionalities",
   "main": "./dist/src/index.js",
   "scripts": {
-    "test": "cross-env-shell NODE_ENV=test \"jest\"",
+    "test": "cross-env-shell NODE_ENV=test \"jest --runInBand\"",
     "test:band": "cross-env NODE_ENV=test \"jest --runInBand\"",
     "watch": "tsc-watch --onSuccess \"node ./dist/src/index.js\"",
     "dev": "cross-env-shell NODE_ENV=development \"npm run watch\"",

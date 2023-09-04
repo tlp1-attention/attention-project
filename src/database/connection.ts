@@ -9,7 +9,7 @@ if (!DB.URL) {
       host: DB.HOST,
       dialect: DB.DIALECT,
       // Disable logging when testing to clear output
-      logging: envConfig.NODE_ENV !== 'test'
+      //logging: envConfig.NODE_ENV !== 'test'
   });
 } else {
   sequelize = new Sequelize(DB.URL);
