@@ -1,42 +1,36 @@
 import passport from 'passport';
-import { Strategy as LocalStrategy } from 'passport-local';
-import type { Request } from 'express';
-import { comparePassword } from '../utils/hash';
+import { ExtractJwt, Strategy as JwtStrategy, VerifiedCallback } from 'passport-jwt';
 import type { Users as TUsers } from '../models/init-models';
-import { Models } from '../database/models';
+import { JwtPayload, TokenExpiredError } from 'jsonwebtoken';
+import env from '../config/env';
+import { userService } from '../services/user.service';
 
-const { Users } = Models;
+async function verifyUser(jwtPayload: JwtPayload, done: VerifiedCallback) {
+  const { id } = jwtPayload;
 
-async function verifyUser(req: Request, _username: string, _password: string, cb: (...args:any[]) => void) {
-    
-    const { username, password } = req.body;
-     
-    let foundUser: TUsers | undefined;
-    try {
-        foundUser = await Users.findOne({
-            where: {
-                name: username,
-            }
-        });
-    } catch (err) {
-        console.error(err);
-        return cb(err);
+  try {
+    const foundUser = await userService.findById(id);
+
+    done(null, foundUser);
+
+  } catch(err) {
+    if (err instanceof TokenExpiredError) {
+      done(err, null, {
+        message: 'El token ha expirado'
+      });
     }
 
-    let isCorrectPassword: boolean;
-    if (foundUser) isCorrectPassword = await comparePassword(password, foundUser.password);
-
-    if (!isCorrectPassword) {
-        return cb(null, false, { message: 'Incorrect username or password'});
-    }
-
-    return cb(null, foundUser);
+    done(err, null, { 
+      message: 'Hubo un error al verificar el token'
+    });
+  }
 }
 
 // Use passport's Local Strategy to verify 
 // incoming username and password against database
-passport.use(new LocalStrategy({
-  passReqToCallback: true,
+passport.use(new JwtStrategy({
+  jwtFromRequest: ExtractJwt.fromHeader('Authorization'),
+  secretOrKey: env.SECRET,
 }, verifyUser));
 
 passport.serializeUser(function(user: TUsers, cb) {
