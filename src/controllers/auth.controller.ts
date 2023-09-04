@@ -3,11 +3,12 @@ import { hashPassword } from '../utils/hash';
 import type { Response, Request, NextFunction } from 'express'
 import { Op } from 'sequelize'
 import { passport } from '../middleware/passport';
+import type { Users as TUsers } from '../models/users';
 
 const { Users } = Models;
 
 const loginController = passport.authenticate('local', {
-    successRedirect: '/workspace/timer', 
+    successRedirect: '/workspace/timer',
 });
 
 class IncorrectRegisterError extends Error {}
@@ -18,7 +19,7 @@ async function registerController(req: Request, res: Response) {
 
     const hashedPassword = await hashPassword(password);
 
-    let found;
+    let found: TUsers[];
     try {
         found = await Users.findAll({
             where: {
@@ -40,10 +41,14 @@ async function registerController(req: Request, res: Response) {
             email: email,
         });
 
-        return res.sendStatus(201);
+        return res.status(201).json({
+            message: 'Registrado exitosamente'
+        });
 
     } else if (found.length == 1) {
-        return res.sendStatus(400);
+        return res.status(409).json({
+            message: 'Usuario o correo electrónico no disponibles'
+        });
     } else {
         throw new IncorrectRegisterError('Too many users with the same name.')
     }
@@ -72,10 +77,15 @@ async function changePasswordController(req: Request, res: Response) {
             updatedAt: new Date()
         });
         
-        return res.sendStatus(201);
+        return res.status(201).json({
+            message: 'Contraseña cambiada exitosamente'
+        });
+
     } catch (err) {
         console.error(err);
-        return res.sendStatus(500);
+        return res.status(500).json({
+            message: 'Error interno del servidor'
+        });
     }
 }
 
