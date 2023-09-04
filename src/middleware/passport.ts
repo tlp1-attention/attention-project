@@ -36,8 +36,8 @@ async function verifyUser(req: Request, _username: string, _password: string, cb
 // Use passport's Local Strategy to verify 
 // incoming username and password against database
 passport.use(new LocalStrategy({
-  passReqToCallback: true
-} ,verifyUser));
+  passReqToCallback: true,
+}, verifyUser));
 
 passport.serializeUser(function(user: TUsers, cb) {
   process.nextTick(function() {

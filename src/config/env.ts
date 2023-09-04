@@ -3,6 +3,7 @@ import 'dotenv/config'
 
 const env = {
     production: {
+        PORT: process.env.PORT || 8080,
         DB: {
             // Offer the chance to connect with Database URL
             URL: process.env.DB_URL,
@@ -18,12 +19,14 @@ const env = {
             VAPID_PRIVATE_KEY: process.env.VAPID_PRIVATE_KEY,
             NOTIFICATION_EMAIL: process.env.NOTIFICATION_EMAIL || 'mailto:example@gmail.com'
         },
-        SECRET: process.env.SECRET || 'ññññññ'
+        SECRET: process.env.SECRET || 'ññññññ',
+        NODE_ENV: process.env.NODE_ENV,
     },
     development: {
+        PORT: process.env.PORT || 8080,
         DB: {
             // Offer the chance to connect with Database URL
-            URL: process.env.DB_URL,
+            URL: process.env.DEV_DB_URL,
             NAME: process.env.DEV_DB_NAME|| 'attention__dev',
             USER: process.env.DEV_DB_USERNAME || 'root',
             PASSWORD: process.env.DEV_DB_PASSWORD || '',
@@ -36,12 +39,14 @@ const env = {
             VAPID_PRIVATE_KEY: process.env.VAPID_PRIVATE_KEY,
             NOTIFICATION_EMAIL: process.env.NOTIFICATION_EMAIL || 'mailto:example@gmail.com'
         },
-        SECRET: process.env.SECRET || 'ñññññ'
+        SECRET: process.env.SECRET || 'ñññññ',
+        NODE_ENV: process.env.NODE_ENV,
     },
     test: {
+        PORT: process.env.PORT || 8080,
         DB: {
             // Offer the chance to connect with Database URL
-            URL: process.env.DB_URL,
+            URL: process.env.TEST_DB_URL,
             NAME: process.env.TEST_DB_NAME|| 'attention__test',
             USER: process.env.TEST_DB_USERNAME|| 'root',
             PASSWORD: process.env.TEST_DB_PASSWORD || '',
@@ -54,9 +59,13 @@ const env = {
             VAPID_PRIVATE_KEY: process.env.VAPID_PRIVATE_KEY,
             NOTIFICATION_EMAIL: process.env.NOTIFICATION_EMAIL || 'mailto:example@gmail.com',
         },
-        SECRET: process.env.SECRET || 'ñññññ'
-    }
+        SECRET: process.env.SECRET || 'ñññññ',
+        NODE_ENV: process.env.NODE_ENV,
+    },
 } as const;
 
+if (!(process.env.NODE_ENV in env)) {
+    throw new Error('Invalid value for NODE_ENV')
+}
 
 export default env[process.env.NODE_ENV] as typeof env[keyof typeof env];
