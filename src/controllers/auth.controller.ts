@@ -27,6 +27,7 @@ async function loginController(req: Request, res: Response) {
     })
 }
 
+
 async function registerController(req: Request, res: Response) {
     const { username, password, email } = req.body
 

@@ -45,4 +45,6 @@ passport.deserializeUser(function(user, cb) {
   });
 });
 
-export { passport };
+const verifySession = passport.authenticate('jwt');
+
+export { verifySession };
