@@ -1,5 +1,4 @@
 import express from 'express'
-import morgan  from 'morgan'
 import helmet from 'helmet'
 import cors from 'cors'
 import { sequelize } from './database/connection';
@@ -11,6 +10,7 @@ import connectSQLite from 'connect-sqlite3';
 
 import loginRouter from './routes/auth.routes'
 import staticServer from './middleware/__server-static.middleware';
+import { errorLoggerMiddleware, logError, loggerMiddleware } from './middleware/logging'
 import indexRouter from './routes/index.routes'
 import workSpaceRouter from './routes/workspace.routes'
 import eventRouter from './routes/events.routes'
@@ -22,14 +22,12 @@ const app = express();
 const SessionStore = connectSQLite(session);
 const SESSION_PATH = resolve('./session-store');
 
-const PORT = process.env.PORT || 8080;
-
 // Check database connection
 sequelize.authenticate()
     .then(() => {
         console.log('Succesful database connection');
     })
-    .catch(console.error);
+    .catch(logError);
 
 // Set ejs as template engine
 app.set('views', './src/views');
@@ -37,7 +35,7 @@ app.set('view engine', 'ejs');
 
 // Library Middleware
 app.use(express.json());
-app.use(morgan('dev'));
+app.use(loggerMiddleware);
 app.use(cors());
 app.use(helmet({
     contentSecurityPolicy: false // Allow CDN's resources to be delivered
@@ -72,5 +70,6 @@ app.use(workSpaceRouter);
 app.use('/api/events', eventRouter);
 app.use('/api/notifications', webPushRouter);
 
+app.use(errorLoggerMiddleware);
 
 export default app;
