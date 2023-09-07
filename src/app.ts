@@ -21,7 +21,6 @@ const app = express();
 const SessionStore = connectSQLite(session);
 const SESSION_PATH = resolve('./session-store');
 
-const PORT = process.env.PORT || 8080;
 
 // Check database connection
 sequelize.authenticate()

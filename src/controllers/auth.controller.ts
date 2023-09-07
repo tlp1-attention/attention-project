@@ -51,7 +51,7 @@ async function registerController(req: Request, res: Response) {
         }
         const { id } = registeredUser
 
-        const token = createToken(id)
+        const token = await createToken(id)
 
         return res.status(201).json({
             message: 'Registrado exitosamente',
@@ -84,7 +84,6 @@ async function changePasswordController(req: Request, res: Response) {
 
         foundUser.update({
             password: hashedPassword,
-            updatedAt: new Date(),
         })
 
         return res.status(201).json({
@@ -108,7 +107,7 @@ async function logoutController(
             return next(err)
         }
         res.redirect('/')
-    });
+    })
 }
 
 export {

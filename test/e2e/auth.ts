@@ -2,7 +2,7 @@ import { describe, expect, test } from '@jest/globals'
 import request from 'supertest'
 import { Server } from 'http'
 
-const EXAMPLE_USER = {
+export const EXAMPLE_USER = {
     username: 'Test__user01',
     password: 'test__Password01',
     email: 'example123@gmail.com',

@@ -69,9 +69,9 @@ async function getEventsByUser(req: AuthRequest, res: Response) {
 
 // Update an existing event for a user
 async function updateUserEvent(req: AuthRequest, res: Response) {
+    const { eventId } = req.params;
 
     const { 
-        id: eventId,
         title: eventTitle, 
         description: eventDesc, 
         startDate,
