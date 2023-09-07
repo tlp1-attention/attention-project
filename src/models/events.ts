@@ -21,7 +21,7 @@ export interface EventsAttributes {
 
 export type EventsPk = "id";
 export type EventsId = Events[EventsPk];
-export type EventsOptionalAttributes = "id" | "createdAt" | "updatedAt" | "userId";
+export type EventsOptionalAttributes = "id" | "createdAt" | "updatedAt" | "userId" | "remindedAt" | "completed";
 export type EventsCreationAttributes = Optional<EventsAttributes, EventsOptionalAttributes>;
 
 export class Events extends Model<EventsAttributes, EventsCreationAttributes> implements EventsAttributes {
@@ -48,6 +48,7 @@ export class Events extends Model<EventsAttributes, EventsCreationAttributes> im
   declare getType: Sequelize.BelongsToGetAssociationMixin<TypeEvent>;
   declare setTypeEvent: Sequelize.BelongsToSetAssociationMixin<TypeEvent, TypeEventId>;
   declare createTypeEvent: Sequelize.BelongsToCreateAssociationMixin<TypeEvent>;
+
 
   static initModel(sequelize: Sequelize.Sequelize): typeof Events {
     return Events.init({

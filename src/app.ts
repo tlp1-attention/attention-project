@@ -4,13 +4,12 @@ import cors from 'cors'
 import { sequelize } from './database/connection';
 import cookieParser from 'cookie-parser'
 
-import { passport } from './middleware/passport';
 import session from 'express-session';
 import connectSQLite from 'connect-sqlite3';
 
 import loginRouter from './routes/auth.routes'
 import staticServer from './middleware/__server-static.middleware';
-import { errorLoggerMiddleware, logError, loggerMiddleware } from './middleware/logging'
+import { loggingMiddleware } from './middleware/logging'
 import indexRouter from './routes/index.routes'
 import workSpaceRouter from './routes/workspace.routes'
 import eventRouter from './routes/events.routes'
@@ -27,7 +26,7 @@ sequelize.authenticate()
     .then(() => {
         console.log('Succesful database connection');
     })
-    .catch(logError);
+    .catch(console.error);
 
 // Set ejs as template engine
 app.set('views', './src/views');
@@ -35,7 +34,7 @@ app.set('view engine', 'ejs');
 
 // Library Middleware
 app.use(express.json());
-app.use(loggerMiddleware);
+app.use(loggingMiddleware);
 app.use(cors());
 app.use(helmet({
     contentSecurityPolicy: false // Allow CDN's resources to be delivered
@@ -58,7 +57,6 @@ app.use(session({
     dir: SESSION_PATH
   }) as session.Store
 }));
-app.use(passport.session());
 
 // Custom middleware
 app.use(staticServer);
@@ -70,6 +68,5 @@ app.use(workSpaceRouter);
 app.use('/api/events', eventRouter);
 app.use('/api/notifications', webPushRouter);
 
-app.use(errorLoggerMiddleware);
 
 export default app;

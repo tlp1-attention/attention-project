@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { validateToken } from '../middleware/validate_jwt'
+import { verifySession } from '../middleware/passport'
 import {
     createEvent,
     deleteEvent,
@@ -9,9 +9,9 @@ import {
 
 const router = Router();
 
-router.get('/', [validateToken], getEventsByUser);
-router.post('/', [validateToken], createEvent);
-router.put('/', [validateToken], updateUserEvent);
-router.delete('/', [validateToken], deleteEvent);
+router.get('/', [verifySession], getEventsByUser);
+router.post('/', [verifySession], createEvent);
+router.put('/', [verifySession], updateUserEvent);
+router.delete('/', [verifySession], deleteEvent);
 
 export default router;

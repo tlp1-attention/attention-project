@@ -1,5 +1,5 @@
 import { Models } from '../database/models'
-import type { Request, Response } from 'express'
+import type { Response } from 'express'
 
 const { Events } = Models;
 
@@ -16,7 +16,7 @@ async function createEvent(req: AuthRequest, res: Response) {
         typeEvent
      } = req.body;
 
-    const { id: userId } = req.user;
+    const { id: userId } = req.user!;
     
 
     try {
@@ -38,10 +38,10 @@ async function createEvent(req: AuthRequest, res: Response) {
     }
 }
 
-// Get all eventos from a user
+// Get all events from a user
 async function getEventsByUser(req: AuthRequest, res: Response) {
 
-    const { id: userId } = req.user;
+    const { id: userId } = req.user!;
 
     try {
 
@@ -79,7 +79,7 @@ async function updateUserEvent(req: AuthRequest, res: Response) {
         typeEvent,
      } = req.body
     
-    const { id: userId } = req.user;
+    const { id: userId } = req.user!;
 
     try {
 
@@ -117,7 +117,7 @@ async function updateUserEvent(req: AuthRequest, res: Response) {
 async function deleteEvent(req: AuthRequest, res: Response) {
 
     const { id: eventId } = req.body;
-    const { id: userId } = req.user;
+    const { id: userId } = req.user!;
 
     try {
 
@@ -144,9 +144,6 @@ async function deleteEvent(req: AuthRequest, res: Response) {
     }
 
 }
-
-
-
 
 export {
     getEventsByUser,
