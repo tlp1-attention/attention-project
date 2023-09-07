@@ -1,4 +1,4 @@
-import { InferAttributes } from 'sequelize'
+import { InferAttributes, Op } from 'sequelize'
 import { Users } from '../models/users'
 import { comparePassword, hashPassword } from '../utils/hash'
 /**
@@ -34,6 +34,26 @@ class UserService {
     }
 
     /**
+     * Returns wheter a pair username email belongs to
+     * a registered user or not.
+     * @param {string} username
+     * @param {string} email
+     * @returns {Promise<boolean>}
+     */
+    async exists(username: string, email: string): Promise<boolean> {
+        const found = await this.userModel.findAll({
+            where: {
+                [Op.or]: {
+                    name: username,
+                    email,
+                },
+            },
+        });
+
+        return found.length > 0;
+    }
+
+    /**
      * Registers a user given its username, password and email.
      * Returns the newly created User or null if there was
      * conflicting records. Hashes the password for storage
@@ -49,9 +69,8 @@ class UserService {
         email: string,
         password: string
     ): Promise<Users | null> {
-        const existingUser = await this.findByUsername(username)
 
-        if (existingUser || (await this.existsWithEmail(email))) {
+        if (await this.exists(username, email)) {
             return null
         }
 

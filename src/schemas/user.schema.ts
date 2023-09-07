@@ -1,4 +1,7 @@
 import { body } from 'express-validator'
+import { userService } from '../services/user.service'
+
+const userAvailable = (name: string, email: string) => userService.exists(name, email);
 
 const commonUserSchemaOptions = {
     usernameValidation: [

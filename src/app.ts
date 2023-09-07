@@ -1,11 +1,10 @@
 import express from 'express'
-import morgan  from 'morgan'
 import helmet from 'helmet'
 import cors from 'cors'
 import { sequelize } from './database/connection';
 import cookieParser from 'cookie-parser'
 
-import { passport } from './middleware/passport';
+import { loggingMiddleware } from './middleware/logging'
 import session from 'express-session';
 import connectSQLite from 'connect-sqlite3';
 
@@ -37,7 +36,7 @@ app.set('view engine', 'ejs');
 
 // Library Middleware
 app.use(express.json());
-app.use(morgan('dev'));
+app.use(loggingMiddleware);
 app.use(cors());
 app.use(helmet({
     contentSecurityPolicy: false // Allow CDN's resources to be delivered
@@ -60,7 +59,6 @@ app.use(session({
     dir: SESSION_PATH
   }) as session.Store
 }));
-app.use(passport.session());
 
 // Custom middleware
 app.use(staticServer);
