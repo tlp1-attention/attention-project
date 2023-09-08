@@ -89,7 +89,7 @@ export const eventModuleSpecs = (server: Server) =>
                     .expect('Content-Type', /json/)
                     .then((res) => {
                         expect(res.body).toHaveProperty('event')
-                    })
+                    });
             })
         })
 

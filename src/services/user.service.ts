@@ -5,7 +5,7 @@ import { comparePassword, hashPassword } from '../utils/hash'
  * Service that encapsules data operations regarding users,
  * with find and create methods and password hashing
  */
-class UserService {
+export class UserService {
     constructor(private userModel: typeof Users) {}
 
     /**

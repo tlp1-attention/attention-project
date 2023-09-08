@@ -6,7 +6,7 @@ import {
     deleteEvent,
     updateUserEvent,
     getEventsByUser,
-} from '../controllers/events.contollers'
+} from '../controllers/events.controllers'
 import { createEventSchema, updateEventSchema } from '../schemas/event.schema'
 
 const router = Router()

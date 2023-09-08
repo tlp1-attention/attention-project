@@ -11,11 +11,10 @@ import { Request } from 'express'
 import { userService } from '../services/user.service'
 
 async function verifyUser(
-    req: Request,
+    _req: Request,
     jwtPayload: JwtPayload,
     done: VerifiedCallback
 ) {
-    console.log('Request Headers: ', req.headers)
     const { id } = jwtPayload
 
     try {
