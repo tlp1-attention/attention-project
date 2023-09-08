@@ -63,5 +63,6 @@ export const createEventSchema = eventSchemaOptions;
 export const updateEventSchema = [
     ...eventSchemaOptions,
     param('eventId')
-        .exists().withMessage('Debe proveer un ID de evento válido')
+       .exists().isNumeric()
+       .withMessage('Debe proveer un ID de evento válido'),
 ]

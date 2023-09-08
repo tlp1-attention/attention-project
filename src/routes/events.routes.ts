@@ -12,13 +12,16 @@ import { createEventSchema, updateEventSchema } from '../schemas/event.schema'
 const router = Router()
 
 router.get('/', [verifySession], getEventsByUser)
-router.post('/', [verifySession], validate(createEventSchema), createEvent)
+router.post('/', [verifySession], 
+    validate(createEventSchema), 
+    createEvent
+)
 router.put(
     '/:eventId',
     [verifySession],
     validate(updateEventSchema),
     updateUserEvent
 )
-router.delete('/:eventId', [verifySession],deleteEvent)
+router.delete('/:eventId', [verifySession], deleteEvent)
 
 export default router
