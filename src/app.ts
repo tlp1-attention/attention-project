@@ -4,12 +4,12 @@ import cors from 'cors'
 import { sequelize } from './database/connection';
 import cookieParser from 'cookie-parser'
 
-import { loggingMiddleware } from './middleware/logging'
 import session from 'express-session';
 import connectSQLite from 'connect-sqlite3';
 
 import loginRouter from './routes/auth.routes'
 import staticServer from './middleware/__server-static.middleware';
+import { loggingMiddleware } from './middleware/logging'
 import indexRouter from './routes/index.routes'
 import workSpaceRouter from './routes/workspace.routes'
 import eventRouter from './routes/events.routes'
@@ -20,7 +20,6 @@ import configEnv from './config/env';
 const app = express();
 const SessionStore = connectSQLite(session);
 const SESSION_PATH = resolve('./session-store');
-
 
 // Check database connection
 sequelize.authenticate()
