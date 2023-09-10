@@ -11,8 +11,8 @@ export interface EventsAttributes {
   description: string;
   createdAt: Date;
   updatedAt: Date;
-  startTime: Date;
-  endTime: Date;
+  startDate: Date;
+  endDate: Date;
   userId: number;
   typeId: number;
   completed: boolean;
@@ -29,8 +29,8 @@ export class Events extends Model<EventsAttributes, EventsCreationAttributes> im
   declare title: string;
   declare description: string;
   declare typeId: number;
-  declare startTime: Date;
-  declare endTime: Date;
+  declare startDate: Date;
+  declare endDate: Date;
   declare createdAt: Date;
   declare updatedAt: Date;
   declare userId: number;
@@ -97,11 +97,11 @@ export class Events extends Model<EventsAttributes, EventsCreationAttributes> im
       type: DataTypes.DATE,
       allowNull: false
     },
-    startTime: {
+    startDate: {
       type: DataTypes.DATE,
       allowNull: false
     },
-    endTime: {
+    endDate: {
       type: DataTypes.DATE,
       allowNull: true
     },

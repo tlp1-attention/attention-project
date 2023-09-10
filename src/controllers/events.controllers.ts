@@ -106,7 +106,7 @@ async function updateUserEvent(req: AuthRequest, res: Response) {
 // Delete an event from an ID
 // Only if the user is the user that created it
 async function deleteEvent(req: AuthRequest, res: Response) {
-    const { id: eventId } = req.params
+    const { eventId } = req.params
     const { id: userId } = req.user
 
     try {

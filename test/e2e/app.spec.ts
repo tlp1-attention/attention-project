@@ -18,6 +18,7 @@ afterAll(async () => {
 
 beforeAll(async () => {
     // Fill neccesary data
+    await sequelize.sync({ force: true });
     await setupDatabase();
 }, 10_000_000);
 

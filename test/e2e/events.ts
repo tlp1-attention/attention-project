@@ -10,6 +10,7 @@ const EXAMPLE_EVENT = {
     startDate: new Date('2023-09-13').toISOString(),
     endDate: new Date('2023-12-13').toISOString(),
     completed: false,
+    typeId: 1,
     userId: 1,
 }
 
@@ -64,7 +65,7 @@ export const eventModuleSpecs = (server: Server) =>
             test('should reject events with no startTime', async () => {
                 const eventWithNoStart = {
                     ...EXAMPLE_EVENT,
-                    startTime: null,
+                    startDate: null,
                 }
 
                 await request(server)
@@ -81,12 +82,15 @@ export const eventModuleSpecs = (server: Server) =>
             })
 
             test('should return a 201 Created and the event', async () => {
-                const response = await request(server)
+                await request(server)
                     .post('/api/events')
                     .set('authorization', token)
                     .send(EXAMPLE_EVENT)
-                
-                console.log(response.body);
+                    .expect(201) 
+                    .then(res => {
+                        expect(res.body).toHaveProperty('event');
+                        expect(res.body.event).toHaveProperty('title');
+                    })
             })
         })
 
@@ -124,13 +128,13 @@ export const eventModuleSpecs = (server: Server) =>
                     .post('/api/events')
                     .set('authorization', token)
                     .send(EXAMPLE_EVENT)
-                    .expect(200)
+                    .expect(201)
                     .then((res) => res.body)
 
-                console.log(response);
 
                 await request(server)
                     .delete(`/api/events/${response.event.id}`)
+                    .set('authorization', token)
                     .expect(200)
                     .then((res) => {
                         expect(res.body).toHaveProperty('message')
