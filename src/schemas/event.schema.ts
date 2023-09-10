@@ -28,31 +28,33 @@ const eventSchemaOptions = [
         .withMessage('La descripción no puede tener más de 255 caracteres'),
     body('startDate')
         .exists().withMessage('Un evento debe tener una fecha de inicio')
-        .isISO31661Alpha2().withMessage('Debe enviar una fecha de ingreso válida')
+        .isISO8601().withMessage('Debe enviar una fecha de ingreso válida').bail()
         .toDate()
         // Check that the date is on the future
         .custom((date: Date) => {
             if (date.getTime() < Date.now()) {
                 throw new Error('La fecha de inicio debe ser futura');
             };
+            return true;
         }),
     body('endDate')
         .optional()
-        .isISO31661Alpha2().withMessage('Debe enviar una fecha de fin válida')
+        .isISO8601().withMessage('Debe enviar una fecha de fin válida')
         .toDate()
-        // Check that the date is on the future
+        /*// Check that the date is on the future
         .custom((date: Date) => {
             if (date.getTime() < Date.now()) {
                 throw new Error('La fecha final debe ser futura');
             };
-        }),
+        })*/,
     body('typeId')
         .exists().withMessage('Debe proveer una ID de tipo de evento')
         .isNumeric().withMessage('La ID del tipo de evento debe ser un entero')
         .toInt()
         .custom(async id => {
             const available = await TypeEvent.typesAvailable();
-            if (available.includes(id)) {
+            console.log(available);
+            if (!available.includes(id)) {
                 throw new Error('La ID enviada no representa un tipo de evento válido')
             };
         })

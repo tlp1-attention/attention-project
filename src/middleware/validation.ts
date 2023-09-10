@@ -13,7 +13,7 @@ export const validate = <T extends ValidationChain>(
 
             if (!errors.isEmpty()) {
                 return response.status(400).send({
-                    errors: errors.array().map((error) => error.msg),
+                    errors: errors.array(),
                 })
             }
         }

@@ -1,126 +1,133 @@
 import { Models } from '../database/models'
 import type { Response } from 'express'
-import type { AuthRequest } from '../middleware/validate_jwt';
-import { eventService } from '../services/event.service';
+import type { AuthRequest } from '../middleware/validate_jwt'
+import { eventService } from '../services/event.service'
+import { Events } from '../models/events'
 
 // Create an event related to some user
 async function createEvent(req: AuthRequest, res: Response) {
-    const { id: userId } = req.user!;
+    const { id: userId } = req.user!
 
     try {
-        
-        const newEvent = await eventService.create(userId, req.body);
+        const newEvent = await eventService.create(userId, req.body)
 
         if (!newEvent) {
             return res.status(404).json({
-                message: `Usuario con ID ${userId} no encontrado`
-            });
+                message: `Usuario con ID ${userId} no encontrado`,
+            })
         }
 
         res.status(201).json({
             message: 'Evento creado exitosamente',
-            event: newEvent
-        });
-
+            event: newEvent,
+        })
     } catch (err) {
-        console.error(err);
+        console.error(err)
         res.status(500).json({
-            message: "Error interno del servidor"
-        });
+            message: 'Error interno del servidor',
+        })
     }
 }
 
 // Get all events from a user
 async function getEventsByUser(req: AuthRequest, res: Response) {
-
-    const { id: userId } = req.user!;
+    const { id: userId } = req.user!
 
     try {
-
-        const events = await eventService.findByUserId(userId);
+        const events = await eventService.findByUserId(userId)
 
         if (events.length == 0) {
             return res.status(404).json({
-                message: 'No se encontraron eventos para este usuario'
-            });
+                message: 'No se encontraron eventos para este usuario',
+            })
         }
 
         return res.json({
-            events: events 
-        });
-
+            events: events,
+        })
     } catch (err) {
-        console.error(err);
+        console.error(err)
         res.status(500).json({
-            message: "Error interno del servidor"
-        });
+            message: 'Error interno del servidor',
+        })
+    }
+}
+
+export async function getEventById(req: AuthRequest, res: Response) {
+    const { eventId } = req.params
+    const { id: userId } = req.user
+
+    const eventIdNum = parseInt(eventId)
+
+    try {
+        const belongsTo = await eventService.belongsToUser(eventIdNum, userId)
+
+        let found: Events
+        if (belongsTo) found = await eventService.findById(eventIdNum)
+
+        if (!found || !(await eventService.belongsToUser(eventIdNum, userId))) {
+            return res.status(404).json({
+                message: 'Evento no encontrado',
+            })
+        }
+    } catch (err) {
+        console.error(err)
+        res.status(500).json({
+            message: 'Error interno del servidor',
+        })
     }
 }
 
 // Update an existing event for a user
 async function updateUserEvent(req: AuthRequest, res: Response) {
-    const { eventId } = req.params;
+    const { eventId } = req.params
 
     try {
-        
-        const event = await eventService.update(
-            parseInt(eventId), 
-            req.body
-        );
+        const event = await eventService.update(parseInt(eventId), req.body)
 
         if (!event) {
             return res.status(404).json({
-                message: `No se encontró un evento con ID ${eventId} del usuario`
+                message: `No se encontró un evento con ID ${eventId} del usuario`,
             })
         }
 
         return res.status(200).json({
-            message: "Evento actualizado",
-            event
-        });
-
+            message: 'Evento actualizado',
+            event,
+        })
     } catch (err) {
-        console.error(err);
+        console.error(err)
         res.status(500).json({
-            message: "Error interno del servidor"
-        });
+            message: 'Error interno del servidor',
+        })
     }
 }
 
 // Delete an event from an ID
 // Only if the user is the user that created it
 async function deleteEvent(req: AuthRequest, res: Response) {
-    const { id: eventId } = req.params;
-    const { id: userId } = req.user;
+    const { id: eventId } = req.params
+    const { id: userId } = req.user
 
     try {
-
-        const deleted = await eventService.delete(
-            parseInt(eventId)
-        );
+        const deleted = await eventService.delete(parseInt(eventId))
 
         if (!deleted) {
             return res.status(404).json({
-                message: `No se encontró ningún evento de ID ${eventId} para el usuario ${userId}`
+                message: `No se encontró ningún evento de ID ${eventId} para el usuario ${userId}`,
             })
         }
 
         return res.status(200).json({
             message: 'Evento eliminado exitosamente',
-            event: deleted
-        });
-
+            event: deleted,
+        })
     } catch (err) {
-        console.error(err);
+        console.error(err)
         res.status(500).json({
-            message: "Error interno del servidor"
-        });
+            message: 'Error interno del servidor',
+        })
     }
 }
 
-export {
-    getEventsByUser,
-    deleteEvent,
-    createEvent,
-    updateUserEvent,
-}
+export { getEventsByUser, deleteEvent, createEvent, updateUserEvent }

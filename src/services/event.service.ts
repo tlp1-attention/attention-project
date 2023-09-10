@@ -59,7 +59,10 @@ export class EventService {
             return null
         }
 
-        const created = await this.eventModel.create(eventData)
+        const created = await this.eventModel.create({
+            ...eventData,
+            userId
+        })
 
         return created
     }

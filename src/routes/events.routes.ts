@@ -6,16 +6,15 @@ import {
     deleteEvent,
     updateUserEvent,
     getEventsByUser,
+    getEventById,
 } from '../controllers/events.controllers'
 import { createEventSchema, updateEventSchema } from '../schemas/event.schema'
 
 const router = Router()
 
 router.get('/', [verifySession], getEventsByUser)
-router.post('/', [verifySession], 
-    validate(createEventSchema), 
-    createEvent
-)
+router.get('/:eventId', [verifySession], getEventById);
+router.post('/', [verifySession], validate(createEventSchema), createEvent)
 router.put(
     '/:eventId',
     [verifySession],

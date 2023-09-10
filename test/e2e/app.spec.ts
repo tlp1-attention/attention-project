@@ -17,8 +17,6 @@ afterAll(async () => {
 }, 10_000_000);
 
 beforeAll(async () => {
-    // Reset databases before integration tests
-    await sequelize.sync({ force: true });
     // Fill neccesary data
     await setupDatabase();
 }, 10_000_000);
