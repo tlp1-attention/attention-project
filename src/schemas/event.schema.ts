@@ -68,3 +68,10 @@ export const updateEventSchema = [
        .exists().isNumeric()
        .withMessage('Debe proveer un ID de evento válido'),
 ]
+
+export const deleteEventSchema = [
+    param('eventId')
+       .exists().isNumeric()
+       .withMessage('Debe proveer un ID de evento válido'),
+]
+
