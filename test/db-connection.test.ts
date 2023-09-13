@@ -1,3 +1,4 @@
+import { describe, test } from '@jest/globals'
 import { sequelize, Models } from '../src/db'
 
 const { Users } = Models;
