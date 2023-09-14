@@ -8,6 +8,7 @@ export interface AnswersAttributes {
   createdAt: Date;
   updatedAt: Date;
   exerciseId?: number;
+  isCorrect: boolean;
 }
 
 export type AnswersPk = "id";
@@ -21,6 +22,7 @@ export class Answers extends Model<AnswersAttributes, AnswersCreationAttributes>
   declare createdAt: Date;
   declare updatedAt: Date;
   declare exerciseId?: number;
+  declare isCorrect: boolean;
 
   // Answers belongsTo Exercises via exerciseId
   exercise!: Exercises;
@@ -39,6 +41,10 @@ export class Answers extends Model<AnswersAttributes, AnswersCreationAttributes>
     answer: {
       type: DataTypes.STRING(255),
       allowNull: false
+    },
+    isCorrect: {
+      type: DataTypes.BOOLEAN,
+      allowNull: true
     },
     exerciseId: {
       type: DataTypes.INTEGER,

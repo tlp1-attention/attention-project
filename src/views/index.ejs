@@ -9,32 +9,26 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.4/font/bootstrap-icons.css">
     <link rel="stylesheet" href="css/index.css" />
     <title>Attention</title>
+    <link rel="shortcut icon" href="/assets/logo-1.png" type="image/png">
   </head>
   <body>
-      <nav class="sticky-top">
-          <input type="checkbox" id="check">
-            <label for="check"  class="check">
-              <i class="fas fa-bars"></i>
-            </label>
-            <a href="#" class="enlace">
-              <img src="./assets/logo-1.png" alt="logo pequeño" class="logo-1">
-              <img src="./assets/logo-2.png"alt="imagen logo" class="logo"/>
-            </a>
-            <ul>
-            <li><a href="#" class="text-decoration-none">Contacto</a></li>
-            <li><a href="/login.html" class="text-decoration-none">Iniciar sesión</a></li>
-            <li><a href="/register.html" class="active text-decoration-none">Registrate</a></li>
-          </ul>
-      </nav>
+      <%- include('partials/header', { username: username }) %>
     <main>
       <hgroup class="m-large d-flex justify-content-start align-items-center flex-column gap-2 height-full">
           <h1 class="header-font">
           ¡Bienvenido a nuestra web, donde la concentración se convierte en un superpoder!
           </h1>
-          <a class="boton flex-grow-0 text-decoration-none" href="/login.html">
-            Empezar Ahora
-            <i class="bi bi-arrow-right fs-2 arrow-animation"></i>
-          </a>
+          <% if (username) { %>
+            <a class="boton flex-grow-0 text-decoration-none" href="/workspace/timer">
+              Empezar Ahora
+              <i class="bi bi-arrow-right fs-2 arrow-animation"></i>
+            </a>
+          <% } else { %>
+            <a class="boton flex-grow-0 text-decoration-none" href="/login.html">
+              Empezar Ahora
+              <i class="bi bi-arrow-right fs-2 arrow-animation"></i>
+            </a>
+          <% } %>
       </hgroup>
           <article class="m-auto" id="grid">
             <h2 class="d-flex justify-content-center text-center fw-bold pb-4">Potencia tu capacidad de atención</h2>

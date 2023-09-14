@@ -3,21 +3,26 @@ import { initModels } from './models/init-models';
 import dotenv from 'dotenv'
 
 dotenv.config()
-
 const {
     DB_HOST,
     DB_USERNAME,
     DB_PASSWORD, 
     DB_NAME,
+    DB_URL
 } = process.env;
 
-const sequelize = new Sequelize(DB_NAME, DB_USERNAME, DB_PASSWORD, {
-    host: DB_HOST,
-    dialect: 'mysql',
-    password: DB_PASSWORD,
-    database: DB_NAME,
-    username: DB_USERNAME
-});
+let sequelize: Sequelize;
+if (!DB_URL) {
+  sequelize = new Sequelize(DB_NAME, DB_USERNAME, DB_PASSWORD, {
+      host: DB_HOST,
+      dialect: 'mysql',
+      password: DB_PASSWORD,
+      database: DB_NAME,
+      username: DB_USERNAME
+  });
+} else {
+  sequelize = new Sequelize(DB_URL);
+}
 
 const Models = initModels(sequelize);
 
@@ -38,10 +43,10 @@ Users.hasMany(Preferences, { as: "preferences", foreignKey: "userId"});
 Reports.belongsTo(Users, { as: "user", foreignKey: "userId"});
 Users.hasMany(Reports, { as: "reports", foreignKey: "userId"});
 
-Events.belongsTo(Users, { as: "users", foreignKey: 'userId'});
-Users.hasMany(Events, { as: "events", foreignKey: 'userId' });
-Events.belongsTo(TypeEvent, { as: 'typeEvents', foreignKey: 'typeId'});
-TypeEvent.hasMany(Events, { as: 'events', foreignKey: 'typeId' });
+Events.belongsTo(Users, { foreignKey: 'userId'});
+Users.hasMany(Events, { foreignKey: 'userId' });
+Events.belongsTo(TypeEvent, { as: 'type', foreignKey: 'typeId'});
+TypeEvent.hasMany(Events, { as: 'event', foreignKey: 'typeId' });
 
 // Automatically create events types if not present in the database
 TypeEvent.findOrCreate({

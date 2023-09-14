@@ -1,18 +1,17 @@
 import { Router } from 'express'
-import validateJWT from '../middleware/validate_jwt'
+import { validateToken } from '../middleware/validate_jwt'
 import {
     createEvent,
     deleteEvent,
     updateUserEvent,
-    getEventsByUser,
-    renderEvents
+    getEventsByUser
 } from '../controllers/events.contollers'
 
 const router = Router();
 
-router.get('/', [validateJWT], getEventsByUser);
-router.post('/', [validateJWT], createEvent);
-router.put('/', [validateJWT], updateUserEvent);
-router.delete('/', [validateJWT], deleteEvent);
+router.get('/', [validateToken], getEventsByUser);
+router.post('/', [validateToken], createEvent);
+router.put('/', [validateToken], updateUserEvent);
+router.delete('/', [validateToken], deleteEvent);
 
 export default router;

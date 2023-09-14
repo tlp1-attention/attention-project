@@ -1,0 +1,72 @@
+@import url(./general.css);
+
+.reading-card {
+    background-color: var(--clr-secondary-200);
+    border: 3px solid var(--clr-secondary-400);
+
+    width: 450px;
+    height: min-content;
+    border-radius: var(--border-radius);
+
+    display: flex;
+    gap: 1rem;
+}
+
+.reading-category {
+    text-transform: uppercase;
+    font-size: 1.2rem;
+    font-weight: 600;
+    letter-spacing: 3px;
+}
+
+.reading-title {
+    font-weight: 700;
+    font-size: 1.9rem;
+    display: block;
+}
+
+.reading-img {
+    flex-basis: 45%;
+    border-radius: var(--border-radius);
+    position: relative;
+    max-height: 250px;
+    bottom: 10px;
+    left: 10px;
+}
+
+.overlay {
+    position: absolute;
+    inset: 0;
+    background-image: linear-gradient(transparent, var(--clr-accent-800));
+    opacity: 0;
+    z-index: 3;
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 150ms ease-in ;
+}
+
+.overlay:hover {
+    opacity: 1;
+}
+
+.reading-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.bg-green {
+    background-color: var(--clr-green-400);
+}
+
+.bg-blue {
+    background-color: var(--clr-blue-400);
+}
+
+.bg-yellow {
+    background-color: var(--clr-accent-400);
+}

@@ -1,38 +1,14 @@
 import { Models } from '../db'
-import { hashPassword, comparePassword } from '../utils/hash';
-import { createToken } from '../utils/token';
-import type { Response, Request } from 'express'
+import { hashPassword } from '../utils/hash';
+import type { Response, Request, NextFunction } from 'express'
 import { Op } from 'sequelize'
-
+import { passport } from '../middleware/passport';
 
 const { Users } = Models;
 
-async function loginController(req: Request, res: Response) {
-    const { username, password } = req.body;
-
-    let foundUser;
-    try {
-        foundUser = await Users.findOne({
-            where: {
-                name: username,
-            }
-        });
-    } catch (err) {
-        console.error(err);
-        return res.sendStatus(500);
-    }
-
-    let isCorrectPassword: boolean;
-    if (foundUser) isCorrectPassword = await comparePassword(password, foundUser.password);
-
-    if (!isCorrectPassword) {
-        return res.sendStatus(400);
-    } else {
-        const token = await createToken(foundUser.id);
-
-        return res.json({ token });
-    }
-}
+const loginController = passport.authenticate('local', {
+    successRedirect: '/workspace/timer', 
+});
 
 class IncorrectRegisterError extends Error {}
 
@@ -58,15 +34,13 @@ async function registerController(req: Request, res: Response) {
     }
 
     if (found.length == 0) {
-        const newUser = await Users.create({
+        const _newUser = await Users.create({
             name: username, 
             password: hashedPassword,
             email: email,
         });
-    
-        const token = await createToken(newUser.id);
 
-        return res.status(201).json({ token });
+        return res.sendStatus(201);
 
     } else if (found.length == 1) {
         return res.sendStatus(400);
@@ -75,8 +49,8 @@ async function registerController(req: Request, res: Response) {
     }
 }
 
-// change-password
-async function changePasswordController(req, res) {
+// Change password controller
+async function changePasswordController(req: Request, res: Response) {
 
     const { email, password: newPassword } = req.body;
     
@@ -105,8 +79,16 @@ async function changePasswordController(req, res) {
     }
 }
 
+async function logoutController(req: Request, res: Response, next: NextFunction) {
+    req.logout(function(err) {
+    if (err) { return next(err); }
+    res.redirect('/');
+  });
+}
+
 export {
     loginController,
     registerController,
-    changePasswordController
+    changePasswordController,
+    logoutController
 }

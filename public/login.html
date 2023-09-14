@@ -18,9 +18,9 @@
             <img src="./assets/bg-placeholder-login.png" alt="" class="img-fluid form-img">
             <section class="mx-4 my-5">
                 <h1 class="fs-1 display-1 fw-bold">Inicio de sesión</h1>
-                <form class="m-2">
-                    <label for="login">Usuario: </label>
-                    <input type="text" name="login" class="form-control"> 
+                <form class="m-2" method="POST" action="/login">
+                    <label for="username">Usuario: </label>
+                    <input type="text" name="username" class="form-control"> 
 
                     <label for="password">Contraseña: </label>
                     <input type="password" name="password" class="form-control">
@@ -38,9 +38,9 @@
                         Enviar
                     </button>
                 </form>
-                <div class="logo-with-text w-100 border-3 border-top mt-4 d-flex justify-content-center gap-3 align-items-center">
+                <a href="/index.html" class="logo-with-text w-100 border-3 border-top mt-4 d-flex justify-content-center gap-3 align-items-center">
                     <img src="/assets/logo-2.png" class="my-auto" alt="Logo Attention">
-                </div>
+                </a>
                 <div class="toast-container position-fixed bottom-0 end-0 p-3 text-bg-warning-subtle">
                     <div class="toast fs-5">
                         <hgroup class="toast-header text-bg-info-subtle">
@@ -62,5 +62,7 @@
 
     <!---Bootstrap JS-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+    <!--- Sweet Alert 2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 </html>
