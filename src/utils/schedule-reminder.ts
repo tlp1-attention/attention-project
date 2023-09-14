@@ -29,7 +29,7 @@ export function scheduleReminders() {
                                      : false
 
 
-                if (event.startTime.getTime() - now < ONE_DAY_MS &&
+                if (event.startDate.getTime() - now < ONE_DAY_MS &&
                     !hasBeenReminded) {
 
                     const typeEvent = await event.getType();
