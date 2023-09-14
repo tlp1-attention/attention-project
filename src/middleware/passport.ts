@@ -22,12 +22,6 @@ async function verifyUser(
 
         done(null, foundUser)
     } catch (err) {
-        if (err instanceof TokenExpiredError) {
-            done(err, null, {
-                message: 'El token ha expirado',
-            })
-        }
-
         done(err, null, {
             message: 'Hubo un error al verificar el token',
         })
@@ -42,6 +36,7 @@ passport.use(
             jwtFromRequest: ExtractJwt.fromHeader('authorization'), 
             secretOrKey: env.SECRET,
             passReqToCallback: true,
+            ignoreExpiration: true
         },
         verifyUser
     )
@@ -60,7 +55,8 @@ passport.deserializeUser(function (user, cb) {
 })
 
 const verifySession = passport.authenticate('jwt', {
-  passReqToCallback: true
+  passReqToCallback: true,
+  failureMessage: true,
 });
 
 export { verifySession }

@@ -29,7 +29,7 @@ async function createEvent(evt) {
     const response = fetchOK('/api/events', {
         method: 'POST',
         headers: {
-            'token': token,
+            'Authorization': token,
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
@@ -37,10 +37,9 @@ async function createEvent(evt) {
             description: eventDesc.value,
             startDate: startDate.value,
             endDate: endDate.value,
-            typeEvent: importance.value
+            typeId: importance.value
         })
     })
-
     response
         .then(() => {
             showEvents()
@@ -48,11 +47,10 @@ async function createEvent(evt) {
             formModal.hide();
 
             return showSuccess('Evento creado exitosamente', '');
-        }).catch(failedResponse => {
-            console.log(failedResponse);
-            console.log(failedResponse.status);
+        }).catch(async failedResponse => {
+            const { errors } = await failedResponse.json();
             if (failedResponse.status == 400) {
-                return showError('Datos enviados incorrectamente', errorMessage);
+                return showError(`Datos enviados incorrectamente: ${errors.map(e => e.msg)}`, errorMessage);
             }
 
             return showError('Error inesperado. ' + failedResponse.statusText || "", errorMessage);
@@ -96,17 +94,9 @@ async function getEvents() {
     const responseObj = await fetch('/api/events', {
         method: 'GET',
         headers: {
-            token: token
+            'Authorization': token
         }
     })
-
-    if (responseObj.status == 401) {
-        showError('Sesión expirada. Redireccionando a página principal', errorMessage);
-        setTimeout(() => {
-            window.location.assign('/');
-        }, 3000);
-        return [];
-    }
 
     if (responseObj.status == 404) return [];
 
@@ -151,15 +141,15 @@ async function updateEvent(id) {
     const {
         title,
         description,
-        startTime,
-        endTime,
+        startDate,
+        endDate,
         typeId
     } = eventToUpdate;
 
     eventTitle.value = title;
     eventDesc.value = description;
-    startDate.value = startTime.slice(0, -8);
-    if (endTime) endDate.value = endTime.slice(0, -8);
+    startTime.value = startDate.slice(0, -8);
+    if (endDate) endTime.value = endDate.slice(0, -8);
     importance.value = typeId;
 
     formModal.show();
@@ -171,7 +161,7 @@ async function deleteEvent(id) {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',
-            token: token
+            'Authorization': token
         },
         body: JSON.stringify({
             id
@@ -216,12 +206,12 @@ function renderEvent({
     id,
     title,
     description,
-    startTime,
+    startDate,
     typeId
 }) {
     const template = document.createElement('template');
 
-    const startDate = new Date(startTime);
+    startDate = new Date(startDate);
 
     const eventColor = typeColorsMap.get(typeId);
 

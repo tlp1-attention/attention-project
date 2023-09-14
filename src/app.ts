@@ -60,7 +60,10 @@ app.use(session({
 
 // Custom middleware
 app.use(staticServer);
-
+app.use((req, res, next) => {
+  console.log(req.headers);
+  next();
+})
 // Routes
 app.use(loginRouter);
 app.use(indexRouter);
