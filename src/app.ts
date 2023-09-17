@@ -9,7 +9,7 @@ import connectSQLite from 'connect-sqlite3';
 
 import loginRouter from './routes/auth.routes'
 import staticServer from './middleware/__server-static.middleware';
-import { loggingMiddleware } from './middleware/logging'
+import { logRequests } from './middleware/logging'
 import indexRouter from './routes/index.routes'
 import workSpaceRouter from './routes/workspace.routes'
 import eventRouter from './routes/events.routes'
@@ -34,7 +34,7 @@ app.set('view engine', 'ejs');
 
 // Library Middleware
 app.use(express.json());
-app.use(loggingMiddleware);
+app.use(logRequests);
 app.use(cors());
 app.use(helmet({
     contentSecurityPolicy: false // Allow CDN's resources to be delivered

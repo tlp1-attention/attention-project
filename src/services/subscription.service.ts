@@ -95,7 +95,7 @@ export class SubscriptionService {
             return updated;
 
         } catch (err) {
-            console.error('There was an error updating the User', err);
+            console.error('There was an error updating the User: ', err);
             return null;
         }
     }
@@ -118,13 +118,14 @@ export class SubscriptionService {
         }
 
         try {
+
             return webpush.sendNotification(
                 JSON.parse(userFound.subscriptionPayload),
                 payload
             );
 
         } catch (err) {
-            console.error('There was an error updating the User', err);
+            console.error('There was an error updating the User: ', err);
             return null;
         }
     }

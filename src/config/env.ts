@@ -1,3 +1,4 @@
+import { resolve } from 'path';
 import { Dialect } from 'sequelize';
 import 'dotenv/config'
 
@@ -21,6 +22,7 @@ const env = {
         },
         SECRET: process.env.SECRET || 'ññññññ',
         NODE_ENV: process.env.NODE_ENV,
+        LOGGING_DIR: resolve(process.cwd(), process.env.LOG_DIR || "./logs"),
     },
     development: {
         PORT: process.env.PORT || 8080,
@@ -41,6 +43,7 @@ const env = {
         },
         SECRET: process.env.SECRET || 'ñññññ',
         NODE_ENV: process.env.NODE_ENV,
+        LOGGING_DIR: resolve(process.cwd(), process.env.LOG_DIR || "./logs"),
     },
     test: {
         PORT: process.env.PORT || 8080,
@@ -61,7 +64,9 @@ const env = {
         },
         SECRET: process.env.SECRET || 'ñññññ',
         NODE_ENV: process.env.NODE_ENV,
+        LOGGING_DIR: resolve(process.cwd(), process.env.LOG_DIR || "./logs"),
     },
+ 
 } as const;
 
 if (!(process.env.NODE_ENV in env)) {

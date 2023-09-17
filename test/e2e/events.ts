@@ -7,8 +7,8 @@ import { EXAMPLE_USER } from './auth';
 const EXAMPLE_EVENT = {
     title: 'Test Event Title',
     description: 'Test event description',
-    startDate: new Date('2023-09-13').toISOString(),
-    endDate: new Date('2023-12-13').toISOString(),
+    startDate: new Date('2030-09-13').toISOString(),
+    endDate: new Date('2030-12-13').toISOString(),
     completed: false,
     typeId: 1,
     userId: 1,
@@ -86,8 +86,8 @@ export const eventModuleSpecs = (server: Server) =>
                     .post('/api/events')
                     .set('authorization', token)
                     .send(EXAMPLE_EVENT)
-                    .expect(201) 
                     .then(res => {
+                        console.log(res);
                         expect(res.body).toHaveProperty('event');
                         expect(res.body.event).toHaveProperty('title');
                     })

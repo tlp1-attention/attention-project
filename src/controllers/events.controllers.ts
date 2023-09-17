@@ -1,8 +1,7 @@
-import { Models } from '../database/models'
 import type { Response } from 'express'
-import type { AuthRequest } from '../middleware/validate_jwt'
-import { eventService } from '../services/event.service'
+import type { AuthRequest } from '../interfaces/auth-request'
 import { Events } from '../models/events'
+import { eventService } from '../services/event.service'
 
 // Create an event related to some user
 async function createEvent(req: AuthRequest, res: Response) {
@@ -130,4 +129,4 @@ async function deleteEvent(req: AuthRequest, res: Response) {
     }
 }
 
-export { getEventsByUser, deleteEvent, createEvent, updateUserEvent }
+export { createEvent, deleteEvent, getEventsByUser, updateUserEvent }

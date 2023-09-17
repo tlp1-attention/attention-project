@@ -1,18 +1,21 @@
-import { Request } from 'express';
-import { createWriteStream, existsSync, mkdirSync } from 'fs';
-import { join } from 'path'
-import morgan, { FormatFn } from 'morgan'
-import { resolve } from 'path'
+import morgan from 'morgan'
+import { getStreamForLogFile } from '../utils/get-stream-for-log'
+import envConfig from '../config/env'
+import type { Request, Response, NextFunction } from 'express'
 
-const LOG_PATH = resolve('./logs/');
+export const LOGGING_FOLDER = envConfig.LOGGING_DIR
 
-if (!existsSync(LOG_PATH)) {
-    mkdirSync(LOG_PATH);
+export async function logRequests(
+    req: Request,
+    res: Response,
+    next: NextFunction
+) {
+    const stream = await getStreamForLogFile(LOGGING_FOLDER, 'access')
+
+    const logger = morgan('combined', {
+        stream: stream,
+        skip: (req) => req.statusCode <= 299 && req.statusCode >= 200,
+    })
+
+    logger(req, res, next)
 }
-// @ts-ignore
-export const loggingMiddleware = morgan('combined', {
-    stream: createWriteStream(join(LOG_PATH, './requests.log'), {
-        flags: 'a',
-    }),
-    skip: (req: Request, _res: Response) => req.statusCode > 200
-});
