@@ -2,7 +2,6 @@ import type { Response } from 'express'
 import webpush from 'web-push'
 import configEnv from '../config/env'
 import type { AuthRequest } from '../interfaces/auth-request'
-import { Users } from '../models/users'
 import { subscriptionService } from '../services/subscription.service'
 
 const { WEB_PUSH } = configEnv
