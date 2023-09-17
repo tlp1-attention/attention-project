@@ -29,7 +29,6 @@ async function createEvent(evt) {
     const response = fetchOK('/api/events', {
         method: 'POST',
         headers: {
-            'token': token,
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
@@ -43,14 +42,13 @@ async function createEvent(evt) {
 
     response
         .then(() => {
-            showEvents()
+            showEvents();
             form.reset();
             formModal.hide();
 
             return showSuccess('Evento creado exitosamente', '');
         }).catch(failedResponse => {
-            console.log(failedResponse);
-            console.log(failedResponse.status);
+
             if (failedResponse.status == 400) {
                 return showError('Datos enviados incorrectamente', errorMessage);
             }
@@ -99,14 +97,6 @@ async function getEvents() {
             token: token
         }
     })
-
-    if (responseObj.status == 401) {
-        showError('Sesión expirada. Redireccionando a página principal', errorMessage);
-        setTimeout(() => {
-            window.location.assign('/');
-        }, 3000);
-        return [];
-    }
 
     if (responseObj.status == 404) return [];
 

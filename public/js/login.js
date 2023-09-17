@@ -20,7 +20,7 @@ form.addEventListener('submit', async (evt) => {
         password
     });
 
-    const request = new Request(`/login/`, {
+    const request = new Request(`/login`, {
         method: 'POST',
         headers: {
             Accept: 'application/json',

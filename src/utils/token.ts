@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken'
 function createToken(id: number) {
     return new Promise((resolve, reject) => {
         const payload = { id };
-        jwt.sign(payload, process.env.SECRET_KEY, {
+        jwt.sign(payload, process.env.SECRET, {
             expiresIn: '1h',
         }, (err, token) => {
 

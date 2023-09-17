@@ -1,6 +1,6 @@
 import passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
-import type { Request } from 'express';
+import type { NextFunction, Request, Response } from 'express';
 import { comparePassword, hashPassword } from '../utils/hash';
 import type { Users as TUsers } from '../models/init-models';
 import { Models } from '../db';
@@ -8,7 +8,7 @@ import { Models } from '../db';
 const { Users } = Models;
 
 async function verifyUser(req: Request, _username: string, _password: string, cb: (...args:any[]) => void) {
-    
+
     const { username, password } = req.body;
     
     let foundUser: TUsers | undefined;
@@ -36,8 +36,9 @@ async function verifyUser(req: Request, _username: string, _password: string, cb
 // Use passport's Local Strategy to verify 
 // incoming username and password against database
 passport.use(new LocalStrategy({
-  passReqToCallback: true
-} ,verifyUser));
+  passReqToCallback: true,
+  session: true
+}, verifyUser));
 
 passport.serializeUser(function(user: TUsers, cb) {
   process.nextTick(function() {
@@ -50,5 +51,16 @@ passport.deserializeUser(function(user, cb) {
     return cb(null, user);
   });
 });
+
+export function verifyExistingSession(req: Request, res: Response, next: NextFunction) {
+  console.log(req.user);
+  if (!req.user) {
+    return res.status(401).json({
+      message: 'Debes iniciar sesión para ver esta ruta'
+    });
+  }
+  next(); 
+}
+
 
 export { passport };

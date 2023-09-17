@@ -6,12 +6,15 @@ import {
     updateUserEvent,
     getEventsByUser
 } from '../controllers/events.contollers'
+import { verifyExistingSession } from '../middleware/passport';
 
 const router = Router();
 
-router.get('/', [validateToken], getEventsByUser);
-router.post('/', [validateToken], createEvent);
-router.put('/', [validateToken], updateUserEvent);
-router.delete('/', [validateToken], deleteEvent);
+router.use(verifyExistingSession);
+
+router.get('/', getEventsByUser);
+router.post('/', createEvent);
+router.put('/', updateUserEvent);
+router.delete('/', deleteEvent);
 
 export default router;

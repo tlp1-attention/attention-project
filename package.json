@@ -27,7 +27,6 @@
   "homepage": "https://github.com/tlp1-attention/attention-project#readme",
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
-    "@types/jest": "^29.5.2",
     "@types/jsonwebtoken": "^9.0.2",
     "@types/web-push": "^3.3.2",
     "babel-jest": "^29.5.0",
