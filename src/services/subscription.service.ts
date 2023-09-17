@@ -1,5 +1,5 @@
 import webpush, { SendResult } from 'web-push'
-import { UserService } from './user.service'
+import { UserService, userService } from './user.service'
 import env from '../config/env'
 import { Users } from '../models/users'
 
@@ -129,3 +129,8 @@ export class SubscriptionService {
         }
     }
 }
+
+export const subscriptionService = new SubscriptionService(
+    userService,
+    webpush
+);

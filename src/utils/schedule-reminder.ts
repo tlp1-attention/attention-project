@@ -29,7 +29,7 @@ export function scheduleReminders() {
                                      : false
 
 
-                if (event.startTime.getTime() - now < ONE_DAY_MS &&
+                if (event.startDate.getTime() - now < ONE_DAY_MS &&
                     !hasBeenReminded) {
 
                     const typeEvent = await event.getType();
@@ -38,7 +38,7 @@ export function scheduleReminders() {
                         message: `${event.title}`
                     };
                     try {
-                        await sendMessage(payload, JSON.parse(user.subscriptionPayload));
+                        await sendMessage(payload, user.id);
                     } catch (err) {
                         console.error(err);
                     }

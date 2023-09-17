@@ -4,6 +4,6 @@ import { verifySession } from '../middleware/passport'
 
 const router = express.Router();
 
-router.get( ['/', '/index.html'], [verifySession], renderIndex);
+router.get( ['/', '/index.html'], renderIndex);
 
 export default router;

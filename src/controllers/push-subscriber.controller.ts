@@ -3,6 +3,7 @@ import type { Response } from 'express';
 import type { AuthRequest } from '../middleware/validate_jwt';
 import { Users } from '../models/users'
 import webpush from 'web-push'
+import { subscriptionService } from '../services/subscription.service';
 
 const { WEB_PUSH } = configEnv;
 
@@ -13,38 +14,46 @@ webpush.setVapidDetails(
 );
 
 
-function sendMessage(payload: any, subscription: webpush.PushSubscription) { 
-    return webpush.sendNotification(subscription, JSON.stringify(payload));
+function sendMessage(payload: any, userId: number) { 
+    return subscriptionService.sendNotification(
+        userId,
+        payload
+    )
 }
 
 async function createSubscription(req: AuthRequest, res: Response) {
 
-    const { id } = req.user;
+    const { id: userId } = req.user;
     const subscription = req.body;
 
     try {
-        const result = await Users.update({
-            subscriptionPayload: subscription,
-         }, {
-                where: {
-                    id
-                }
-            }
+        const subscribed = await subscriptionService.subscribeUser(
+            userId,
+            subscription
         );
 
-        if (!result) throw ({ status: 404 });
+        if (!subscribed) {
+            return res.status(404).json({
+                message: 'Hubo un error al realizar la subscripción'
+            })
+        }
 
-        res.sendStatus(201);
+        res.status(201).json({
+            message: 'Suscrito correctamente',
+            user: subscribed
+        });
 
     } catch(err) {
         console.error('Error has ocurred: ', err);
-        res.sendStatus(err.status || 500);
+        res.status(500).json({
+            message: 'Error interno del servidor'
+        });
     }
 }
 
 async function sendPublicKey(_req: AuthRequest, res: Response) {
     res.status(200).json({
-        publicKey: process.env.VAPID_PUBLIC_KEY
+        publicKey: subscriptionService.getPublicKey()
     });
 }
 
@@ -52,19 +61,23 @@ async function deleteSubscription(req: AuthRequest, res: Response) {
     const { id: userId } = req.user;
     
     try {
-        const subscriptionFound = await Users.findByPk(userId);
+        const subscriptionFound = await subscriptionService.unsubscribeUser(userId);
 
-        if (!subscriptionFound) throw ({ status: 404 });
-
-        subscriptionFound.update({
-            subscriptionPayload: null
+        if (!subscriptionFound) {
+            return res.status(404).json({
+                message: 'Hubo un error al eliminar la subscripción. Puede que el usuario no exista'
+            })
+        }
+        res.send(200).json({
+            message: 'Desuscrito correctamente',
+            user: subscriptionFound
         });
-
-        res.sendStatus(200);
 
     } catch(err) {
         console.error('Error has ocurred: ', err);
-        res.sendStatus(err.status || 500);
+        res.status(500).json({
+            message: 'Error interno del servidor'
+        });
     }
 }
 
