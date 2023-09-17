@@ -80,8 +80,19 @@ export async function getEventById(req: AuthRequest, res: Response) {
 // Update an existing event for a user
 async function updateUserEvent(req: AuthRequest, res: Response) {
     const { eventId } = req.params
+    const { id: userId } = req.user;
 
     try {
+        const belongsToUser = await eventService.belongsToUser(
+            parseInt(eventId), userId
+        );
+
+        if (!belongsToUser) {
+            return res.status(400).json({
+                message: `No se encontró ningún evento con ID ${eventId} para el usuario`
+            })
+        }
+
         const event = await eventService.update(parseInt(eventId), req.body)
 
         if (!event) {
@@ -102,13 +113,21 @@ async function updateUserEvent(req: AuthRequest, res: Response) {
     }
 }
 
-// Delete an event from an ID
-// Only if the user is the user that created it
 async function deleteEvent(req: AuthRequest, res: Response) {
     const { eventId } = req.params
     const { id: userId } = req.user
 
     try {
+        const belongsToUser = await eventService.belongsToUser(
+            parseInt(eventId), userId
+        );
+
+        if (!belongsToUser) {
+            return res.status(400).json({
+                message: `No se encontró ningún evento con ID ${eventId} para el usuario`
+            })
+        }
+
         const deleted = await eventService.delete(parseInt(eventId))
 
         if (!deleted) {
