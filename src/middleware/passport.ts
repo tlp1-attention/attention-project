@@ -4,10 +4,11 @@ import {
     Strategy as JwtStrategy,
     VerifiedCallback,
 } from 'passport-jwt'
+import { AuthRequest } from '../interfaces/auth-request'
 import type { Users as TUsers } from '../models/init-models'
-import { JwtPayload, TokenExpiredError } from 'jsonwebtoken'
+import { JwtPayload } from 'jsonwebtoken'
 import env from '../config/env'
-import { Request } from 'express'
+import { Request, Response, NextFunction } from 'express'
 import { userService } from '../services/user.service'
 
 async function verifyUser(
@@ -21,6 +22,7 @@ async function verifyUser(
         const foundUser = await userService.findById(id)
 
         done(null, foundUser)
+
     } catch (err) {
         done(err, null, {
             message: 'Hubo un error al verificar el token',
@@ -36,7 +38,8 @@ passport.use(
             jwtFromRequest: ExtractJwt.fromHeader('authorization'), 
             secretOrKey: env.SECRET,
             passReqToCallback: true,
-            ignoreExpiration: true
+            ignoreExpiration: true,
+            
         },
         verifyUser
     )
@@ -54,9 +57,21 @@ passport.deserializeUser(function (user, cb) {
     })
 })
 
-const verifySession = passport.authenticate('jwt', {
-  passReqToCallback: true,
-  failureMessage: true,
-});
 
-export { verifySession }
+export async function verifySession(req: Request, res: Response, next: NextFunction) {
+    const verifyExistingToken = passport.authenticate('jwt', {
+        passReqToCallback: true,
+        failureMessage: true
+    }, (err: Error, user: TUsers, info: string) => {
+        if (err) next(err);
+        if (!user) return res.status(401).json({
+            message: 'Token faltante'
+        });
+
+        (req as AuthRequest).user = user;
+        next();
+    });
+
+    return verifyExistingToken(req, res, next);
+}
+

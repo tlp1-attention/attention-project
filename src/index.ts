@@ -8,5 +8,5 @@ const PORT = env.PORT;
 export const server = app.listen(PORT, async () => {
     // await scheduleReminders();
     await setupDatabase();
-    console.log(`Server listening in port: http://localhost:${PORT}`);
+    console.log(`Server listening in: http://localhost:${PORT}`);
 });

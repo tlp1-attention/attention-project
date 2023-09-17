@@ -11,6 +11,7 @@ newEventBtn.addEventListener('click', () => {
 })
 
 const token = localStorage.getItem('token');
+console.log(token);
 const eventContainer = document.querySelector('#event-container');
 const errorMessage = document.querySelector("#error-message");
 const eventTitle = document.querySelector('[name=title]');
