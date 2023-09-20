@@ -16,7 +16,7 @@ async function registerPreferences(req: AuthRequest, res: Response) {
         }
 
         res.status(201).json({
-            message: 'Evento creado exitosamente',
+            message: 'Preferencias creadas exitosamente',
             preferences: newPreferences
         });
 

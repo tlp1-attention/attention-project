@@ -15,7 +15,7 @@ export async function getStreamForLogFile(logFolder: string, suffix: string) {
 
   await mkdir(dir, {
     // Create `logs` if it does not exist,
-    // and does not fail if the desired directory 
+    // and do not fail if the desired directory 
     // already exists
     recursive: true,
   });
