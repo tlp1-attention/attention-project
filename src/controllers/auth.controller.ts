@@ -7,10 +7,10 @@ import { passport } from '../middleware/passport';
 const { Users } = Models;
 
 const loginController = passport.authenticate('local', {
-    successRedirect: '/workspace/timer', 
+    successRedirect: '/workspace/timer',
 });
 
-class IncorrectRegisterError extends Error {}
+class IncorrectRegisterError extends Error { }
 
 async function registerController(req: Request, res: Response) {
 
@@ -35,7 +35,7 @@ async function registerController(req: Request, res: Response) {
 
     if (found.length == 0) {
         const _newUser = await Users.create({
-            name: username, 
+            name: username,
             password: hashedPassword,
             email: email,
         });
@@ -53,14 +53,14 @@ async function registerController(req: Request, res: Response) {
 async function changePasswordController(req: Request, res: Response) {
 
     const { email, password: newPassword } = req.body;
-    
+
     try {
         const foundUser = await Users.findOne({
             where: {
                 email
             }
         })
-    
+
         if (!foundUser) {
             return res.sendStatus(400);
         }
@@ -71,7 +71,7 @@ async function changePasswordController(req: Request, res: Response) {
             password: hashedPassword,
             updatedAt: new Date()
         });
-        
+
         return res.sendStatus(201);
     } catch (err) {
         console.error(err);
@@ -79,16 +79,8 @@ async function changePasswordController(req: Request, res: Response) {
     }
 }
 
-async function logoutController(req: Request, res: Response, next: NextFunction) {
-    req.logout(function(err) {
-    if (err) { return next(err); }
-    res.redirect('/');
-  });
-}
-
 export {
     loginController,
     registerController,
-    changePasswordController,
-    logoutController
+    changePasswordController
 }

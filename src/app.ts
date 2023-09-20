@@ -1,8 +1,8 @@
 import express from 'express'
-import morgan  from 'morgan'
+import morgan from 'morgan'
 import helmet from 'helmet'
 import cors from 'cors'
-import { sequelize } from './db';
+import { createTypeEvents, sequelize } from './db';
 import cookieParser from 'cookie-parser'
 
 import { passport } from './middleware/passport';
@@ -23,10 +23,10 @@ const PORT = process.env.PORT || 8080;
 
 // Check database connection
 sequelize.authenticate()
-    .then(() => {
-        console.log('Succesful database connection');
-    })
-    .catch(console.error);
+  .then(() => {
+    console.log('Succesful database connection');
+  })
+  .catch(console.error);
 
 // Set ejs as template engine
 app.set('views', './src/views');
@@ -37,13 +37,13 @@ app.use(express.json());
 app.use(morgan('dev'));
 app.use(cors());
 app.use(helmet({
-    contentSecurityPolicy: false // Allow CDN's resources to be delivered
+  contentSecurityPolicy: false // Allow CDN's resources to be delivered
 }));
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 
 app.use(session({
-  secret: process.env.SECRET,
+  secret: process.env.SECRET_KEY,
   resave: false,
   saveUninitialized: false,
   cookie: {
@@ -69,6 +69,8 @@ app.use('/api/events', eventRouter);
 app.use('/api/notifications', webPushRouter);
 
 app.listen(PORT, async () => {
-    // await scheduleReminders();
-    console.log(`Server listening in port: http://localhost:${PORT}`);
+  // await scheduleReminders();
+  await sequelize.sync();
+  await createTypeEvents()
+  console.log(`Server listening in port: http://localhost:${PORT}`);
 });
