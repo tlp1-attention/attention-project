@@ -6,13 +6,6 @@ import { createToken } from '../utils/token'
 
 const { Users } = Models
 
-<<<<<<< HEAD
-const loginController = passport.authenticate('local', {
-    successRedirect: '/workspace/timer',
-});
-
-class IncorrectRegisterError extends Error { }
-=======
 async function loginController(req: Request, res: Response) {
     const { username, password } = req.body
 
@@ -40,7 +33,6 @@ async function loginController(req: Request, res: Response) {
         })
     }
 }
->>>>>>> 3e3ad2a0ac375ecd6e01716852e454315afd6c1e
 
 async function registerController(req: Request, res: Response) {
     const { username, password, email } = req.body
@@ -52,21 +44,12 @@ async function registerController(req: Request, res: Response) {
             password
         )
 
-<<<<<<< HEAD
-    if (found.length == 0) {
-        const _newUser = await Users.create({
-            name: username,
-            password: hashedPassword,
-            email: email,
-        });
-=======
         if (!registeredUser) {
             return res.status(409).json({
                 message: 'Usuario o correo electrónico no disponibles',
             })
         }
         const { id } = registeredUser
->>>>>>> 3e3ad2a0ac375ecd6e01716852e454315afd6c1e
 
         const token = await createToken(id)
 
@@ -86,11 +69,6 @@ async function registerController(req: Request, res: Response) {
 async function changePasswordController(req: Request, res: Response) {
     const { email, password: newPassword } = req.body
 
-<<<<<<< HEAD
-    const { email, password: newPassword } = req.body;
-
-=======
->>>>>>> 3e3ad2a0ac375ecd6e01716852e454315afd6c1e
     try {
         const foundUser = await Users.findOne({
             where: {
@@ -106,18 +84,11 @@ async function changePasswordController(req: Request, res: Response) {
 
         foundUser.update({
             password: hashedPassword,
-<<<<<<< HEAD
-            updatedAt: new Date()
-        });
-
-        return res.sendStatus(201);
-=======
         })
 
         return res.status(201).json({
             message: 'Contraseña cambiada exitosamente',
         })
->>>>>>> 3e3ad2a0ac375ecd6e01716852e454315afd6c1e
     } catch (err) {
         console.error(err)
         return res.status(500).json({
@@ -126,18 +97,12 @@ async function changePasswordController(req: Request, res: Response) {
     }
 }
 
-<<<<<<< HEAD
-export {
-    loginController,
-    registerController,
-    changePasswordController
-=======
 async function logoutController(
     req: Request,
     res: Response,
     next: NextFunction
 ) {
-    
+
 }
 
 export {
@@ -145,5 +110,4 @@ export {
     registerController,
     changePasswordController,
     logoutController,
->>>>>>> 3e3ad2a0ac375ecd6e01716852e454315afd6c1e
 }

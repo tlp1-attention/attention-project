@@ -1,14 +1,7 @@
 import express from 'express'
-<<<<<<< HEAD
-import morgan from 'morgan'
-import helmet from 'helmet'
-import cors from 'cors'
-import { createTypeEvents, sequelize } from './db';
-=======
 import helmet from 'helmet'
 import cors from 'cors'
 import { sequelize } from './database/connection';
->>>>>>> 3e3ad2a0ac375ecd6e01716852e454315afd6c1e
 import cookieParser from 'cookie-parser'
 
 import session from 'express-session';
@@ -77,13 +70,4 @@ app.use('/api/events', eventRouter);
 app.use('/api/notifications', webPushRouter);
 app.use('/api/users/preferences', preferenceRouter);
 
-<<<<<<< HEAD
-app.listen(PORT, async () => {
-  // await scheduleReminders();
-  await sequelize.sync();
-  await createTypeEvents()
-  console.log(`Server listening in port: http://localhost:${PORT}`);
-});
-=======
 export default app;
->>>>>>> 3e3ad2a0ac375ecd6e01716852e454315afd6c1e

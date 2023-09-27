@@ -1,28 +1,7 @@
 import { body } from 'express-validator'
 import { userService } from '../services/user.service'
 
-<<<<<<< HEAD
-export const createUserSchema = checkSchema({
-    username: {
-        errorMessage: 'Users must have a name',
-        isString: true,
-        isEmpty: false,
-    },
-    password: {
-        isLength: {
-            errorMessage: 'Password must be at least 8 characters long',
-            options: {
-                min: 8,
-            }
-        },
-    },
-    email: {
-        isEmail: true,
-    }
-});
-=======
 const userAvailable = (name: string, email: string) => userService.exists(name, email);
->>>>>>> 3e3ad2a0ac375ecd6e01716852e454315afd6c1e
 
 const commonUserSchemaOptions = {
     usernameValidation: [
@@ -67,23 +46,11 @@ const commonUserSchemaOptions = {
     ],
 }
 
-<<<<<<< HEAD
-    password: {
-        isLength: {
-            errorMessage: 'Password must be at least 8 characters long',
-            options: {
-                min: 8,
-            }
-        },
-    },
-});
-=======
 export const createUserSchema = [
     ...commonUserSchemaOptions.emailValidation,
     ...commonUserSchemaOptions.passwordValidation,
     ...commonUserSchemaOptions.usernameValidation,
 ]
->>>>>>> 3e3ad2a0ac375ecd6e01716852e454315afd6c1e
 
 export const loginUserSchema = [
     body('username')
