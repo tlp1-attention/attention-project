@@ -1,86 +1,149 @@
-import { Models } from '../db'
-import { hashPassword } from '../utils/hash';
+import { Models } from '../database/models'
+import { hashPassword } from '../utils/hash'
 import type { Response, Request, NextFunction } from 'express'
-import { Op } from 'sequelize'
-import { passport } from '../middleware/passport';
+import { userService } from '../services/user.service'
+import { createToken } from '../utils/token'
 
-const { Users } = Models;
+const { Users } = Models
 
+<<<<<<< HEAD
 const loginController = passport.authenticate('local', {
     successRedirect: '/workspace/timer',
 });
 
 class IncorrectRegisterError extends Error { }
+=======
+async function loginController(req: Request, res: Response) {
+    const { username, password } = req.body
+
+    try {
+        const loggedUser = await userService.login(username, password)
+
+        if (!loggedUser) {
+            return res.status(409).json({
+                message: 'Usuario o contraseña incorrectos',
+            })
+        }
+
+        const { id } = loggedUser
+
+        const token = await createToken(id)
+
+        return res.status(200).json({
+            message: 'Sesión iniciada correctamente',
+            token,
+        })
+    } catch (error) {
+        console.error(error)
+        res.status(500).json({
+            message: 'Error interno del servidor',
+        })
+    }
+}
+>>>>>>> 3e3ad2a0ac375ecd6e01716852e454315afd6c1e
 
 async function registerController(req: Request, res: Response) {
+    const { username, password, email } = req.body
 
-    const { username, password, email } = req.body;
-
-    const hashedPassword = await hashPassword(password);
-
-    let found;
     try {
-        found = await Users.findAll({
-            where: {
-                [Op.or]: {
-                    name: username,
-                    email: email
-                }
-            }
-        });
-    } catch (err) {
-        console.error(err);
-        res.sendStatus(500);
-    }
+        const registeredUser = await userService.register(
+            username,
+            email,
+            password
+        )
 
+<<<<<<< HEAD
     if (found.length == 0) {
         const _newUser = await Users.create({
             name: username,
             password: hashedPassword,
             email: email,
         });
+=======
+        if (!registeredUser) {
+            return res.status(409).json({
+                message: 'Usuario o correo electrónico no disponibles',
+            })
+        }
+        const { id } = registeredUser
+>>>>>>> 3e3ad2a0ac375ecd6e01716852e454315afd6c1e
 
-        return res.sendStatus(201);
+        const token = await createToken(id)
 
-    } else if (found.length == 1) {
-        return res.sendStatus(400);
-    } else {
-        throw new IncorrectRegisterError('Too many users with the same name.')
+        return res.status(201).json({
+            message: 'Registrado exitosamente',
+            token,
+        })
+    } catch (error) {
+        console.error(error)
+        res.status(500).json({
+            message: 'Error interno del servidor',
+        })
     }
 }
 
 // Change password controller
 async function changePasswordController(req: Request, res: Response) {
+    const { email, password: newPassword } = req.body
 
+<<<<<<< HEAD
     const { email, password: newPassword } = req.body;
 
+=======
+>>>>>>> 3e3ad2a0ac375ecd6e01716852e454315afd6c1e
     try {
         const foundUser = await Users.findOne({
             where: {
-                email
-            }
+                email,
+            },
         })
 
         if (!foundUser) {
-            return res.sendStatus(400);
+            return res.sendStatus(400)
         }
 
-        const hashedPassword = await hashPassword(newPassword);
+        const hashedPassword = await hashPassword(newPassword)
 
         foundUser.update({
             password: hashedPassword,
+<<<<<<< HEAD
             updatedAt: new Date()
         });
 
         return res.sendStatus(201);
+=======
+        })
+
+        return res.status(201).json({
+            message: 'Contraseña cambiada exitosamente',
+        })
+>>>>>>> 3e3ad2a0ac375ecd6e01716852e454315afd6c1e
     } catch (err) {
-        console.error(err);
-        return res.sendStatus(500);
+        console.error(err)
+        return res.status(500).json({
+            message: 'Error interno del servidor',
+        })
     }
+}
+
+<<<<<<< HEAD
+export {
+    loginController,
+    registerController,
+    changePasswordController
+=======
+async function logoutController(
+    req: Request,
+    res: Response,
+    next: NextFunction
+) {
+    
 }
 
 export {
     loginController,
     registerController,
-    changePasswordController
+    changePasswordController,
+    logoutController,
+>>>>>>> 3e3ad2a0ac375ecd6e01716852e454315afd6c1e
 }

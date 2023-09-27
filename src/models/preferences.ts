@@ -14,6 +14,18 @@ export interface PreferencesAttributes {
   userId?: number;
 }
 
+export const TIME_DAY = {
+  DAY: 'day',
+  AFTERNOON: 'afternoon',
+  NIGHT: 'night'
+}
+
+export const CONTACT_TYPES = {
+  DISCORD: 'discord',
+  SLACK: 'slack',
+  EMAIL: 'email'
+}
+
 export type PreferencesPk = "id";
 export type PreferencesId = Preferences[PreferencesPk];
 export type PreferencesOptionalAttributes = "id" | "createdAt" | "updatedAt" | "userId";
@@ -45,7 +57,11 @@ export class Preferences extends Model<PreferencesAttributes, PreferencesCreatio
       primaryKey: true
     },
     time_day: {
-      type: DataTypes.STRING(255),
+      type: DataTypes.ENUM(
+        TIME_DAY.DAY,
+        TIME_DAY.AFTERNOON,
+        TIME_DAY.NIGHT
+      ),
       allowNull: false
     },
     subject: {
@@ -61,7 +77,11 @@ export class Preferences extends Model<PreferencesAttributes, PreferencesCreatio
       allowNull: false
     },
     contact: {
-      type: DataTypes.STRING(255),
+      type: DataTypes.ENUM(
+        CONTACT_TYPES.DISCORD,
+        CONTACT_TYPES.SLACK,
+        CONTACT_TYPES.EMAIL
+      ),
       allowNull: false
     },
     userId: {
