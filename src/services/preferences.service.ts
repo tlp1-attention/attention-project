@@ -9,7 +9,7 @@ export class PreferenceService {
     constructor(
         private preferencesModel: typeof Preferences,
         private userService: UserService
-    ) {}
+    ) { }
 
     /**
      * Find all preferences of the given userId's
@@ -88,6 +88,15 @@ export class PreferenceService {
     ): Promise<Preferences | null> {
         const found = await this.findByUserId(userId)
         if (!found) return null
+        return await found.update(preferences)
+    }
+
+    async findOrCreate(
+        userId: number,
+        preferences: InferAttributes<Preferences>
+    ): Promise<Preferences | null> {
+        const found = await this.findByUserId(userId)
+        if (!found) return this.create(userId, preferences)
         return await found.update(preferences)
     }
 }

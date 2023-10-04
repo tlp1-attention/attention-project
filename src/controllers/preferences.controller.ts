@@ -7,7 +7,7 @@ async function registerPreferences(req: AuthRequest, res: Response) {
     const { id: userId } = req.user!
 
     try {
-        const newPreferences = await preferencesService.create(userId, req.body)
+        const newPreferences = await preferencesService.findOrCreate(userId, req.body)
 
         if (!newPreferences) {
             return res.status(404).json({
@@ -88,7 +88,7 @@ async function deletePreferences(req: AuthRequest, res: Response) {
 
         if (!deleted) {
             return res.status(404).json({
-                message: `No se encontró ningún usuario de ID ${userId}` 
+                message: `No se encontró ningún usuario de ID ${userId}`
             });
         }
 
