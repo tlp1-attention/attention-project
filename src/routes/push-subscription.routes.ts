@@ -1,11 +1,11 @@
 import { createSubscription, sendPublicKey, deleteSubscription } from "../controllers/push-subscriber.controller";
 import { Router } from 'express';
-import { validateToken } from "../middleware/validate_jwt";
+import { verifySession } from "../middleware/passport";
 
 const router = Router();
 
-router.post('/subscription', [validateToken], createSubscription);
-router.get('/vapid-key', [validateToken], sendPublicKey);
-router.delete('/subscription', [validateToken], deleteSubscription);
+router.post('/subscription', [verifySession], createSubscription);
+router.get('/vapid-key', [verifySession], sendPublicKey);
+router.delete('/subscription', [verifySession], deleteSubscription);
 
 export default router;

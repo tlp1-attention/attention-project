@@ -1,17 +1,35 @@
 import { Router } from 'express'
-import { validateToken } from '../middleware/validate_jwt'
+import { verifySession } from '../middleware/passport'
+import { validate } from '../middleware/validation'
 import {
     createEvent,
     deleteEvent,
     updateUserEvent,
-    getEventsByUser
-} from '../controllers/events.contollers'
+    getEventsByUser,
+    getEventById,
+} from '../controllers/events.controllers'
+import {
+    createEventSchema,
+    deleteEventSchema,
+    updateEventSchema,
+} from '../schemas/event.schema'
 
-const router = Router();
+const router = Router()
 
-router.get('/', [validateToken], getEventsByUser);
-router.post('/', [validateToken], createEvent);
-router.put('/', [validateToken], updateUserEvent);
-router.delete('/', [validateToken], deleteEvent);
+router.get('/', [verifySession], getEventsByUser)
+router.get('/:eventId', [verifySession], getEventById)
+router.post('/', [verifySession], validate(createEventSchema), createEvent)
+router.put(
+    '/:eventId',
+    [verifySession],
+    validate(updateEventSchema),
+    updateUserEvent
+)
+router.delete(
+    '/:eventId',
+    validate(deleteEventSchema),
+    [verifySession],
+    deleteEvent
+)
 
-export default router;
+export default router

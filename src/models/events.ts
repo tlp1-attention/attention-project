@@ -11,8 +11,8 @@ export interface EventsAttributes {
   description: string;
   createdAt: Date;
   updatedAt: Date;
-  startTime: Date;
-  endTime: Date;
+  startDate: Date;
+  endDate: Date;
   userId: number;
   typeId: number;
   completed: boolean;
@@ -21,7 +21,7 @@ export interface EventsAttributes {
 
 export type EventsPk = "id";
 export type EventsId = Events[EventsPk];
-export type EventsOptionalAttributes = "id" | "createdAt" | "updatedAt" | "userId";
+export type EventsOptionalAttributes = "id" | "createdAt" | "updatedAt" | "userId" | "remindedAt" | "completed";
 export type EventsCreationAttributes = Optional<EventsAttributes, EventsOptionalAttributes>;
 
 export class Events extends Model<EventsAttributes, EventsCreationAttributes> implements EventsAttributes {
@@ -29,8 +29,8 @@ export class Events extends Model<EventsAttributes, EventsCreationAttributes> im
   declare title: string;
   declare description: string;
   declare typeId: number;
-  declare startTime: Date;
-  declare endTime: Date;
+  declare startDate: Date;
+  declare endDate: Date;
   declare createdAt: Date;
   declare updatedAt: Date;
   declare userId: number;
@@ -48,6 +48,7 @@ export class Events extends Model<EventsAttributes, EventsCreationAttributes> im
   declare getType: Sequelize.BelongsToGetAssociationMixin<TypeEvent>;
   declare setTypeEvent: Sequelize.BelongsToSetAssociationMixin<TypeEvent, TypeEventId>;
   declare createTypeEvent: Sequelize.BelongsToCreateAssociationMixin<TypeEvent>;
+
 
   static initModel(sequelize: Sequelize.Sequelize): typeof Events {
     return Events.init({
@@ -96,11 +97,11 @@ export class Events extends Model<EventsAttributes, EventsCreationAttributes> im
       type: DataTypes.DATE,
       allowNull: false
     },
-    startTime: {
+    startDate: {
       type: DataTypes.DATE,
       allowNull: false
     },
-    endTime: {
+    endDate: {
       type: DataTypes.DATE,
       allowNull: true
     },

@@ -1,6 +1,5 @@
 import fetchOK from "./utils/fetch.js";
 import _showError from "./utils/showError.js";
-import showSuccess from './utils/showSuccess.js';
 
 const usernameInput = document.querySelector('[name="username"');
 const passwordInput = document.querySelector('[name="password"]'); 
@@ -42,8 +41,13 @@ form.addEventListener('submit', async (evt) => {
     };
 })
 
-async function handleLogin() {
+async function handleLogin(response) {
+    try {
+        const { token } = await response.json();
+        localStorage.setItem('token', token);
 
+    } catch(err) {
+        return showError('Hubo un error al iniciar sesión. Por favor contáctese con los desarrolladores del sitio.')
+    }
     window.location.assign('/workspace/timer');
-
 }
