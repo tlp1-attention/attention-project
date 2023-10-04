@@ -1,18 +1,6 @@
 import { body } from "express-validator";
 import { CONTACT_TYPES, TIME_DAY } from "../models/preferences";
 
-type IPreference = {
-  id: number;
-  time_day: string;
-  subject: string;
-  people: string;
-  contact_type: string;
-  contact: string;
-  createdAt: Date;
-  updatedAt: Date;
-  userId?: number;
-}
-
 const commonSchemaOptions = {
     validateTimeDay: [
         body('timeDay')
@@ -30,14 +18,14 @@ const commonSchemaOptions = {
         body('subjects')
             .optional()
             .isArray().withMessage('Los temas deben estar dispuestos en un array')
-            .custom((subjectArr: Array<unknown>) => {
+            /* .custom((subjectArr: Array<unknown>) => {
                 for (const subject of subjectArr) {
                     if (typeof subject !== "string") {
                         throw new Error('Las materias deben ser un string');
                     } 
                 }
                 return true;
-            })
+            }) */
     ],
     validateContact: [
         body('contactType')
@@ -51,6 +39,7 @@ const commonSchemaOptions = {
                 return true;
             }),
         body('contact')
+            .exists().withMessage('Debe proveer un contacto')
             .if((_value, { req }) => req.body.contactType !== null)
             .isString().withMessage('La información de contacto debe ser un string')
             .if((_value, { req }) => req.body.contactType === CONTACT_TYPES.EMAIL)

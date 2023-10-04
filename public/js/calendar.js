@@ -16,8 +16,8 @@ const eventContainer = document.querySelector('#event-container');
 const errorMessage = document.querySelector("#error-message");
 const eventTitle = document.querySelector('[name=title]');
 const eventDesc = document.querySelector('[name=description]');
-const startDate = document.querySelector('[name=startDate]');
-const endDate = document.querySelector('[name=endDate]');
+const startTime = document.querySelector('[name=startDate]');
+const endTime = document.querySelector('[name=endDate]');
 const importance = document.querySelector('[name=importance]');
 const filterCriteria = document.querySelector('#filter-criteria');
 const sortCriteria = document.querySelector('#sort-criteria');
@@ -36,7 +36,7 @@ async function createEvent(evt) {
         body: JSON.stringify({
             title: eventTitle.value,
             description: eventDesc.value,
-            startDate: startDate.value,
+            startDate: startTime.value,
             endDate: endDate.value,
             typeId: importance.value
         })
@@ -67,7 +67,7 @@ function sortEvents(events) {
         case '-':
             return events
         case 'by-date':
-            return events.sort((a, b) => new Date(b.startTime) - new Date(a.startTime));
+            return events.sort((a, b) => new Date(b.startDate) - new Date(a.startDate));
         case 'by-relevance-imp':
             return events.sort((a, b) => b.typeId > a.typeId ? -1 : 1);
         case 'by-relevance-no-imp':
@@ -82,7 +82,7 @@ function applyFilter(event) {
         case '-':
             return true;
         case 'future-dates':
-            return new Date(event.startTime) > new Date();
+            return new Date(event.startDate) > new Date();
         case 'important':
             return event.typeId == 1;
         case 'non-important':
