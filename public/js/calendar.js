@@ -7,52 +7,59 @@ const formModal = bootstrap.Modal.getOrCreateInstance(document.querySelector('.m
 const newEventBtn = document.querySelector('#new-event');
 
 newEventBtn.addEventListener('click', () => {
+    updating = false;
+    currentId = null;
     formModal.show();
 })
 
 const token = localStorage.getItem('token');
+console.log(token);
 const eventContainer = document.querySelector('#event-container');
 const errorMessage = document.querySelector("#error-message");
 const eventTitle = document.querySelector('[name=title]');
 const eventDesc = document.querySelector('[name=description]');
-const startDate = document.querySelector('[name=startDate]');
-const endDate = document.querySelector('[name=endDate]');
+const startTime = document.querySelector('[name=startDate]');
+const endTime = document.querySelector('[name=endDate]');
 const importance = document.querySelector('[name=importance]');
 const filterCriteria = document.querySelector('#filter-criteria');
 const sortCriteria = document.querySelector('#sort-criteria');
 
-form.addEventListener('submit', createEvent);
+form.addEventListener('submit', (e) => { 
+    createOrUpdate(e);
+});
 
-async function createEvent(evt) {
+let updating = false;
+let currentId = null;
+
+async function createOrUpdate(evt) {
     evt.preventDefault();
+    console.log(updating, currentId);
 
-    const response = fetchOK('/api/events', {
-        method: 'POST',
+    const response = fetchOK(`/api/events/${currentId ?? ''}`, {
+        method: updating ? 'PUT' : 'POST',
         headers: {
-            'token': token,
+            'Authorization': token,
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
             title: eventTitle.value,
             description: eventDesc.value,
-            startDate: startDate.value,
-            endDate: endDate.value,
-            typeEvent: importance.value
+            startDate: startTime.value,
+            endDate: endTime.value,
+            typeId: importance.value
         })
     })
-
     response
         .then(() => {
             showEvents()
             form.reset();
             formModal.hide();
 
-            return showSuccess('Evento creado exitosamente', '');
-        }).catch(failedResponse => {
-            console.log(failedResponse);
-            console.log(failedResponse.status);
+            return showSuccess(`Evento ${updating ? "actualizado" : "creado"} exitosamente`, '');
+        }).catch(async failedResponse => {
+            const { errors } = await failedResponse.json();
             if (failedResponse.status == 400) {
-                return showError('Datos enviados incorrectamente', errorMessage);
+                return showError(`Datos enviados incorrectamente: ${errors.map(e => e.msg)}`, errorMessage);
             }
 
             return showError('Error inesperado. ' + failedResponse.statusText || "", errorMessage);
@@ -68,7 +75,7 @@ function sortEvents(events) {
         case '-':
             return events
         case 'by-date':
-            return events.sort((a, b) => new Date(b.startTime) - new Date(a.startTime));
+            return events.sort((a, b) => new Date(b.startDate) - new Date(a.startDate));
         case 'by-relevance-imp':
             return events.sort((a, b) => b.typeId > a.typeId ? -1 : 1);
         case 'by-relevance-no-imp':
@@ -83,7 +90,7 @@ function applyFilter(event) {
         case '-':
             return true;
         case 'future-dates':
-            return new Date(event.startTime) > new Date();
+            return new Date(event.startDate) > new Date();
         case 'important':
             return event.typeId == 1;
         case 'non-important':
@@ -96,24 +103,15 @@ async function getEvents() {
     const responseObj = await fetch('/api/events', {
         method: 'GET',
         headers: {
-            token: token
+            'Authorization': token
         }
     })
 
-    if (responseObj.status == 401) {
-        showError('Sesión expirada. Redireccionando a página principal', errorMessage);
-        setTimeout(() => {
-            window.location.assign('/');
-        }, 3000);
-        return [];
-    }
-
     if (responseObj.status == 404) return [];
-
     const {
         events
     } = await responseObj.json();
-
+    console.log(events);
     return events;
 }
 
@@ -151,27 +149,29 @@ async function updateEvent(id) {
     const {
         title,
         description,
-        startTime,
-        endTime,
+        startDate,
+        endDate,
         typeId
     } = eventToUpdate;
 
     eventTitle.value = title;
     eventDesc.value = description;
-    startDate.value = startTime.slice(0, -8);
-    if (endTime) endDate.value = endTime.slice(0, -8);
+    startTime.value = startDate.slice(0, -8);
+    if (endDate) endTime.value = endDate.slice(0, -8);
     importance.value = typeId;
 
+    updating = true;
+    currentId = id;
     formModal.show();
 }
 
 async function deleteEvent(id) {
 
-    const response = await fetch('/api/events', {
+    const response = await fetch(`/api/events/${id}`, {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',
-            token: token
+            'Authorization': token
         },
         body: JSON.stringify({
             id
@@ -181,6 +181,7 @@ async function deleteEvent(id) {
     if (response.ok) {
         showSuccess('Evento eliminado', '');
     } else {
+        console.log(response);
         showError('Algo salió mal', errorMessage);
     }
 
@@ -216,12 +217,12 @@ function renderEvent({
     id,
     title,
     description,
-    startTime,
+    startDate,
     typeId
 }) {
     const template = document.createElement('template');
 
-    const startDate = new Date(startTime);
+    startDate = new Date(startDate);
 
     const eventColor = typeColorsMap.get(typeId);
 
@@ -246,10 +247,10 @@ function renderEvent({
             <p class="fs-3">
                 ${description}
             </p>
-            <input type="checkbox" onchange=handleCompletedChange(${id}) /> Completado
         </div>
     </section>
     `
+    console.log(id);
     template.content.querySelector('#delete-btn').addEventListener('click', () => deleteEvent(id))
     template.content.querySelector('#update-btn').addEventListener('click', () => updateEvent(id));
 

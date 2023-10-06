@@ -1,25 +1,26 @@
 import express from 'express'
-import morgan  from 'morgan'
 import helmet from 'helmet'
 import cors from 'cors'
-import { sequelize } from './db';
+import { sequelize } from './database/connection';
 import cookieParser from 'cookie-parser'
 
-import { passport } from './middleware/passport';
 import session from 'express-session';
 import connectSQLite from 'connect-sqlite3';
 
 import loginRouter from './routes/auth.routes'
 import staticServer from './middleware/__server-static.middleware';
+import { logRequests } from './middleware/logging'
 import indexRouter from './routes/index.routes'
 import workSpaceRouter from './routes/workspace.routes'
 import eventRouter from './routes/events.routes'
 import webPushRouter from './routes/push-subscription.routes';
+import preferenceRouter from './routes/preferences.routes';
+import { resolve } from 'path';
+import configEnv from './config/env';
 
 const app = express();
 const SessionStore = connectSQLite(session);
-
-const PORT = process.env.PORT || 8080;
+const SESSION_PATH = resolve('./session-store');
 
 // Check database connection
 sequelize.authenticate()
@@ -34,7 +35,7 @@ app.set('view engine', 'ejs');
 
 // Library Middleware
 app.use(express.json());
-app.use(morgan('dev'));
+app.use(logRequests);
 app.use(cors());
 app.use(helmet({
     contentSecurityPolicy: false // Allow CDN's resources to be delivered
@@ -43,7 +44,7 @@ app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 
 app.use(session({
-  secret: process.env.SECRET,
+  secret: configEnv.SECRET,
   resave: false,
   saveUninitialized: false,
   cookie: {
@@ -53,10 +54,10 @@ app.use(session({
   },
   store: new SessionStore({
     db: 'session.db',
-    dir: './session-store'
+    table: 'sessions',
+    dir: SESSION_PATH
   }) as session.Store
 }));
-app.use(passport.session());
 
 // Custom middleware
 app.use(staticServer);
@@ -67,8 +68,6 @@ app.use(indexRouter);
 app.use(workSpaceRouter);
 app.use('/api/events', eventRouter);
 app.use('/api/notifications', webPushRouter);
+app.use('/api/users/preferences', preferenceRouter);
 
-app.listen(PORT, async () => {
-    // await scheduleReminders();
-    console.log(`Server listening in port: http://localhost:${PORT}`);
-});
+export default app;
