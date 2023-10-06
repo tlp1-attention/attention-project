@@ -87,10 +87,6 @@ export class Exercises extends Model<ExercisesAttributes, ExercisesCreationAttri
       type: DataTypes.STRING(255),  
       allowNull: true
     },
-    answer: {
-      type: DataTypes.STRING(255),
-      allowNull: true
-    },
     memorama_tematic: {
       type: DataTypes.STRING(255),
       allowNull: true
