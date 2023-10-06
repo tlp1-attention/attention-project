@@ -7,6 +7,8 @@ const formModal = bootstrap.Modal.getOrCreateInstance(document.querySelector('.m
 const newEventBtn = document.querySelector('#new-event');
 
 newEventBtn.addEventListener('click', () => {
+    updating = false;
+    currentId = null;
     formModal.show();
 })
 
@@ -22,13 +24,19 @@ const importance = document.querySelector('[name=importance]');
 const filterCriteria = document.querySelector('#filter-criteria');
 const sortCriteria = document.querySelector('#sort-criteria');
 
-form.addEventListener('submit', createEvent);
+form.addEventListener('submit', (e) => { 
+    createOrUpdate(e);
+});
 
-async function createEvent(evt) {
+let updating = false;
+let currentId = null;
+
+async function createOrUpdate(evt) {
     evt.preventDefault();
+    console.log(updating, currentId);
 
-    const response = fetchOK('/api/events', {
-        method: 'POST',
+    const response = fetchOK(`/api/events/${currentId ?? ''}`, {
+        method: updating ? 'PUT' : 'POST',
         headers: {
             'Authorization': token,
             'Content-Type': 'application/json'
@@ -37,7 +45,7 @@ async function createEvent(evt) {
             title: eventTitle.value,
             description: eventDesc.value,
             startDate: startTime.value,
-            endDate: endDate.value,
+            endDate: endTime.value,
             typeId: importance.value
         })
     })
@@ -47,7 +55,7 @@ async function createEvent(evt) {
             form.reset();
             formModal.hide();
 
-            return showSuccess('Evento creado exitosamente', '');
+            return showSuccess(`Evento ${updating ? "actualizado" : "creado"} exitosamente`, '');
         }).catch(async failedResponse => {
             const { errors } = await failedResponse.json();
             if (failedResponse.status == 400) {
@@ -100,11 +108,10 @@ async function getEvents() {
     })
 
     if (responseObj.status == 404) return [];
-
     const {
         events
     } = await responseObj.json();
-
+    console.log(events);
     return events;
 }
 
@@ -153,12 +160,14 @@ async function updateEvent(id) {
     if (endDate) endTime.value = endDate.slice(0, -8);
     importance.value = typeId;
 
+    updating = true;
+    currentId = id;
     formModal.show();
 }
 
 async function deleteEvent(id) {
 
-    const response = await fetch('/api/events', {
+    const response = await fetch(`/api/events/${id}`, {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',
@@ -172,6 +181,7 @@ async function deleteEvent(id) {
     if (response.ok) {
         showSuccess('Evento eliminado', '');
     } else {
+        console.log(response);
         showError('Algo salió mal', errorMessage);
     }
 
@@ -237,10 +247,10 @@ function renderEvent({
             <p class="fs-3">
                 ${description}
             </p>
-            <input type="checkbox" onchange=handleCompletedChange(${id}) /> Completado
         </div>
     </section>
     `
+    console.log(id);
     template.content.querySelector('#delete-btn').addEventListener('click', () => deleteEvent(id))
     template.content.querySelector('#update-btn').addEventListener('click', () => updateEvent(id));
 

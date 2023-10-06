@@ -71,7 +71,7 @@ async function deleteSubscription(req: AuthRequest, res: Response) {
             })
         }
 
-        res.send(200).json({
+        res.status(200).json({
             message: 'Desuscrito correctamente',
             user: subscriptionFound,
         })

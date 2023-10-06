@@ -38,7 +38,7 @@ export function scheduleReminders() {
                         message: `${event.title}`
                     };
                     try {
-                        await sendMessage(payload, user.id);
+                        await sendMessage(JSON.stringify(payload), user.id);
                     } catch (err) {
                         console.error(err);
                     }

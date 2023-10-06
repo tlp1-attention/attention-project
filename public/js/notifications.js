@@ -1,11 +1,11 @@
 import _showError from './utils/showError.js'
-import showSuccess from './utils/showSuccess.js'
 import promptUser from './utils/promptUser.js'
 
 const errorMessage = document.querySelector('#error-message');
 
 const showError = (msg) => _showError(msg, errorMessage);
 
+const token = localStorage.getItem('token');
 let enabledNotifications = localStorage.getItem('vapidPublicKey') !== null;
 
 const notificationIcon = document.querySelector('i.bi-bell');
@@ -57,6 +57,7 @@ notifyBtn.addEventListener('click', async (_evt) => {
             method: 'POST',
             body: JSON.stringify(subscription),
             headers: {
+                'Authorization': token,
                 'content-type': 'application/json'
             }
         });
@@ -74,6 +75,7 @@ notifyBtn.addEventListener('click', async (_evt) => {
         const response = await fetch('/api/notifications/subscription', {
             method: 'DELETE',
             headers: {
+                'Authorization': token,
                 'content-type': 'application/json'
             }
         });

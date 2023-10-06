@@ -118,9 +118,11 @@ export class SubscriptionService {
         }
 
         try {
-
+            const formatted = userFound.subscriptionPayload.replaceAll('\\', '');
+            console.log(formatted);
+            const parsed = JSON.parse(formatted.slice(1, formatted.length - 1));
             return webpush.sendNotification(
-                JSON.parse(userFound.subscriptionPayload),
+                parsed,
                 payload
             );
 
