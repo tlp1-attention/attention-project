@@ -1,3 +1,5 @@
+@import url(./general.css);
+
 :root {
   --nav-width: 300px;
 }
@@ -55,6 +57,11 @@ nav {
   box-shadow: 0 20px 35px rgba(0, 0, 0, 0.1);
   border-right: solid rgb(241, 237, 237);
 }
+
+nav a {
+  color: var(--clr-accent-800);
+}
+
 .logo {
   text-align: center;
   display: flex;
