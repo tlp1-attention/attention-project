@@ -7,7 +7,7 @@ import type { Responses, ResponsesId } from './responses';
 export interface ExercisesAttributes {
   id: number;
   read?: string;
-  question?: string;
+  questionId?: number;
   answer?: string;
   memorama_tematic?: string;
   memorama_img?: string;
@@ -19,57 +19,60 @@ export interface ExercisesAttributes {
 
 export type ExercisesPk = "id";
 export type ExercisesId = Exercises[ExercisesPk];
-export type ExercisesOptionalAttributes = "id" | "read" | "question" | "answer" | "memorama_tematic" | "memorama_img" | "puzzle_name" | "puzzle" | "createdAt" | "updatedAt";
+export type ExercisesOptionalAttributes = "id" | "read" | "questionId" | "answer" | "memorama_tematic" | "memorama_img" | "puzzle_name" | "puzzle" | "createdAt" | "updatedAt";
 export type ExercisesCreationAttributes = Optional<ExercisesAttributes, ExercisesOptionalAttributes>;
 
 export class Exercises extends Model<ExercisesAttributes, ExercisesCreationAttributes> implements ExercisesAttributes {
-  id!: number;
-  read?: string;
-  question?: string;
-  answer?: string;
-  memorama_tematic?: string;
-  memorama_img?: string;
-  puzzle_name?: string;
-  puzzle?: string;
-  createdAt!: Date;
-  updatedAt!: Date;
+  declare id: number;
+  declare read?: string;
+  declare question?: string;
+  declare answer?: string;
+  declare memorama_tematic?: string;
+  declare memorama_img?: string;
+  declare puzzle_name?: string;
+  declare puzzle?: string;
+  declare createdAt: Date;
+  declare updatedAt: Date;
 
   // Exercises hasMany Answers via exerciseId
-  answers!: Answers[];
-  getAnswers!: Sequelize.HasManyGetAssociationsMixin<Answers>;
-  setAnswers!: Sequelize.HasManySetAssociationsMixin<Answers, AnswersId>;
-  addAnswer!: Sequelize.HasManyAddAssociationMixin<Answers, AnswersId>;
-  addAnswers!: Sequelize.HasManyAddAssociationsMixin<Answers, AnswersId>;
-  createAnswer!: Sequelize.HasManyCreateAssociationMixin<Answers>;
-  removeAnswer!: Sequelize.HasManyRemoveAssociationMixin<Answers, AnswersId>;
-  removeAnswers!: Sequelize.HasManyRemoveAssociationsMixin<Answers, AnswersId>;
-  hasAnswer!: Sequelize.HasManyHasAssociationMixin<Answers, AnswersId>;
-  hasAnswers!: Sequelize.HasManyHasAssociationsMixin<Answers, AnswersId>;
-  countAnswers!: Sequelize.HasManyCountAssociationsMixin;
+  declare answers: Answers[];
+  declare getAnswers: Sequelize.HasManyGetAssociationsMixin<Answers>;
+  declare setAnswers: Sequelize.HasManySetAssociationsMixin<Answers, AnswersId>;
+  declare addAnswer: Sequelize.HasManyAddAssociationMixin<Answers, AnswersId>;
+  declare addAnswers: Sequelize.HasManyAddAssociationsMixin<Answers, AnswersId>;
+  declare createAnswer: Sequelize.HasManyCreateAssociationMixin<Answers>;
+  declare removeAnswer: Sequelize.HasManyRemoveAssociationMixin<Answers, AnswersId>;
+  declare removeAnswers: Sequelize.HasManyRemoveAssociationsMixin<Answers, AnswersId>;
+  declare hasAnswer: Sequelize.HasManyHasAssociationMixin<Answers, AnswersId>;
+  declare hasAnswers: Sequelize.HasManyHasAssociationsMixin<Answers, AnswersId>;
+
+  declare countAnswers: Sequelize.HasManyCountAssociationsMixin;
   // Exercises hasMany CompleteExercises via exerciseId
-  complete_exercises!: CompleteExercises[];
-  getComplete_exercises!: Sequelize.HasManyGetAssociationsMixin<CompleteExercises>;
-  setComplete_exercises!: Sequelize.HasManySetAssociationsMixin<CompleteExercises, CompleteExercisesId>;
-  addComplete_exercise!: Sequelize.HasManyAddAssociationMixin<CompleteExercises, CompleteExercisesId>;
-  addComplete_exercises!: Sequelize.HasManyAddAssociationsMixin<CompleteExercises, CompleteExercisesId>;
-  createComplete_exercise!: Sequelize.HasManyCreateAssociationMixin<CompleteExercises>;
-  removeComplete_exercise!: Sequelize.HasManyRemoveAssociationMixin<CompleteExercises, CompleteExercisesId>;
-  removeComplete_exercises!: Sequelize.HasManyRemoveAssociationsMixin<CompleteExercises, CompleteExercisesId>;
-  hasComplete_exercise!: Sequelize.HasManyHasAssociationMixin<CompleteExercises, CompleteExercisesId>;
-  hasComplete_exercises!: Sequelize.HasManyHasAssociationsMixin<CompleteExercises, CompleteExercisesId>;
-  countComplete_exercises!: Sequelize.HasManyCountAssociationsMixin;
+  declare complete_exercises: CompleteExercises[];
+  declare getComplete_exercises: Sequelize.HasManyGetAssociationsMixin<CompleteExercises>;
+  declare setComplete_exercises: Sequelize.HasManySetAssociationsMixin<CompleteExercises, CompleteExercisesId>;
+  declare addComplete_exercise: Sequelize.HasManyAddAssociationMixin<CompleteExercises, CompleteExercisesId>;
+  declare addComplete_exercises: Sequelize.HasManyAddAssociationsMixin<CompleteExercises, CompleteExercisesId>;
+  declare createComplete_exercise: Sequelize.HasManyCreateAssociationMixin<CompleteExercises>;
+  declare removeComplete_exercise: Sequelize.HasManyRemoveAssociationMixin<CompleteExercises, CompleteExercisesId>;
+  declare removeComplete_exercises: Sequelize.HasManyRemoveAssociationsMixin<CompleteExercises, CompleteExercisesId>;
+  declare hasComplete_exercis: Sequelize.HasManyHasAssociationMixin<CompleteExercises, CompleteExercisesId>;
+  declare hasComplete_exercises: Sequelize.HasManyHasAssociationsMixin<CompleteExercises, CompleteExercisesId>;
+  declare countComplete_exercises: Sequelize.HasManyCountAssociationsMixin;
+
   // Exercises hasMany Responses via exerciseId
-  responses!: Responses[];
-  getResponses!: Sequelize.HasManyGetAssociationsMixin<Responses>;
-  setResponses!: Sequelize.HasManySetAssociationsMixin<Responses, ResponsesId>;
-  addResponse!: Sequelize.HasManyAddAssociationMixin<Responses, ResponsesId>;
-  addResponses!: Sequelize.HasManyAddAssociationsMixin<Responses, ResponsesId>;
-  createResponse!: Sequelize.HasManyCreateAssociationMixin<Responses>;
-  removeResponse!: Sequelize.HasManyRemoveAssociationMixin<Responses, ResponsesId>;
-  removeResponses!: Sequelize.HasManyRemoveAssociationsMixin<Responses, ResponsesId>;
-  hasResponse!: Sequelize.HasManyHasAssociationMixin<Responses, ResponsesId>;
-  hasResponses!: Sequelize.HasManyHasAssociationsMixin<Responses, ResponsesId>;
-  countResponses!: Sequelize.HasManyCountAssociationsMixin;
+  declare responses: Responses[];
+  declare getResponses: Sequelize.HasManyGetAssociationsMixin<Responses>;
+  declare setResponses: Sequelize.HasManySetAssociationsMixin<Responses, ResponsesId>;
+  declare addResponse: Sequelize.HasManyAddAssociationMixin<Responses, ResponsesId>;
+  declare addResponses: Sequelize.HasManyAddAssociationsMixin<Responses, ResponsesId>;
+  declare createResponse: Sequelize.HasManyCreateAssociationMixin<Responses>;
+  declare removeResponse: Sequelize.HasManyRemoveAssociationMixin<Responses, ResponsesId>;
+  declare removeResponses: Sequelize.HasManyRemoveAssociationsMixin<Responses, ResponsesId>;
+  declare hasResponse: Sequelize.HasManyHasAssociationMixin<Responses, ResponsesId>;
+  declare hasResponses: Sequelize.HasManyHasAssociationsMixin<Responses, ResponsesId>;
+  declare countResponses: Sequelize.HasManyCountAssociationsMixin;
+declare 
 
   static initModel(sequelize: Sequelize.Sequelize): typeof Exercises {
     return Exercises.init({
@@ -83,8 +86,8 @@ export class Exercises extends Model<ExercisesAttributes, ExercisesCreationAttri
       type: DataTypes.STRING(255),
       allowNull: true
     },
-    question: {
-      type: DataTypes.STRING(255),  
+    questionId: {
+      type: DataTypes.INTEGER,  
       allowNull: true
     },
     answer: {

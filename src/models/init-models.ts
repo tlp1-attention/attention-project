@@ -19,7 +19,8 @@ import { Events as _Events } from './events'
 import type { EventsAttributes, EventsCreationAttributes } from "./events";
 import type { TypeEventAttributes, TypeEventCreationAttributes } from "./type_events";
 import { TypeEvent as _TypeEvent } from "./type_events";
-
+import { Question as _Question } from "./questions";
+import type { QuestionAttributes, QuestionCreationAttributes } from "./questions";
 
 export {
   _Answers as Answers,
@@ -30,7 +31,8 @@ export {
   _Responses as Responses,
   _TypeExercises as TypeExercises,
   _Users as Users,
-  _TypeEvent as TypeEvent
+  _TypeEvent as TypeEvent,
+  _Question as Question
 };
 
 export type {
@@ -53,7 +55,9 @@ export type {
   EventsAttributes,
   EventsCreationAttributes,
   TypeEventAttributes,
-  TypeEventCreationAttributes
+  TypeEventCreationAttributes,
+  QuestionAttributes,
+  QuestionCreationAttributes
 };
 
 export function initModels(sequelize: Sequelize) {
@@ -67,7 +71,7 @@ export function initModels(sequelize: Sequelize) {
   const Users = _Users.initModel(sequelize);
   const TypeEvent = _TypeEvent.initModel(sequelize);
   const Events = _Events.initModel(sequelize);
-  
+  const Question = _Question.initModel(sequelize);
 
   return {
     Answers: Answers,
@@ -80,5 +84,6 @@ export function initModels(sequelize: Sequelize) {
     Users: Users,
     Events: Events,
     TypeEvent: TypeEvent,
+    Question: Question
   };
 }

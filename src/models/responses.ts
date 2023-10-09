@@ -5,30 +5,30 @@ import type { Exercises, ExercisesId } from './exercises';
 export interface ResponsesAttributes {
   id: number;
   response: string;
-  correct: number;
+  correct: boolean;
   createdAt: Date;
   updatedAt: Date;
-  exerciseId?: number;
+  questionId: number;
 }
 
 export type ResponsesPk = "id";
 export type ResponsesId = Responses[ResponsesPk];
-export type ResponsesOptionalAttributes = "id" | "createdAt" | "updatedAt" | "exerciseId";
+export type ResponsesOptionalAttributes = "id" | "createdAt" | "updatedAt";
 export type ResponsesCreationAttributes = Optional<ResponsesAttributes, ResponsesOptionalAttributes>;
 
 export class Responses extends Model<ResponsesAttributes, ResponsesCreationAttributes> implements ResponsesAttributes {
-  id!: number;
-  response!: string;
-  correct!: number;
-  createdAt!: Date;
-  updatedAt!: Date;
-  exerciseId?: number;
-
-  // Responses belongsTo Exercises via exerciseId
-  exercise!: Exercises;
-  getExercise!: Sequelize.BelongsToGetAssociationMixin<Exercises>;
-  setExercise!: Sequelize.BelongsToSetAssociationMixin<Exercises, ExercisesId>;
-  createExercise!: Sequelize.BelongsToCreateAssociationMixin<Exercises>;
+  declare id: number;
+  declare response: string;
+  declare correct: boolean;
+  declare createdAt: Date;
+  declare updatedAt: Date;
+  declare questionId: number;
+ 
+  // Responses belongsTo Question via questionId
+  declare question: Exercises;
+  declare getQuestion: Sequelize.BelongsToGetAssociationMixin<Exercises>;
+  declare setQuestion: Sequelize.BelongsToSetAssociationMixin<Exercises, ExercisesId>;
+  declare createQuestion: Sequelize.BelongsToCreateAssociationMixin<Exercises>;
 
   static initModel(sequelize: Sequelize.Sequelize): typeof Responses {
     return Responses.init({
@@ -46,11 +46,11 @@ export class Responses extends Model<ResponsesAttributes, ResponsesCreationAttri
       type: DataTypes.BOOLEAN,
       allowNull: false
     },
-    exerciseId: {
+    questionId: {
       type: DataTypes.INTEGER,
-      allowNull: true,
+      allowNull: false,
       references: {
-        model: 'exercises',
+        model: 'questions',
         key: 'id'
       }
     },
@@ -77,10 +77,10 @@ export class Responses extends Model<ResponsesAttributes, ResponsesCreationAttri
         ]
       },
       {
-        name: "exerciseId",
+        name: "questionId",
         using: "BTREE",
         fields: [
-          { name: "exerciseId" },
+          { name: "questionId" },
         ]
       },
     ]
