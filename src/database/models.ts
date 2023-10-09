@@ -14,6 +14,7 @@ const {
     Responses,
     Events,
     TypeEvent,
+    Question
 } = Models
 
 Answers.belongsTo(Exercises, { as: 'exercise', foreignKey: 'exerciseId' })
@@ -26,8 +27,14 @@ Exercises.hasMany(CompleteExercises, {
     as: 'complete_exercises',
     foreignKey: 'exerciseId',
 })
-Responses.belongsTo(Exercises, { as: 'exercise', foreignKey: 'exerciseId' })
-Exercises.hasMany(Responses, { as: 'responses', foreignKey: 'exerciseId' })
+Responses.belongsTo(Question, {
+    as: 'question',
+    foreignKey: 'questionId'
+});
+Question.hasMany(Responses, {
+    as: 'question',
+    foreignKey: 'questionId'
+});
 CompleteExercises.belongsTo(Reports, { as: 'report', foreignKey: 'reportId' })
 Reports.hasMany(CompleteExercises, {
     as: 'complete_exercises',
