@@ -9,6 +9,7 @@ export interface ExercisesAttributes {
   read?: string;
   questionId?: number;
   readCoverPath?: string;
+  readSummary?: string;
   readTitle?: string;
   answer?: string;
   memorama_tematic?: string;
@@ -21,7 +22,7 @@ export interface ExercisesAttributes {
 
 export type ExercisesPk = "id";
 export type ExercisesId = Exercises[ExercisesPk];
-export type ExercisesOptionalAttributes = "id" | "read" | "readCoverPath" | "readTitle" | "questionId" | "answer" | "memorama_tematic" | "memorama_img" | "puzzle_name" | "puzzle" | "createdAt" | "updatedAt";
+export type ExercisesOptionalAttributes = "id" | "read" | "readCoverPath" | "readSummary" | "readTitle" | "questionId" | "answer" | "memorama_tematic" | "memorama_img" | "puzzle_name" | "puzzle" | "createdAt" | "updatedAt";
 export type ExercisesCreationAttributes = Optional<ExercisesAttributes, ExercisesOptionalAttributes>;
 
 export class Exercises extends Model<ExercisesAttributes, ExercisesCreationAttributes> implements ExercisesAttributes {
@@ -29,6 +30,7 @@ export class Exercises extends Model<ExercisesAttributes, ExercisesCreationAttri
   declare read?: string;
   declare readCoverPath?: string;
   declare readTitle?: string;
+  declare readSummary?: string;
   declare question?: string;
   declare answer?: string;
   declare memorama_tematic?: string;
@@ -92,6 +94,10 @@ export class Exercises extends Model<ExercisesAttributes, ExercisesCreationAttri
     readTitle: {
       type: DataTypes.STRING(255),
       allowNull: true
+    },
+    readSummary: {
+      type: DataTypes.TEXT('medium'),
+      allowNull: false
     },
     readCoverPath: {
       type: DataTypes.STRING(255),

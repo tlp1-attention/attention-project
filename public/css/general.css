@@ -1,4 +1,4 @@
-@import url(./general.css);
+@import url(./.css);
 
 :root {
     --clr-secondary-800: #5b5c61;
@@ -49,6 +49,10 @@
 
 .btn:focus-visible {
     outline: 1px solid var(--clr-accent-400);
+}
+
+.text-brand {
+    color: var(--clr-accent-400);
 }
 
 .btn:first-child:hover {

@@ -37,6 +37,7 @@ form.addEventListener('submit', async (evt) => {
         if (failedResponse.status == 400) {
             return showError('Error al iniciar sesión: Usuario o contraseña incorrectos.');
         }
+        console.log(failedResponse);
         return showError('No se estableció conexión con el servidor')
     };
 })

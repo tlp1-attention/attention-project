@@ -6,8 +6,9 @@ main {
 }
 
 @media (min-width: 578px) {
-    main {
-        margin-top: 3rem;
+
+    .reading-info-container {
+        padding-top: 3rem;
     }
 }
 
@@ -81,6 +82,16 @@ main {
 .reading-info-container {
     min-height: 700px;
     max-height: 1000px;
+}
+
+.reading-info {
+    padding-top: 3rem;
+    font-size: 1.6rem;
+}
+
+
+.divider {
+    padding-block: 1.2rem;
 }
 
 @media (min-width: 768px) {

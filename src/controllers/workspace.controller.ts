@@ -30,18 +30,33 @@ function renderReadingList(req: AuthRequest, res: Response) {
 }
 
 async function renderReading(req: AuthRequest, res: Response) {
-    const { readingId } = req.params;
+    const { readingId } = req.params
 
-    const reading = await exerciseService.findById(
-        parseInt(readingId)
-    );
+    const reading = await exerciseService.findById(parseInt(readingId))
 
     res.render('layout-readings', {
         title: 'Lectura',
         mainContentPartial: 'partials/reading.ejs',
         username: req.user?.name || 'Usuario',
-        reading
+        reading,
     })
 }
 
-export { renderEvents, renderReadingList, renderTimer, renderReading  }
+async function renderQuiz(req: AuthRequest, res: Response) {
+    const { readingId } = req.params
+
+    res.render('', {
+        title: 'Cuestionario',
+        mainContentPartial: 'partials/quiz.ejs',
+        username: req.user?.name || 'Usuario',
+        readingId,
+    })
+}
+
+export {
+    renderEvents,
+    renderReadingList,
+    renderTimer,
+    renderReading,
+    renderQuiz,
+}

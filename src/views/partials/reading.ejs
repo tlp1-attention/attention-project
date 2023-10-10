@@ -14,30 +14,13 @@
                     </a>
                 </div>
             </div>
-            <div class="reading-info text-center text-lg-start fs-3">
+            <div class="reading-info text-center text-lg-start">
                 <hgroup>
-                    <span class="reading-category">Categoría</span>
                     <h1 class="reading-title"><%= reading.readTitle  %></h1>
                 </hgroup>
                 <p>
-                    <%= reading.summary ?? '' %>
+                    <%= reading.readSummary ?? '' %>
                 </p>
-                <div
-                    class="d-flex gap-3 flex-column flex-lg-row justify-content-center justify-content-lg-start align-items-center">
-                    <div class="reading-badges my-3">
-                        <span class="badge bg-green fs-6">Humor</span>
-                        <span class="badge bg-blue fs-6">Vida cotidiana</span>
-                    </div>
-                    <div class="d-flex gap-3">
-                        <span class="d-flex flex-wrap align-items-center gap-lg-2 fs-5">
-                            <i class="bi bi-clock"></i>
-                            Tiempo estimado de lectura: 5m
-                        </span>
-                        <span class="bordered-badge badge-blue fs-5">
-                            Fácil
-                        </span>
-                    </div>
-                </div>
                 <div class="d-block d-lg-none px-1">
                     <button class="btn btn-primary-brand-outline fs-3 my-4 w-100">
                         <i class="bi bi-book"></i>
@@ -47,6 +30,7 @@
             </div>
         </section>
     </article>
+    <div class="divider"></div>
     <article class="complete-reading fs-4 mt-5">
         <section class="accordion accordion-flush g-5" id="accordionFlushExample">
             <div class="accordion-item min-h-md border border-1">

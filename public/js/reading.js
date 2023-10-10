@@ -51,7 +51,7 @@ function renderReading(reading) {
     return `
     <section class="reading-card mt-5 shadow-lg">
     <div class="position-relative overflow-hidden reading-img flex-shrink-0">
-        <img src="/assets/bg-placeholder-login.png" alt="" />
+        <img src="${reading.readCoverPath}" alt="" />
         <a class="overlay text-decoration-none" href="/workspace/readings/${reading.id}">
             <span class="d-flex fs-3 gap-3 text-white fw-bold">
                 <i class="bi bi-book"></i>
@@ -64,8 +64,8 @@ function renderReading(reading) {
             <span class="reading-category"></span>
             <h3 class="reading-title">${reading.readTitle}</h3>
         </hgroup>
-        <p>
-            ${reading.read}
+        <p class="reading-card-text">
+            ${reading.readSummary}
         </p>
     </div>
     </section>`

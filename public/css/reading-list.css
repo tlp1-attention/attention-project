@@ -1,5 +1,17 @@
 @import url(./general.css);
 
+#reading-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.2rem;
+}
+
+#reading-container > * {
+    flex-shrink: 0;
+    flex-grow: 0;
+}
+
+
 .reading-card {
     background-color: var(--clr-secondary-200);
     border: 3px solid var(--clr-secondary-400);
@@ -7,11 +19,24 @@
     width: 90%;
     margin-inline: auto;
     height: min-content;
+    min-height: 290px;
+    max-height: 300px;
+    text-overflow: ellipsis;
+    line-clamp: 5;
     border-radius: var(--border-radius);
 
     display: flex;
     gap: 1rem;
     flex-direction: column;
+}
+
+.reading-card-text {
+    padding-block: 0.3rem;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 8;
+    text-overflow: ellipsis;
 }
 
 .reading-img {
