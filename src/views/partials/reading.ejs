@@ -1,0 +1,93 @@
+<main class="px-1 pe-lg-5 my-4">
+    <article class="flex-grow-1 reading-info-container">
+        <div class="presentation-header">
+            <img src="/assets/bg-placeholder-login.png" alt="" />
+        </div>
+        <section
+            class="reading d-flex flex-column flex-lg-row align-items-center align-items-lg-start justify-content-center justify-content-lg-start">
+            <div class="reading-cover shadow-lg">
+                <img src="<%= reading.readCoverPath ?? '/assets/bg-placeholder-login.png' %>" alt="" />
+                <div class="d-none d-lg-block img-read-btn p-2">
+                    <a class="btn btn-primary-brand-outline fs-3 my-3 w-100" href="#read">
+                        <i class="bi bi-book"></i>
+                        Leer
+                    </a>
+                </div>
+            </div>
+            <div class="reading-info text-center text-lg-start fs-3">
+                <hgroup>
+                    <span class="reading-category">Categoría</span>
+                    <h1 class="reading-title"><%= reading.readTitle  %></h1>
+                </hgroup>
+                <p>
+                    <%= reading.summary ?? '' %>
+                </p>
+                <div
+                    class="d-flex gap-3 flex-column flex-lg-row justify-content-center justify-content-lg-start align-items-center">
+                    <div class="reading-badges my-3">
+                        <span class="badge bg-green fs-6">Humor</span>
+                        <span class="badge bg-blue fs-6">Vida cotidiana</span>
+                    </div>
+                    <div class="d-flex gap-3">
+                        <span class="d-flex flex-wrap align-items-center gap-lg-2 fs-5">
+                            <i class="bi bi-clock"></i>
+                            Tiempo estimado de lectura: 5m
+                        </span>
+                        <span class="bordered-badge badge-blue fs-5">
+                            Fácil
+                        </span>
+                    </div>
+                </div>
+                <div class="d-block d-lg-none px-1">
+                    <button class="btn btn-primary-brand-outline fs-3 my-4 w-100">
+                        <i class="bi bi-book"></i>
+                        Leer
+                    </button>
+                </div>
+            </div>
+        </section>
+    </article>
+    <article class="complete-reading fs-4 mt-5">
+        <section class="accordion accordion-flush g-5" id="accordionFlushExample">
+            <div class="accordion-item min-h-md border border-1">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed shadow-lg" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                        <h3 class="text-brand fs-2">
+                            Lectura completa
+                        </h3>
+                    </button>
+                </h2>
+                <div id="flush-collapseOne" class="accordion-collapse collapse">
+                    <div class="accordion-body">
+                        <% for (const paragraph of reading.read.split('\n')) { %>
+                            <p><%= paragraph %></p>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item min-h-md border border-1">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
+                        <h3 class="text-brand fs-2">
+                            Preguntas de interpretación
+                        </h3>
+                    </button>
+                </h2>
+                <div id="flush-collapseTwo" class="accordion-collapse collapse">
+                    <div class="accordion-body d-flex flex-column">
+                        <p>
+                            Responde un pequeño cuestionario sobre el texto que
+                            acabas de leer para practicar comprensión y formar un hábito.
+                        </p>
+                        <button class="btn btn-primary-brand align-self-end fs-3 mt-3">
+                            <i class="bi bi-question-mark"></i>
+                            Contestar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </article>
+</main>

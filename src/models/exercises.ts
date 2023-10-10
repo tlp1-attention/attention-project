@@ -2,7 +2,7 @@ import * as Sequelize from 'sequelize';
 import { DataTypes, Model, Optional } from 'sequelize';
 import type { Answers, AnswersId } from './answers';
 import type { CompleteExercises, CompleteExercisesId } from './complete_exercises';
-import type { Responses, ResponsesId } from './responses';
+import { Question, QuestionId } from './questions';
 
 export interface ExercisesAttributes {
   id: number;
@@ -64,19 +64,18 @@ export class Exercises extends Model<ExercisesAttributes, ExercisesCreationAttri
   declare hasComplete_exercises: Sequelize.HasManyHasAssociationsMixin<CompleteExercises, CompleteExercisesId>;
   declare countComplete_exercises: Sequelize.HasManyCountAssociationsMixin;
 
-  // Exercises hasMany Responses via exerciseId
-  declare responses: Responses[];
-  declare getResponses: Sequelize.HasManyGetAssociationsMixin<Responses>;
-  declare setResponses: Sequelize.HasManySetAssociationsMixin<Responses, ResponsesId>;
-  declare addResponse: Sequelize.HasManyAddAssociationMixin<Responses, ResponsesId>;
-  declare addResponses: Sequelize.HasManyAddAssociationsMixin<Responses, ResponsesId>;
-  declare createResponse: Sequelize.HasManyCreateAssociationMixin<Responses>;
-  declare removeResponse: Sequelize.HasManyRemoveAssociationMixin<Responses, ResponsesId>;
-  declare removeResponses: Sequelize.HasManyRemoveAssociationsMixin<Responses, ResponsesId>;
-  declare hasResponse: Sequelize.HasManyHasAssociationMixin<Responses, ResponsesId>;
-  declare hasResponses: Sequelize.HasManyHasAssociationsMixin<Responses, ResponsesId>;
-  declare countResponses: Sequelize.HasManyCountAssociationsMixin;
-declare 
+  // Exercises hasMany Questions svia exerciseId
+  declare questions: Question[];
+  declare getQuestion: Sequelize.HasManyGetAssociationsMixin<Question>;
+  declare setQuestion: Sequelize.HasManySetAssociationsMixin<Question, QuestionId>;
+  declare addQuestion: Sequelize.HasManyAddAssociationMixin<Question, QuestionId>;
+  declare addQuestions: Sequelize.HasManyAddAssociationsMixin<Question, QuestionId>;
+  declare createQuestion: Sequelize.HasManyCreateAssociationMixin<Question>;
+  declare removeQuestion: Sequelize.HasManyRemoveAssociationMixin<Question, QuestionId>;
+  declare removeQuestions: Sequelize.HasManyRemoveAssociationsMixin<Question, QuestionId>;
+  declare hasQuestion: Sequelize.HasManyHasAssociationMixin<Question, QuestionId>;
+  declare hasQuestions: Sequelize.HasManyHasAssociationsMixin<Question, QuestionId>;
+  declare countQuestions: Sequelize.HasManyCountAssociationsMixin;
 
   static initModel(sequelize: Sequelize.Sequelize): typeof Exercises {
     return Exercises.init({

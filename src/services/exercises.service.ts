@@ -1,12 +1,14 @@
 import { InferAttributes, InferCreationAttributes, Op } from 'sequelize'
 import { Exercises } from '../models/exercises';
 import { UserService, userService } from './user.service'
+import { Question } from '../models/questions';
 /**
  * Class that encapsulates data operations regarding Readings.
  */
 export class ExercisesService {
     constructor(
         private exerciseModel: typeof Exercises,
+        private questionModel: typeof Question
     ) {}
 
     /**
@@ -84,6 +86,24 @@ export class ExercisesService {
         await found.destroy()
         return found
     }
+
+    /**
+     * Finds all the question for a given reading.
+     * If the reading does not exist, it returns null
+     * 
+     * @param {number} id 
+     * @returns {Promise<Question[] | null>} 
+     */
+    async findQuestionsForReading(id: number)
+    : Promise<Question[] | null> {
+        const reading = await this.findById(id);
+
+        if (!reading) {
+            return null;
+        }
+
+        return reading.getQuestion();
+    }
 }
 
-export const exerciseService = new ExercisesService(Exercises);
+export const exerciseService = new ExercisesService(Exercises, Question);

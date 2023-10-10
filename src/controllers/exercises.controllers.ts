@@ -49,3 +49,31 @@ export async function getExercise(req: Request, res: Response) {
         })
     }
 }
+
+
+export async function getQuestionsForExercise(req: Request, res: Response) {
+    const { exerciseId } = req.params;
+
+    try {
+
+        const found = await exerciseService.findQuestionsForReading(
+            parseInt(exerciseId)
+        );
+
+        if (!found) {
+            return res.status(404).json({
+                message: 'No se encontró el ejercicio'
+            });
+        }
+
+        res.status(200).json({
+            question: found
+        });
+
+    } catch(err) {
+        console.error(err);
+        res.status(500).json({
+            message: 'Error interno del servidor.'
+        })
+    }
+}
