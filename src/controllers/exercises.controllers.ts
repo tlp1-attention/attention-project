@@ -67,7 +67,7 @@ export async function getQuestionsForExercise(req: Request, res: Response) {
         }
 
         res.status(200).json({
-            question: found
+            questions: found
         });
 
     } catch(err) {

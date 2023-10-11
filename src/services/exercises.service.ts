@@ -3,6 +3,7 @@ import { Exercises } from '../models/exercises';
 import { UserService, userService } from './user.service'
 import { Question } from '../models/questions';
 import { read } from 'fs';
+import { Responses } from '../models/responses';
 /**
  * Class that encapsulates data operations regarding Readings.
  */
@@ -97,18 +98,18 @@ export class ExercisesService {
      */
     async findQuestionsForReading(id: number)
     : Promise<Question[] | null> {
-        const reading = await this.exerciseModel.findByPk(id, {
-            include: {
-                model: this.questionModel,
-                as: "question"
-            }
+        const questions = await this.questionModel.findAll({
+            where: {
+                exerciseId: id
+            },
+            include: { model: Responses, as: 'response' }
         });
 
-        if (!reading) {
+        if (!questions || questions.length === 0) {
             return null;
         }
 
-        return reading.question as unknown as Question[];
+        return questions;
     }
 }
 

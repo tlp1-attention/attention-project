@@ -31,7 +31,7 @@ Responses.belongsTo(Question, {
     foreignKey: 'questionId'
 });
 Question.hasMany(Responses, {
-    as: 'question',
+    as: 'response',
     foreignKey: 'questionId'
 });
 CompleteExercises.belongsTo(Reports, { as: 'report', foreignKey: 'reportId' })
