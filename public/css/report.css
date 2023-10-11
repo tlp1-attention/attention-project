@@ -31,6 +31,23 @@ body {
     --bg-color: var(--clr-blue-100);
 }
 
+.color-red {
+    --color: var(--clr-red-600);
+    --bg-color: var(--clr-red-200);
+}
+
+.text-blue {
+    color: var(--clr-blue-400);
+}
+
+.text-green {
+    color: var(--clr-green-400);
+}
+
+.text-red {
+    color: var(--clr-red-600);
+}
+
 .text-brand {
     color: var(--clr-accent-400);
 }

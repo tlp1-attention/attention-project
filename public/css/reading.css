@@ -6,7 +6,6 @@ main {
 }
 
 @media (min-width: 578px) {
-
     .reading-info-container {
         padding-top: 3rem;
     }
@@ -41,7 +40,7 @@ main {
         justify-content: start;
         align-items: start;
         flex-direction: column;
-        margin-top: 4.2rem;
+        margin-top: 5.2rem;
         padding-left: 2rem;
     }
 

@@ -1,4 +1,9 @@
+// import Swal from 'sweetalert2';
 import Timer from './components/timer-component.js'
+
+Swal.fire({
+    template: document.querySelector('#final-table-template')
+})
 
 const options = document.querySelectorAll('.option');
 const questionContainer = document.querySelector('.question-container');
@@ -19,7 +24,6 @@ async function renderQuestion(currentQuestion, {
     beforeRender =  () => {}
 }) {
     const forQuestion = questionContainer.querySelector('.question');
-    console.log(currentQuestion);
     beforeRender();
     forQuestion.innerHTML = currentQuestion.text;
     const randomSortedResponses = sortRandom(currentQuestion.response);
@@ -40,27 +44,27 @@ const sortRandom = (arr) => arr.slice(0).sort((a, b) => Math.random() > 0.5 ? 1 
 
 async function runQuiz() {
     const questions = await getQuestions();
-    console.log(questions);
     let points = 0;
+    let step = Math.ceil(100 / questions.length);
     let isTimeout = false;
 
     const timer = new Timer(300, {
         node: timerElement,
         onTimeout: () => {
             isTimeout = true;
-            console.log('Se acabó el tiempo');
-            renderFinalTable(points, false);
         },
     });
+
     questionCountTotal.innerHTML = questions.length;
     timer.start();
     function renderNextQuestion(idx) {
+        scoreText.innerHTML = points;
         if (idx == questions.length) {
-            renderFinalTable(points, true);
+            renderFinalTable(points, questions.length);
             return;
         }
         if (isTimeout) {
-            renderFinalTable(points, false);
+            renderFinalTable(points, questions.length);
         }
 
         questionCountCurrent.innerHTML = idx + 1;
@@ -79,10 +83,10 @@ async function runQuiz() {
                 optionElement.classList.add(isCorrect ? 'correct' : 'incorrect');
 
                 if (isCorrect) {
-                    points += 5;
+                    points += step;
                     setTimeout(() => renderNextQuestion(idx + 1), 300);
                 } else {
-                    renderFinalTable(points, false);
+                    setTimeout(() => renderNextQuestion(idx + 1), 300);
                 }
             }
         });
@@ -90,8 +94,19 @@ async function runQuiz() {
     renderNextQuestion(0);
 }
 
-function renderFinalTable(points, won) {
-    console.log('Renderizando tabla final');
+function renderFinalTable(points, total) {
+    const readingId = questionContainer.dataset.id;
+    const won = points > total / 2;
+    Swal.fire({
+        icon: won ? 'success' : 'error',
+        title: won ? '¡Felicitaciones!' : 'Inténtelo de nuevo',
+        template: '',
+        backdrop: true,
+        confirmButtonText: 'Volver a la lectura',
+        cancelButtonText: 'Intentar de nuevo',
+    })
+    .then(() => window.location.assign(`/workspace/readings/${readingId}`))
+    .catch(() => window.location.assign(`/workspace/readings/${readingId}/quiz`))
 }
 
 runQuiz();

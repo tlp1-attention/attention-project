@@ -1,5 +1,6 @@
 <main>
     <link rel="stylesheet" href="/css/quiz.css">
+    <link rel="stylesheet" href="/css/report.css">
     <article>
         <section>
             <div class="question-container" data-id="<%= readingId %>">
@@ -41,4 +42,58 @@
     </article>
 </main>
 
+    <template id="final-table-template" class="fs-4">
+        <swal-title>
+            
+        </swal-title>
+        <swal-html>
+            <table class="report-table border-0 shadow py-3 px-5">
+            <tbody>
+                <tr>
+                    <th class="corner top-left">Preguntas totales</th>
+                    <th>10</th>
+                </tr>
+                <tr>
+                    <th class="">
+                        <i class="bi bi-check colored-item color-green"></i>
+                        <span class="d-none d-md-inline mx-1 text-success">
+                            Correctas
+                        </span>
+                    </th>
+                    <th class="">
+                        <span class="d-none d-md-inline mx-1">
+                            10
+                        </span>
+                    </th>
+                </tr>
+                <tr>
+                    <th class="corner top-right">
+                        <i class="bi bi-x colored-item color-red"></i>
+                        <span class="d-none d-md-inline mx-1 text-red">
+                            Incorrectas
+                        </span>
+                    </th>
+                    <th class="">
+                        <span class="d-none d-md-inline mx-1">
+                            10
+                        </span>
+                    </th>
+                </tr>
+                <tr>
+                    <th class="corner top-right">
+                        <i class="bi bi-trophy-fill colored-item color-blue"></i>
+                        <span class="d-none d-md-inline mx-1 text-blue">
+                            Puntaje
+                        </span>
+                    </th>
+                    <th class="">
+                        <span class="d-none d-md-inline mx-1">
+                            10
+                        </span>
+                    </th>
+                </tr>
+            </tbody>
+        </table>
+        </swal-html>
+    </template>
 <script src="/js/quiz.js" type="module"></script>
