@@ -1,31 +1,36 @@
 <main>
+    <link rel="stylesheet" href="/css/quiz.css">
     <article>
         <section>
             <div class="question-container" data-id="<%= readingId %>">
                 <p class="question shadow-lg">Pregunta de prueba</p>
                 <p class="timer border border-1 shadow-lg">
                     <i class="bi bi-clock mx-3"></i>
-                    00:00
+                    <span class="timer-text">00:00</span>
                 </p>
             </div>
             <div class="options">
                 <p class="bi option text-brand border border-3 fs-2 shadow-sm">
-                    <span class="mark">1</span>Opcion 1
+                    <span class="mark">1</span>
+                    <span class="option-text">Opcion 1</span>
                 </p>
                 <p class="bi option text-brand border border-3 fs-2 shadow-sm">
-                    <span class="mark">2</span>Opcion 2
+                    <span class="mark">2</span>
+                    <span class="option-text">Opcion 2</span>
                 </p>
                 <p class="bi option text-brand border border-3 fs-2 shadow-sm">
-                    <span class="mark">3</span>Opcion 3
+                    <span class="mark">3</span>
+                    <span class="option-text">Opción 3</span>
                 </p>
                 <p class="bi option text-brand border border-3 fs-2 shadow-sm">
-                    <span class="mark">4</span>Opcion 4
+                    <span class="mark">4</span>
+                    <span class="option-text">Opción 4</span>
                 </p>
             </div>
             <div class="score-container">
                 <p class="score text-brand border border-3 shadow-sm">
                     <i class="bi bi-trophy"></i>
-                    100
+                    <span class="score-text">100</span>
                 </p>
                 <p class="w-50 mx-auto question-count text-brand shadow-sm border border-3">
                     <span class="question-count-current">1</span>

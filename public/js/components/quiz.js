@@ -15,7 +15,6 @@ class Quiz {
         this.onTimeout = onTimeout();
 
         this.questionIndex = 0;
-        this.dom = document.createElement('div');
     }
 
     render() {
@@ -36,7 +35,7 @@ class Quiz {
         if (!this.dom.firstChild) {
             this.dom.append(dom);
         } else {
-        this.dom.replaceChild(dom, this.dom.firstChild);
+            this.dom.replaceChild(dom, this.dom.firstChild);
         }
     }
 }
