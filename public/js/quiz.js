@@ -1,14 +1,13 @@
 const options = document.querySelectorAll('.option');
+const questionContainer = document.querySelector('.question-container');
 
-options.forEach(option => {
+async function getQuestions() {
+    const readingId = questionContainer.dataset.id;
+    const response = await fetch(`/api/exercises/readings/${readingId}/questions`);
+    console.log(response);
+    const { questions } = await response.json();
 
-    option.setAttribute('isCorrect', Math.random() < 0.5)
+    return questions;
+}
 
-    option.addEventListener('click', () => {
-        const isCorrect = option.getAttribute('isCorrect') === 'true';
-        console.log(option.getAttribute('isCorrect'));
-        option.classList.toggle(isCorrect ? 'correct' : 'incorrect');
-    })
-
-    
-})
+getQuestions().then(console.log);

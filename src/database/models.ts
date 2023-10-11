@@ -10,15 +10,14 @@ const {
     Exercises,
     CompleteExercises,
     Preferences,
-    Answers,
     Responses,
     Events,
     TypeEvent,
     Question
 } = Models
 
-Answers.belongsTo(Exercises, { as: 'exercise', foreignKey: 'exerciseId' })
-Exercises.hasMany(Answers, { as: 'answers', foreignKey: 'exerciseId' })
+Exercises.hasMany(Question, { as: 'question', foreignKey: 'exerciseId' })
+Question.belongsTo(Exercises, { as: 'exercise', foreignKey: 'exerciseId' })
 CompleteExercises.belongsTo(Exercises, {
     as: 'exercise',
     foreignKey: 'exerciseId',

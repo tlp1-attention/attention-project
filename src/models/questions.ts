@@ -56,6 +56,10 @@ export class Question extends Model<QuestionAttributes, QuestionCreationAttribut
     exerciseId: {
       type: DataTypes.INTEGER,
       allowNull: false,
+      references: {
+        key: 'id',
+        model: Exercises
+      }
     },
     createdAt: {
       type: DataTypes.DATE,

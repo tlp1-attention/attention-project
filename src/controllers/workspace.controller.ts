@@ -45,7 +45,7 @@ async function renderReading(req: AuthRequest, res: Response) {
 async function renderQuiz(req: AuthRequest, res: Response) {
     const { readingId } = req.params
 
-    res.render('', {
+    res.render('layout-readings', {
         title: 'Cuestionario',
         mainContentPartial: 'partials/quiz.ejs',
         username: req.user?.name || 'Usuario',

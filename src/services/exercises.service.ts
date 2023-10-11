@@ -2,6 +2,7 @@ import { InferAttributes, InferCreationAttributes, Op } from 'sequelize'
 import { Exercises } from '../models/exercises';
 import { UserService, userService } from './user.service'
 import { Question } from '../models/questions';
+import { read } from 'fs';
 /**
  * Class that encapsulates data operations regarding Readings.
  */
@@ -96,13 +97,18 @@ export class ExercisesService {
      */
     async findQuestionsForReading(id: number)
     : Promise<Question[] | null> {
-        const reading = await this.findById(id);
+        const reading = await this.exerciseModel.findByPk(id, {
+            include: {
+                model: this.questionModel,
+                as: "question"
+            }
+        });
 
         if (!reading) {
             return null;
         }
 
-        return reading.getQuestion();
+        return reading.question as unknown as Question[];
     }
 }
 
