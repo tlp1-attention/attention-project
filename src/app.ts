@@ -16,6 +16,7 @@ import eventRouter from './routes/events.routes'
 import webPushRouter from './routes/push-subscription.routes';
 import preferenceRouter from './routes/preferences.routes';
 import preferenceFormRouter from './routes/preferencesForm.routes';
+import profileRouter from './routes/profile.routes';
 import { resolve } from 'path';
 import configEnv from './config/env';
 
@@ -68,6 +69,7 @@ app.use(loginRouter);
 app.use(indexRouter);
 app.use(workSpaceRouter);
 app.use(preferenceFormRouter)
+app.use(profileRouter)
 app.use('/api/events', eventRouter);
 app.use('/api/notifications', webPushRouter);
 app.use('/api/users/preferences', preferenceRouter);
