@@ -42,16 +42,16 @@
     </article>
 </main>
 
-    <template id="final-table-template" class="fs-4">
-        <swal-title>
-            
-        </swal-title>
-        <swal-html>
-            <table class="report-table border-0 shadow py-3 px-5">
-            <tbody>
+<template id="final-table-template" class="fs-4">
+    <swal-title>
+
+    </swal-title>
+    <swal-html>
+        <table class="report-table border-0 shadow">
+            <tbody class="text-start">
                 <tr>
                     <th class="corner top-left">Preguntas totales</th>
-                    <th>10</th>
+                    <th class="total-questions">10</th>
                 </tr>
                 <tr>
                     <th class="">
@@ -61,8 +61,8 @@
                         </span>
                     </th>
                     <th class="">
-                        <span class="d-none d-md-inline mx-1">
-                            10
+                        <span class="d-none d-md-inline mx-1 correct-count">
+                            10<span class="multiplier"></span>
                         </span>
                     </th>
                 </tr>
@@ -74,8 +74,8 @@
                         </span>
                     </th>
                     <th class="">
-                        <span class="d-none d-md-inline mx-1">
-                            10
+                        <span class="d-none d-md-inline mx-1 incorrect-count">
+                            10 <span class="multiplier"></span>
                         </span>
                     </th>
                 </tr>
@@ -87,13 +87,22 @@
                         </span>
                     </th>
                     <th class="">
-                        <span class="d-none d-md-inline mx-1">
-                            10
+                        <span class="d-none d-md-inline mx-1 total-score">
+                            10<span class="multiplier"></span>
                         </span>
                     </th>
                 </tr>
             </tbody>
         </table>
-        </swal-html>
-    </template>
+    </swal-html>
+
+    <swal-actions>
+        <swal-button type="confirm">
+            Volver a intentar
+        </swal-button>
+        <swal-button type="cancel">
+            Volver a la lectura
+        </swal-button>
+    </swal-actions>
+</template>
 <script src="/js/quiz.js" type="module"></script>

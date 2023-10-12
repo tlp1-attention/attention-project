@@ -1,9 +1,4 @@
-// import Swal from 'sweetalert2';
 import Timer from './components/timer-component.js'
-
-Swal.fire({
-    template: document.querySelector('#final-table-template')
-})
 
 const options = document.querySelectorAll('.option');
 const questionContainer = document.querySelector('.question-container');
@@ -11,6 +6,14 @@ const timerElement = questionContainer.querySelector('.timer-text');
 const scoreText = document.querySelector('.score-text');
 const questionCountCurrent = document.querySelector('.question-count-current');
 const questionCountTotal = document.querySelector('.question-count-total');
+
+const templateTable = document.querySelector('#final-table-template');
+const totalQuestions = templateTable.content.querySelector('.total-questions');
+const correctCount = templateTable.content.querySelector('.correct-count');
+const incorrectCount = templateTable.content.querySelector('.incorrect-count');
+const totalScore = templateTable.content.querySelector('.total-score');
+const multiplier = templateTable.content.querySelector('.multiplier');
+
 
 async function getQuestions() {
     const readingId = questionContainer.dataset.id;
@@ -44,8 +47,9 @@ const sortRandom = (arr) => arr.slice(0).sort((a, b) => Math.random() > 0.5 ? 1 
 
 async function runQuiz() {
     const questions = await getQuestions();
-    let points = 0;
-    let step = Math.ceil(100 / questions.length);
+    const step = Math.ceil(100 / questions.length);
+    let right = 0;
+    let wrong = 0;
     let isTimeout = false;
 
     const timer = new Timer(300, {
@@ -58,13 +62,13 @@ async function runQuiz() {
     questionCountTotal.innerHTML = questions.length;
     timer.start();
     function renderNextQuestion(idx) {
-        scoreText.innerHTML = points;
+        scoreText.innerHTML = right * step;
         if (idx == questions.length) {
-            renderFinalTable(points, questions.length);
+            renderFinalTable(right, questions.length);
             return;
         }
         if (isTimeout) {
-            renderFinalTable(points, questions.length);
+            renderFinalTable(right, questions.length);
         }
 
         questionCountCurrent.innerHTML = idx + 1;
@@ -83,9 +87,10 @@ async function runQuiz() {
                 optionElement.classList.add(isCorrect ? 'correct' : 'incorrect');
 
                 if (isCorrect) {
-                    points += step;
+                    right++;
                     setTimeout(() => renderNextQuestion(idx + 1), 300);
                 } else {
+                    wrong++;
                     setTimeout(() => renderNextQuestion(idx + 1), 300);
                 }
             }
@@ -94,19 +99,28 @@ async function runQuiz() {
     renderNextQuestion(0);
 }
 
-function renderFinalTable(points, total) {
+function renderFinalTable(right, total) {
     const readingId = questionContainer.dataset.id;
+    const step = Math.ceil(100 / total);
+    const points = right * step;
     const won = points > total / 2;
+
+    totalScore.innerHTML = points;
+    multiplier.innerHTML = `×${step.toFixed(2)}`;
+    correctCount.innerHTML = right;
+    incorrectCount.innerHTML = total - right;
+    totalQuestions.innerHTML = total;
+
     Swal.fire({
         icon: won ? 'success' : 'error',
-        title: won ? '¡Felicitaciones!' : 'Inténtelo de nuevo',
-        template: '',
-        backdrop: true,
-        confirmButtonText: 'Volver a la lectura',
-        cancelButtonText: 'Intentar de nuevo',
+        title: won ? '¡Felicitaciones!' : 'Inténtalo de nuevo...',
+        template: document.querySelector('#final-table-template'),
     })
-    .then(() => window.location.assign(`/workspace/readings/${readingId}`))
-    .catch(() => window.location.assign(`/workspace/readings/${readingId}/quiz`))
+    .then((result) => { 
+        const hasConfirmed = result.isConfirmed;
+        if (hasConfirmed) window.location.assign(`/workspace/readings/${readingId}/quiz`);
+        else window.location.assign(`/workspace/readings/${readingId}`)
+    })
 }
 
 runQuiz();

@@ -179,3 +179,20 @@ section {
     color: var(--clr-secondary-200);
     height: 100%;
 }
+
+#final-table-template tr {
+    padding-left: 10rem;
+}
+
+#final-table-template .score {
+    font-size: 20rem;
+}
+
+.swal2-popup {
+    font-size: 1.7rem !important;
+}
+
+
+.swal2-styled {
+    padding: 1.2rewm;
+}

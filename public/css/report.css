@@ -1,8 +1,5 @@
 @import url(./general.css);
 
-body {
-    padding: min(5rem, 1000px);
-}
 
 .colored-item {
     --color: var(--clr-accent-400);
