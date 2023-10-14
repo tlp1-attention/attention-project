@@ -13,7 +13,7 @@ async function loginController(req: Request, res: Response) {
         const loggedUser = await userService.login(username, password)
 
         if (!loggedUser) {
-            return res.status(409).json({
+            return res.status(404).json({
                 message: 'Usuario o contraseña incorrectos',
             })
         }
