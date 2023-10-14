@@ -16,6 +16,7 @@ import eventRouter from './routes/events.routes'
 import webPushRouter from './routes/push-subscription.routes';
 import preferenceRouter from './routes/preferences.routes';
 import exerciseRouter from './routes/exercises.routes';
+import userRouter from './routes/user.routes';
 import completeExerciseRouter from './routes/complete-exercise';
 import { resolve } from 'path';
 import configEnv from './config/env';
@@ -70,6 +71,7 @@ app.use(indexRouter);
 app.use(workSpaceRouter);
 app.use('/api/events', eventRouter);
 app.use('/api/notifications', webPushRouter);
+app.use('/api/users/', userRouter);
 app.use('/api/users/preferences', preferenceRouter);
 app.use('/api/exercises/completed', completeExerciseRouter);
 app.use('/api/exercises/readings', exerciseRouter);
