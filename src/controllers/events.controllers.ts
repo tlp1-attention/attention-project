@@ -69,6 +69,11 @@ export async function getEventById(req: AuthRequest, res: Response) {
                 message: 'Evento no encontrado',
             })
         }
+
+        res.status(200).json({
+            found: Events
+        });
+
     } catch (err) {
         console.error(err)
         res.status(500).json({

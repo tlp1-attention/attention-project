@@ -34,11 +34,8 @@ Question.hasMany(Responses, {
     as: 'response',
     foreignKey: 'questionId'
 });
-CompleteExercises.belongsTo(Reports, { as: 'report', foreignKey: 'reportId' })
-Reports.hasMany(CompleteExercises, {
-    as: 'complete_exercises',
-    foreignKey: 'reportId',
-})
+CompleteExercises.belongsTo(Users, { as: 'users', foreignKey: 'userId' })
+Users.hasMany(CompleteExercises, { as: 'complete_exercises', foreignKey: 'userId' })
 CompleteExercises.belongsTo(TypeExercises, {
     as: 'typeExercise',
     foreignKey: 'typeExerciseId',

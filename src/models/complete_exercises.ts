@@ -2,21 +2,21 @@ import * as Sequelize from 'sequelize';
 import { DataTypes, Model, Optional } from 'sequelize';
 import type { Exercises, ExercisesId } from './exercises';
 import type { Reports, ReportsId } from './reports';
-import type { TypeExercises, TypeExercisesId } from './type_exercises';
+import { TypeExercises, TypeExercisesId } from './type_exercises';
 
 export interface CompleteExercisesAttributes {
   id: number;
   complete: number;
   createdAt: Date;
   updatedAt: Date;
-  reportId?: number;
+  userId?: number;
   typeExerciseId?: number;
   exerciseId?: number;
 }
 
 export type CompleteExercisesPk = "id";
 export type CompleteExercisesId = CompleteExercises[CompleteExercisesPk];
-export type CompleteExercisesOptionalAttributes = "id" | "createdAt" | "updatedAt" | "reportId" | "typeExerciseId" | "exerciseId";
+export type CompleteExercisesOptionalAttributes = "id" | "createdAt" | "updatedAt" | "userId" | "typeExerciseId" | "exerciseId";
 export type CompleteExercisesCreationAttributes = Optional<CompleteExercisesAttributes, CompleteExercisesOptionalAttributes>;
 
 export class CompleteExercises extends Model<CompleteExercisesAttributes, CompleteExercisesCreationAttributes> implements CompleteExercisesAttributes {
@@ -44,6 +44,7 @@ export class CompleteExercises extends Model<CompleteExercisesAttributes, Comple
   setTypeExercise!: Sequelize.BelongsToSetAssociationMixin<TypeExercises, TypeExercisesId>;
   createTypeExercise!: Sequelize.BelongsToCreateAssociationMixin<TypeExercises>;
 
+
   static initModel(sequelize: Sequelize.Sequelize): typeof CompleteExercises {
     return CompleteExercises.init({
     id: {
@@ -56,11 +57,11 @@ export class CompleteExercises extends Model<CompleteExercisesAttributes, Comple
       type: DataTypes.BOOLEAN,
       allowNull: false
     },
-    reportId: {
+    userId: {
       type: DataTypes.INTEGER,
       allowNull: true,
       references: {
-        model: 'reports',
+        model: 'users',
         key: 'id'
       }
     },
@@ -106,7 +107,7 @@ export class CompleteExercises extends Model<CompleteExercisesAttributes, Comple
         name: "reportId",
         using: "BTREE",
         fields: [
-          { name: "reportId" },
+          { name: "userId" },
         ]
       },
       {

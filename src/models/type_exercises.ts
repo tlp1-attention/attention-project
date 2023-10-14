@@ -33,6 +33,18 @@ export class TypeExercises extends Model<TypeExercisesAttributes, TypeExercisesC
   hasComplete_exercises!: Sequelize.HasManyHasAssociationsMixin<CompleteExercises, CompleteExercisesId>;
   countComplete_exercises!: Sequelize.HasManyCountAssociationsMixin;
 
+
+  /**
+   * Static method that find the of available
+   * types for exercises
+   * 
+   * @returns {number[]} An array of valid TypeExercise's ID
+   */
+  static async typesAvailable(): Promise<number[]> {
+    const types = await TypeExercises.findAll();
+    return types.map(t => t.id);
+  }
+
   static initModel(sequelize: Sequelize.Sequelize): typeof TypeExercises {
     return TypeExercises.init({
     id: {

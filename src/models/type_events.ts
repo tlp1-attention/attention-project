@@ -1,6 +1,5 @@
 import * as Sequelize from 'sequelize';
 import { DataTypes, Model, Optional } from 'sequelize';
-import type { Exercises, ExercisesId } from './exercises';
 
 export interface TypeEventAttributes {
   id: number;
