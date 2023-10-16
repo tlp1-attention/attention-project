@@ -43,6 +43,7 @@ Users.hasMany(Events, { as: "events", foreignKey: 'userId' });
 Events.belongsTo(TypeEvent, { as: 'typeEvents', foreignKey: 'typeId'});
 TypeEvent.hasMany(Events, { as: 'events', foreignKey: 'typeId' });
 
+
 // Automatically create events types if not present in the database
 TypeEvent.findOrCreate({
     where: {
@@ -56,6 +57,8 @@ TypeEvent.findOrCreate({
       description: 'NOT IMPORTANT'
     }
 });
+
+
 
 export {
     sequelize,

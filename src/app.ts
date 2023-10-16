@@ -16,6 +16,7 @@ const app = express();
 const PORT = process.env.PORT || 8080;
 
 // Check database connection
+
 sequelize.authenticate()
     .then(() => console.log('Successful database connection'))
     .catch(console.error);
@@ -40,6 +41,7 @@ app.use(loginRouter);
 app.use(indexRouter);
 app.use(workSpaceRouter);
 app.use('/api/events', eventRouter);
+
 
 
 app.listen(PORT, () => {
