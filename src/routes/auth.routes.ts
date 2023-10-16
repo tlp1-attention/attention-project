@@ -3,6 +3,7 @@ import {
     registerController,
     changePasswordController,
     logoutController,
+    getUserInfo,
 } from '../controllers/auth.controller'
 import { Router } from 'express'
 import { validate } from '../middleware/validation'
@@ -14,6 +15,7 @@ import {
 
 const router = Router()
 
+router.get('/user/info', getUserInfo)
 router.post('/register', validate(createUserSchema), registerController)
 router.post('/login', validate(loginUserSchema), loginController)
 router.post(

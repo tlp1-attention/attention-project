@@ -1,8 +1,11 @@
 import { Models } from '../database/models'
 import { hashPassword } from '../utils/hash'
 import type { Response, Request, NextFunction } from 'express'
+import jwt from 'jsonwebtoken'
 import { userService } from '../services/user.service'
 import { createToken } from '../utils/token'
+import configEnv from '../config/env';
+
 
 const { Users } = Models
 
@@ -97,6 +100,31 @@ async function changePasswordController(req: Request, res: Response) {
     }
 }
 
+async function getUserInfo(req: Request, res: Response) {
+    const token: any = req.headers.authorization
+
+    if (!token) {
+        res.status(401).send({ message: 'No se ha proporcionado el token!' })
+    }
+
+    try {
+        const decodedToken: any = jwt.verify(token, configEnv.SECRET)
+
+        const user = await Users.findByPk(decodedToken.id)
+
+        if (!user) {
+            res.status(404).send("No se ha encontrado el usuario!")
+        }
+
+        return res.status(200).send(user)
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({
+            message: 'Error interno del servidor',
+        })
+    }
+}
+
 async function logoutController(
     req: Request,
     res: Response,
@@ -110,4 +138,5 @@ export {
     registerController,
     changePasswordController,
     logoutController,
+    getUserInfo,
 }
