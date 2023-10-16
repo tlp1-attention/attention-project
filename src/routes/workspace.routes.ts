@@ -8,6 +8,6 @@ router.get('/workspace/timer', renderTimer);
 router.get('/workspace/readings', renderReadingList);
 router.get('/workspace/readings/:readingId', renderReading);
 router.get('/workspace/readings/:readingId/quiz', renderQuiz);
-router.get('/workspace/report', renderReport);
+router.get('/workspace/report/:userId', renderReport);
 
 export default router;

@@ -2,7 +2,7 @@ import { getUserInfo } from "./utils/getUserInfo.js";
 
 const slideButtons = document.querySelectorAll('.slide-button');
 const offcanvas = document.querySelector('#offcanvas');
-const lateralBar = document.querySelector('.lateral-bar');
+const reportLink = document.querySelector('.report-link');
 const username = document.querySelector('#username');
 
 slideButtons.forEach(btn => {
@@ -15,6 +15,12 @@ slideButtons.forEach(btn => {
 
 const token = localStorage.getItem('token');
 
+
 document.addEventListener('DOMContentLoaded', async () => {
-    username.innerHTML = await getUserInfo(token).then(user => user.name);
+    const user = await getUserInfo(token);
+
+    username.innerHTML = user.name;
+
+    reportLink.href = `/workspace/report/${user.id}`;
 });
+

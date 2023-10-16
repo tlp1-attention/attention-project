@@ -236,6 +236,253 @@ const READINGS = [
             },
         ],
     },
+    {
+        title: 'La tortuga y la liebre',
+        summary: 'Una liebre se burla de una tortuga, desafiándola a una carrera. El zorro marca la línea de partida y distancia. La tortuga avanza constante mientras la liebre duerme. La tortuga gana, y el zorro concluye: "Las carreras se ganan con tesón".',
+        coverURL: 'https://res.cloudinary.com/drh2dpvgf/image/upload/v1697476537/attention/syspypqxnhbd47op5xtn.jpg',
+        text: 'Una liebre se burlaba de una tortuga. -¡Qué lenta eres! ¡Cómo te arrastras! -¿De veras? - dijo la tortuga-. Haz una carrera conmigo y te venceré. - Qué jactanciosa eres –dijo la liebre-. De acuerdo, correré contigo. ¿A quién pediremos que marque la línea de llegada y confirme que la carrera es justa? - Pidámoselo al zorro –dijo la tortuga. El zorro era muy sabio y justo. Les mostró la línea de partida y cuánta distancia debían correr. La tortuga no perdió tiempo. Partió de inmediato y continuó la marcha. La liebre anduvo a brincos varios minutos, hasta que dejó a la tortuga muy atrás. Sabía que podía llegar rápidamente a la meta, así que se acostó a la sombra de un árbol y durmió una siesta. Al cabo de un rato se despertó y se acordó de la carrera. Se levantó de un salto y corrió a toda velocidad. Pero cuando llegó a la meta, la tortuga ya estaba allí. - Las carreras se ganan con tesón –declaró el zorro.',
+        questions: [
+            {
+                questionText: '¿De quién se burlaba la liebre?',
+                options: [
+                    {
+                        optionText: 'De la tortuga',
+                        correct: true
+                    }, 
+                    {
+                        optionText: 'Del zorro',
+                        correct: false
+                    },
+                    {
+                        optionText: 'De otro animal',
+                        correct: false
+                    },
+                    {
+                        optionText: 'De sí misma',
+                        correct: false
+                    }
+                ]
+            },
+            {
+                questionText: '¿A quién eligieron para que marcara la línea de llegada?',
+                options: [
+                    {
+                        optionText: 'Al búho',
+                        correct: false
+                    },
+                    {
+                        optionText: 'Al lobo',
+                        correct: false
+                    },
+                    {
+                        optionText: 'Al zorro',
+                        correct: true
+                    },
+                    {
+                        optionText: 'A la liebre',
+                        correct: false
+                    }
+                ]
+            },
+            {
+                questionText: '¿Qué decidieron hacer la tortuga y la liebre?',
+                options: [
+                    {
+                        optionText: 'Hacer una carrera',
+                        correct: true
+                    },
+                    {
+                        optionText: 'Tomar una siesta',
+                        correct: false
+                    },
+                    {
+                        optionText: 'Comer juntas',
+                        correct: false
+                    },
+                    {
+                        optionText: 'Discutir sobre la velocidad',
+                        correct: false
+                    }
+                ]
+            },
+            {
+                questionText: '¿Cómo era el zorro?',
+                options: [
+                    {
+                        optionText: 'Sabio y justo',
+                        correct: true
+                    },
+                    {
+                        optionText: 'Rápido y astuto',
+                        correct: false
+                    },
+                    {
+                        optionText: 'Perezoso y torpe',
+                        correct: false
+                    },
+                    {
+                        optionText: 'Agresivo y peligroso',
+                        correct: false
+                    }
+                ]
+            },
+            {
+                questionText: '¿Cuándo partió la tortuga?',
+                options: [
+                    {
+                        optionText: 'Después de la siesta de la liebre',
+                        correct: false
+                    },
+                    {
+                        optionText: 'Antes de la liebre',
+                        correct: true
+                    },
+                    {
+                        optionText: 'Nunca partió',
+                        correct: false
+                    },
+                    {
+                        optionText: 'Al mismo tiempo que la liebre',
+                        correct: false
+                    }
+                ]
+            },
+            {
+                questionText: '¿Cuántos animales aparecen en esta lectura?',
+                options: [
+                    {
+                        optionText: 'Dos animales',
+                        correct: false
+                    },
+                    {
+                        optionText: 'Tres animales',
+                        correct: true
+                    },
+                    {
+                        optionText: 'Cuatro animales',
+                        correct: false
+                    },
+                    {
+                        optionText: 'Cinco animales',
+                        correct: false
+                    }
+                ]
+            },
+            {
+                questionText: '¿Qué hizo la liebre mientras la tortuga caminaba?',
+                options: [
+                    {
+                        optionText: 'Corrió a toda velocidad',
+                        correct: false
+                    },
+                    {
+                        optionText: 'Descansó y durmió una siesta',
+                        correct: true
+                    },
+                    {
+                        optionText: 'Ayudó a la tortuga',
+                        correct: false
+                    },
+                    {
+                        optionText: 'Dejó la carrera',
+                        correct: false
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        title: 'Picasso',
+        summary: 'Pablo Picasso, nacido en Málaga en 1881 y fallecido en Moulins, Francia, en 1973, fue un influyente artista andaluz universal. Su carrera incluyó pintura, escultura, dibujo, grabado y más. Su obra cumbre, "Las señoritas de Avignon," marcó el arte del siglo XX. Picasso es ampliamente reconocido como uno de los grandes artistas del siglo.',
+        coverURL: 'https://res.cloudinary.com/drh2dpvgf/image/upload/v1697477032/attention/d2tcx5gdlvtzeghu8pmh.png',
+        text: 'Andaluz universal Nació en Málaga, en 1881. Murió en Moulins, Francia, en 1973. Hijo del también artista José Ruiz Blasco, en 1895 se trasladó con su familia desde Málaga a Barcelona, donde el joven pintor se rodeó de un grupo de artistas y literatos. Entre 1901 y 1904 Pablo Picasso alternó su residencia entre Madrid, Barcelona y París, mientras su pintura entró en la etapa denominada período azul. Hacia finales de 1906, Pablo Picasso empezó a trabajar en una composición de gran formato que iba a cambiar el curso del arte del siglo XX: Las señoritas de Avignon. Picasso fue pintor y escultor. Además, abordó otros géneros como el dibujo, el grabado, la ilustración de libros, la escultura, la cerámica y el diseño de escenografía y vestuario para montajes teatrales. Está considerado mundialmente como uno de los mayores artistas del siglo XX.',
+        questions: [
+            {
+                questionText: '¿Dónde murió Picasso?',
+                options: [
+                    {
+                        optionText: 'Málaga',
+                        correct: false
+                    }, 
+                    {
+                        optionText: 'París',
+                        correct: false
+                    },
+                    {
+                        optionText: 'Moulins, Francia',
+                        correct: true
+                    },
+                    {
+                        optionText: 'Madrid',
+                        correct: false
+                    }
+                ]
+            },
+            {
+                questionText: 'Cuando Picasso vivía en Barcelona, ¿quiénes eran sus amigos?',
+                options: [
+                    {
+                        optionText: 'Artistas y literatos',
+                        correct: true
+                    },
+                    {
+                        optionText: 'Políticos y científicos',
+                        correct: false
+                    },
+                    {
+                        optionText: 'Músicos y bailarines',
+                        correct: false
+                    },
+                    {
+                        optionText: 'Deportistas y actores',
+                        correct: false
+                    }
+                ]
+            },
+            {
+                questionText: '¿Qué obra de Picasso transforma la pintura del siglo XX?',
+                options: [
+                    {
+                        optionText: 'Período azul',
+                        correct: false
+                    },
+                    {
+                        optionText: 'Dibujos y grabados',
+                        correct: false
+                    },
+                    {
+                        optionText: 'Las señoritas de Avignon',
+                        correct: true
+                    },
+                    {
+                        optionText: 'Cerámica y escenografía',
+                        correct: false
+                    }
+                ]
+            },
+            {
+                questionText: 'En la ciudad natal de Picasso hay hoy un Museo con obras suyas; ¿qué ciudad es?',
+                options: [
+                    {
+                        optionText: 'Madrid',
+                        correct: false
+                    },
+                    {
+                        optionText: 'París',
+                        correct: false
+                    },
+                    {
+                        optionText: 'Málaga',
+                        correct: true
+                    },
+                    {
+                        optionText: 'Barcelona',
+                        correct: false
+                    }
+                ]
+            }
+        ]
+    }
 ]
 
 export async function createReadings() {
