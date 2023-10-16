@@ -15,23 +15,23 @@ export type TypeExercisesOptionalAttributes = "id" | "createdAt" | "updatedAt";
 export type TypeExercisesCreationAttributes = Optional<TypeExercisesAttributes, TypeExercisesOptionalAttributes>;
 
 export class TypeExercises extends Model<TypeExercisesAttributes, TypeExercisesCreationAttributes> implements TypeExercisesAttributes {
-  id!: number;
-  type!: string;
-  createdAt!: Date;
-  updatedAt!: Date;
+  declare id: number;
+  declare type: string;
+  declare createdAt: Date;
+  declare updatedAt: Date;
 
   // TypeExercises hasMany CompleteExercises via typeExerciseId
-  complete_exercises!: CompleteExercises[];
-  getComplete_exercises!: Sequelize.HasManyGetAssociationsMixin<CompleteExercises>;
-  setComplete_exercises!: Sequelize.HasManySetAssociationsMixin<CompleteExercises, CompleteExercisesId>;
-  addComplete_exercise!: Sequelize.HasManyAddAssociationMixin<CompleteExercises, CompleteExercisesId>;
-  addComplete_exercises!: Sequelize.HasManyAddAssociationsMixin<CompleteExercises, CompleteExercisesId>;
-  createComplete_exercise!: Sequelize.HasManyCreateAssociationMixin<CompleteExercises>;
-  removeComplete_exercise!: Sequelize.HasManyRemoveAssociationMixin<CompleteExercises, CompleteExercisesId>;
-  removeComplete_exercises!: Sequelize.HasManyRemoveAssociationsMixin<CompleteExercises, CompleteExercisesId>;
-  hasComplete_exercise!: Sequelize.HasManyHasAssociationMixin<CompleteExercises, CompleteExercisesId>;
-  hasComplete_exercises!: Sequelize.HasManyHasAssociationsMixin<CompleteExercises, CompleteExercisesId>;
-  countComplete_exercises!: Sequelize.HasManyCountAssociationsMixin;
+  declare complete_exercises: CompleteExercises[];
+  declare getComplete_exercises: Sequelize.HasManyGetAssociationsMixin<CompleteExercises>;
+  declare setComplete_exercises: Sequelize.HasManySetAssociationsMixin<CompleteExercises, CompleteExercisesId>;
+  declare addComplete_exercise: Sequelize.HasManyAddAssociationMixin<CompleteExercises, CompleteExercisesId>;
+  declare addComplete_exercises: Sequelize.HasManyAddAssociationsMixin<CompleteExercises, CompleteExercisesId>;
+  declare createComplete_exercise: Sequelize.HasManyCreateAssociationMixin<CompleteExercises>;
+  declare removeComplete_exercise: Sequelize.HasManyRemoveAssociationMixin<CompleteExercises, CompleteExercisesId>;
+  declare removeComplete_exercises: Sequelize.HasManyRemoveAssociationsMixin<CompleteExercises, CompleteExercisesId>;
+  declare hasComplete_exercise: Sequelize.HasManyHasAssociationMixin<CompleteExercises, CompleteExercisesId>;
+  declare hasComplete_exercises: Sequelize.HasManyHasAssociationsMixin<CompleteExercises, CompleteExercisesId>;
+  declare countComplete_exercises: Sequelize.HasManyCountAssociationsMixin;
 
 
   /**
@@ -42,7 +42,7 @@ export class TypeExercises extends Model<TypeExercisesAttributes, TypeExercisesC
    */
   static async typesAvailable(): Promise<number[]> {
     const types = await TypeExercises.findAll();
-    return types.map(t => t.dataValues.id);
+    return types.map(t => t.id);
   }
 
   static initModel(sequelize: Sequelize.Sequelize): typeof TypeExercises {

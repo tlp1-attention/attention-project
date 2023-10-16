@@ -3,6 +3,7 @@ import { DataTypes, Model, Optional } from 'sequelize';
 import type { Exercises, ExercisesId } from './exercises';
 import type { Reports, ReportsId } from './reports';
 import { TypeExercises, TypeExercisesId } from './type_exercises';
+import { Users, UsersId } from './users';
 
 export interface CompleteExercisesAttributes {
   id: number;
@@ -20,29 +21,29 @@ export type CompleteExercisesOptionalAttributes = "id" | "createdAt" | "updatedA
 export type CompleteExercisesCreationAttributes = Optional<CompleteExercisesAttributes, CompleteExercisesOptionalAttributes>;
 
 export class CompleteExercises extends Model<CompleteExercisesAttributes, CompleteExercisesCreationAttributes> implements CompleteExercisesAttributes {
-  id!: number;
-  complete!: number;
-  createdAt!: Date;
-  updatedAt!: Date;
-  reportId?: number;
-  typeExerciseId?: number;
-  exerciseId?: number;
+  declare id: number;
+  declare complete: number;
+  declare createdAt: Date;
+  declare updatedAt: Date;
+  declare reportId: number;
+  declare typeExerciseId: number;
+  declare exerciseId: number;
 
   // CompleteExercises belongsTo Exercises via exerciseId
-  exercise!: Exercises;
-  getExercise!: Sequelize.BelongsToGetAssociationMixin<Exercises>;
-  setExercise!: Sequelize.BelongsToSetAssociationMixin<Exercises, ExercisesId>;
-  createExercise!: Sequelize.BelongsToCreateAssociationMixin<Exercises>;
-  // CompleteExercises belongsTo Reports via reportId
-  report!: Reports;
-  getReport!: Sequelize.BelongsToGetAssociationMixin<Reports>;
-  setReport!: Sequelize.BelongsToSetAssociationMixin<Reports, ReportsId>;
-  createReport!: Sequelize.BelongsToCreateAssociationMixin<Reports>;
+  declare exercise: Exercises;
+  declare getExercise: Sequelize.BelongsToGetAssociationMixin<Exercises>;
+  declare setExercise: Sequelize.BelongsToSetAssociationMixin<Exercises, ExercisesId>;
+  declare createExercise: Sequelize.BelongsToCreateAssociationMixin<Exercises>;
+  // CompleteExercises belongsTo Users via userId
+  declare user: Users;
+  declare getUser: Sequelize.BelongsToGetAssociationMixin<Users>;
+  declare setUser: Sequelize.BelongsToSetAssociationMixin<Users, UsersId>;
+  declare createUser: Sequelize.BelongsToCreateAssociationMixin<Users>;
   // CompleteExercises belongsTo TypeExercises via typeExerciseId
-  typeExercise!: TypeExercises;
-  getTypeExercise!: Sequelize.BelongsToGetAssociationMixin<TypeExercises>;
-  setTypeExercise!: Sequelize.BelongsToSetAssociationMixin<TypeExercises, TypeExercisesId>;
-  createTypeExercise!: Sequelize.BelongsToCreateAssociationMixin<TypeExercises>;
+  declare typeExercise: TypeExercises;
+  declare getTypeExercise: Sequelize.BelongsToGetAssociationMixin<TypeExercises>;
+  declare setTypeExercise: Sequelize.BelongsToSetAssociationMixin<TypeExercises, TypeExercisesId>;
+  declare createTypeExercise: Sequelize.BelongsToCreateAssociationMixin<TypeExercises>;
 
 
   static initModel(sequelize: Sequelize.Sequelize): typeof CompleteExercises {

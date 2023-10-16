@@ -1,5 +1,6 @@
 <article class="w-100 fs-4 fw-bold overflow-hidden">
         <section class="w-100 p-0 px-md-5">
+            <h1 class="mt-5 mb-4 fs-1 display-1 color-brand fw-semibold" id="report-title">Informe de actividades</h1>
             <table class="report-table shadow py-3 px-2">
                     <caption>Informe de actividad en la aplicación, comparado con la última semana</caption>
                     <tr>
@@ -36,7 +37,7 @@
                                     <%- readingCurrentWeek %>
                                 </td>
                                 <td class="text-center">
-                                    <%- Math.floor(readingCurrentWeek * 100 / readingLastWeek) %>
+                                    <%- isNaN(Math.floor(readingCurrentWeek * 100 / readingLastWeek)) ? 0 : Math.floor(readingCurrentWeek * 100 / readingLastWeek) %>
                                 </td>
                             </tr>
                             <tr>
@@ -45,13 +46,13 @@
                                     Actividades
                                 </td>
                                 <td class="text-center">
-                                    <%- activityLastWeek %>
+                                    <%- activityLastWeek ?? '-' %>
                                 </td>
                                 <td class="text-center">
-                                    <%- activiyCurrentWeek %>
+                                    <%- activityCurrentWeek ?? '-' %>
                                 </td>
                                 <td class="text-center">
-                                    <%- Math.floor(activityCurrentWeek * 100 / activityLastWeek) %>
+                                    <%- isNaN(Math.floor(activityCurrentWeek * 100 / activityLastWeek)) ? 0 : Math.floor(activityCurrentWeek * 100 / activityLastWeek) %>
                                 </td>
                             </tr>
                             <tr>
@@ -60,13 +61,13 @@
                                     Eventos
                                 </td>
                                 <td class="text-center">
-                                    <%- eventsLastWeek %>
+                                    <%- eventsLastWeek ?? '-' %>
                                 </td>
                                 <td class="text-center">
-                                    <%- eventsCurrentWeek %>
+                                    <%- eventsCurrentWeek ?? '-' %>
                                 </td>
                                 <td class="text-center corner bottom-right">
-                                    <%- Math.floor(eventsCurrentWeek * 100 / eventsLastWeek) %>
+                                    <%- isNaN(Math.floor(eventsCurrentWeek * 100 / eventsLastWeek)) ? 0 : Math.floor(eventsCurrentWeek * 100 / eventsLastWeek) %>
                                 </td>
                             </tr>
                         </tbody>

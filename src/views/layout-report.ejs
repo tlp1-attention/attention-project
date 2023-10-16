@@ -1,0 +1,15 @@
+<%- include('partials/head.ejs') %>
+<link rel="stylesheet" href="/css/report.css" />
+<link rel="stylesheet" href="/css/report-page.css">
+</head>
+<body>
+<%- include('partials/workspace-lateral-bar.ejs') %>
+<main>
+  <%- include(mainContentPartial, {
+    username: username
+  }) %>
+</main>
+<%- include('partials/workspace-footer.ejs') %>
+<script src="/js/report.js" type="module"></script>
+</body>
+</html>
