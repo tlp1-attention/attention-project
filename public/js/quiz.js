@@ -14,6 +14,17 @@ const incorrectCount = templateTable.content.querySelector('.incorrect-count');
 const totalScore = templateTable.content.querySelector('.total-score');
 const multiplier = templateTable.content.querySelector('.multiplier');
 
+const token = localStorage.getItem('token');
+
+if (!token) {
+    Swal.fire({
+        icon: 'error',
+        title: 'Sesión no encontrada. Redireccionando a la página principal.'
+    });
+    setTimeout(() => {
+        window.location.assign('/');
+    }, 1000);
+}
 
 async function getQuestions() {
     const readingId = questionContainer.dataset.id;
@@ -32,7 +43,6 @@ async function renderQuestion(currentQuestion, {
     const randomSortedResponses = sortRandom(currentQuestion.response);
     options.forEach((op, i) => {
         const optionObj = randomSortedResponses[i];
-        console.log(currentQuestion.text, optionObj.response, optionObj.correct);
         const optionText = op.querySelector('.option-text');
         optionText.innerHTML = optionObj.response;
         op.onclick =  () => {
@@ -82,7 +92,6 @@ async function runQuiz() {
             },
             onOptionClick: (optionData, optionElement) => {
                 const isCorrect = optionData.correct;
-                console.log("OptionData: ", optionData, isCorrect);
                 options.forEach(op => op.setAttribute('disabled', ''));
                 optionElement.classList.add(isCorrect ? 'correct' : 'incorrect');
 
@@ -99,7 +108,7 @@ async function runQuiz() {
     renderNextQuestion(0);
 }
 
-function renderFinalTable(right, total) {
+async function renderFinalTable(right, total) {
     const readingId = questionContainer.dataset.id;
     const step = Math.ceil(100 / total);
     const points = right * step;
@@ -111,6 +120,8 @@ function renderFinalTable(right, total) {
     incorrectCount.innerHTML = total - right;
     totalQuestions.innerHTML = total;
 
+    await updateCompletedExercise(readingId, won);
+
     Swal.fire({
         icon: won ? 'success' : 'error',
         title: won ? '¡Felicitaciones!' : 'Inténtalo de nuevo...',
@@ -121,6 +132,35 @@ function renderFinalTable(right, total) {
         if (hasConfirmed) window.location.assign(`/workspace/readings/${readingId}/quiz`);
         else window.location.assign(`/workspace/readings/${readingId}`)
     })
+}
+
+async function updateCompletedExercise(readingId, won) {
+
+    try {
+        console.log("Won: ", won);
+        const response = await fetch('/api/exercises/completed', {
+            method: 'POST',
+            headers: {
+                'Authorization': token,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                exerciseId: readingId,
+                typeExerciseId: 1,
+                complete: won
+            })
+        });
+
+        if (!response.ok) throw await response.json();
+
+    } catch(err) {
+        console.error(err);
+        Swal.fire({
+            icon: 'error',
+            title: err.message,
+        });
+    }
+
 }
 
 runQuiz();

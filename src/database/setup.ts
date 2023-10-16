@@ -1,3 +1,4 @@
+import { TypeExercises } from "../models/type_exercises";
 import { sequelize } from "./connection";
 import { Models } from "./models";
 import { createReadings } from "./seeds/readings";
@@ -20,5 +21,13 @@ export default async function setupDatabase() {
             description: 'NOT IMPORTANT',
         },
     });
+
+    await TypeExercises.findOrCreate({
+        where: {
+            id: 1,
+            type: 'READING' 
+        }
+    });
+
    await createReadings();
 }

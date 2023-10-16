@@ -22,7 +22,7 @@ const completeExerciseSchemaOptions = {
                 const available = await TypeExercises.typesAvailable()
                 if (!available.includes(id)) {
                     throw new Error(
-                        'La ID enviada no representa un tipo de evento válido'
+                        'La ID enviada no representa un tipo de ejercicio válido'
                     )
                 }
             }),

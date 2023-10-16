@@ -42,7 +42,7 @@ export class TypeExercises extends Model<TypeExercisesAttributes, TypeExercisesC
    */
   static async typesAvailable(): Promise<number[]> {
     const types = await TypeExercises.findAll();
-    return types.map(t => t.id);
+    return types.map(t => t.dataValues.id);
   }
 
   static initModel(sequelize: Sequelize.Sequelize): typeof TypeExercises {

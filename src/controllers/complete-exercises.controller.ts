@@ -16,7 +16,7 @@ async function createCompleteExercise(req: AuthRequest, res: Response) {
         }
 
         res.status(201).json({
-            message: 'Evento creado exitosamente',
+            message: 'Ejercicio creado exitosamente',
             completeExercise: newCompletedExercise,
         });
 
