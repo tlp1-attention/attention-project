@@ -1,14 +1,14 @@
 import fetchOK from "./utils/fetch.js";
-import showError from "./utils/showError.js";
+import _showError from "./utils/showError.js";
 
-const usernameInput = document.querySelector('[name="login"');
+const usernameInput = document.querySelector('[name="username"');
 const passwordInput = document.querySelector('[name="password"]'); 
 const form = document.querySelector('form');
 
 const errorMessage = document.querySelector('#error-message');
+const showError = (message) => _showError(message, errorMessage);
 
 form.addEventListener('submit', async (evt) => {
-
     evt.preventDefault();
 
     const username = usernameInput.value;
@@ -27,27 +27,27 @@ form.addEventListener('submit', async (evt) => {
         },
         body: requestBody
     });
+    
+    try {
+        const response = await fetchOK(request);
 
-    fetchOK(request)
-        .then(handleLogin)
-        .catch(failedResponse => {
+        handleLogin(response);
+    } catch (failedResponse) {
 
-            console.log(failedResponse.ok)
-
-            if (failedResponse.status == 400) {
-                return showError('Error al iniciar sesión: Usuario o contraseña incorrectos.', errorMessage);
-            }
-
-            return showError('No se estableció conexión con el servidor', errorMessage);
-        })
+        if (failedResponse.status == 400) {
+            return showError('Error al iniciar sesión: Usuario o contraseña incorrectos.');
+        }
+        return showError('No se estableció conexión con el servidor')
+    };
 })
 
 async function handleLogin(response) {
-    
-    const { token } = await response.json();
+    try {
+        const { token } = await response.json();
+        localStorage.setItem('token', token);
 
-    localStorage.setItem('token', token);
-    setTimeout(() => {
-        window.location.assign('./workspace/timer');
-    }, 1000);
+    } catch(err) {
+        return showError('Hubo un error al iniciar sesión. Por favor contáctese con los desarrolladores del sitio.')
+    }
+    window.location.assign('/workspace/timer');
 }

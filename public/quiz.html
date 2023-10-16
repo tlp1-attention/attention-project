@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM"
+            crossorigin="anonymous"
+        />
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css"
+        />
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.4/font/bootstrap-icons.css"
+        />
+        <link rel="stylesheet" href="./css/nav-bar.css" />
+        <link rel="stylesheet" href="./css/general.css" />
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+        />
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
+        />
+        <link rel="stylesheet" href="./css/quiz.css" />
+        <title>Lecturas</title>
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+            crossorigin="anonymous"
+            defer
+        ></script>
+        <script src="./js/nav-bar.js" type="module" defer></script>
+        <script src="./js/quiz.js" type="module" defer></script>
+    </head>
+    <header class="lateral-bar">
+        <button
+            class="bg-transparent position-relative mb-5 mb-sm-0 d-sm-none slide-button"
+        >
+            <a href="#" class="logo text-decoration-none">
+                <img
+                    src="./assets/logo-1.png"
+                    alt="logo pequeño"
+                    id="logo-sw"
+                />
+            </a>
+        </button>
+        <nav class="position-fixed left-0 min-vh-100 z-3" id="offcanvas">
+            <ul class="list-unstyled slide-button">
+                <li class="d-flex justify-content-between align-items-center">
+                    <button class="bg-transparent">
+                        <a href="#" class="logo text-decoration-none">
+                            <img
+                                src="./assets/logo-1.png"
+                                alt="logo pequeño"
+                                id="logo-sw"
+                            />
+                            <span class="nav-item text-normal-case"
+                                >Nombre usuario</span
+                            >
+                        </a>
+                    </button>
+                </li>
+                <li>
+                    <a href="/index.html" id="a-1" class="text-decoration-none">
+                        <i class="fas fa-home"></i>
+                        <span class="nav-item">INICIO</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" id="a-1" class="text-decoration-none">
+                        <i class="fas fa-book"></i>
+                        <span class="nav-item">LECTURA</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" id="a-1" class="text-decoration-none">
+                        <i class="fas fa-calendar"></i>
+                        <span class="nav-item">APRENDER JUGANDO</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="./timer" id="a-1" class="text-decoration-none">
+                        <i class="fas fa-clock"></i>
+                        <span class="nav-item">TEMPORIZADOR</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="./events" id="a-1" class="text-decoration-none">
+                        <i class="fas fa-calendar"></i>
+                        <span class="nav-item">AGENDA</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" id="a-1" class="text-decoration-none">
+                        <i class="fas fa-columns"></i>
+                        <span class="nav-item">ESPACIO COLABORATIVO</span>
+                    </a>
+                </li>
+                <li>
+                    <a
+                        href="/log-out"
+                        id="a-1"
+                        class="logout text-decoration-none"
+                    >
+                        <i class="fas fa-user"></i>
+                        <span class="nav-item">CERRAR SESIÓN</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+    <body>
+        <main>
+            <article>
+                <section>  
+                    <div class="question-container">
+                        <p class="question shadow-lg">Pregunta de prueba</p>
+                        <p class="timer border border-1 shadow-lg">
+                            <i class="bi bi-clock mx-3"></i>
+                            00:00
+                        </p>
+                    </div>
+                    <div class="options">
+                        <p class="bi option text-brand border border-3 fs-2 shadow-sm">
+                            <span class="mark">1</span>Opcion 1
+                        </p>
+                        <p class="bi option text-brand border border-3 fs-2 shadow-sm">
+                            <span class="mark">2</span>Opcion 2
+                        </p>
+                        <p class="bi option text-brand border border-3 fs-2 shadow-sm">
+                            <span class="mark">3</span>Opcion 3
+                        </p>
+                        <p class="bi option text-brand border border-3 fs-2 shadow-sm">
+                            <span class="mark">4</span>Opcion 4
+                        </p>
+                    </div>
+                    <div class="score-container">
+                        <p class="score text-brand border border-3 shadow-sm">
+                            <i class="bi bi-trophy"></i>
+                            100
+                        </p>
+                        <p class="w-50 mx-auto question-count text-brand shadow-sm border border-3">
+                            <span class="question-count-current">1</span>
+                            <span class="question-count-total">5</span>
+                        </p>
+                    </div>
+                </section>
+            </article>
+        </main>
+
+        <!---Bootstrap JS-->
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+            crossorigin="anonymous"
+        ></script>
+        <!-- Sweet Alert 2-->
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    </body>
+</html>

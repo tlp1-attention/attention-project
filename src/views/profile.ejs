@@ -1,0 +1,35 @@
+    <%- include('partials/head.ejs', { title: title }) %>
+    <link rel="stylesheet" href="/css/nav-bar.css"/>
+    <link rel="stylesheet" href="/css/profile.css"/>
+</head>
+    <body class="w-100">
+        <%- include('partials/workspace-lateral-bar.ejs', {username: true}) %>
+        <div class="container">
+            <div class="d-flex flex-column">
+                <div class="d-flex align-items-center w-100">
+                    <img src="/assets/user.jpg" class="profile rounded-circle mt-4 mb-4 ms-5" alt="foto">
+                    <div class="ms-5 mt-5 text-color">
+                        <h2 class="fw-bold purple mb-3">Luis Suárez</h2>
+                        <h4>Exjugador del Barcelona</h4>
+                        <h4 class="lead lead-size">luchitosuarez@gmail.com</h4>
+                    </div>
+                    <button class="btn btn-size bg-purple text-white align-self-end ms-auto">Preferencias</button>
+                </div>
+                <div class="text-color border p-4 border-3 rounded-2 bg-grey z-position">
+                    <legend>Se le dificulta: </legend>
+                    <p>Matemáticas, Física y Química</p>
+                    <hr>
+                    <legend>Puede estudiar:</legend>
+                    <p>Durante las Tardes</p>
+                    <hr>
+                    <legend>Busca</legend>
+                    <p>Tutoría</p>
+                    <hr>
+                    <legend>Puede contactarse a traves de:</legend>
+                    <p>Discord: @yosoyJavierMolina.12345</p>        
+                </div>
+
+            </div>
+        </div>
+    </body>
+</html>

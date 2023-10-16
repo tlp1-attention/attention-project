@@ -4,13 +4,15 @@ class Timer {
     constructor(timeInSecs, {
         node,
         onValueChange = () => {},
-        stopBtn
+        stopBtn,
+        onTimeout = () => {}
     }) {
         this.dom = node;
         this.timeInSecs = timeInSecs;
         this.initialTime = timeInSecs;
         this.onValueChange = onValueChange;
         this.stopBtn = stopBtn;
+        this.onTimeout = onTimeout;
     }
 
     start() {
@@ -49,6 +51,7 @@ class Timer {
     }
 
     stop() {
+        this.onTimeout();
         clearInterval(this.interval);
     }
 

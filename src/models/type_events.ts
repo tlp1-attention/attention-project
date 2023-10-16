@@ -20,11 +20,17 @@ export class TypeEvent extends Model<TypeEventAttributes, TypeEventCreationAttri
   declare createdAt: Date;
   declare updatedAt: Date;
 
-  // Events belongsTo Exercises via exerciseId
-  exercise!: Exercises;
-  getExercise!: Sequelize.BelongsToGetAssociationMixin<Exercises>;
-  setExercise!: Sequelize.BelongsToSetAssociationMixin<Exercises, ExercisesId>;
-  createExercise!: Sequelize.BelongsToCreateAssociationMixin<Exercises>;
+  /**
+   * Static method that find the of available
+   * types for events
+   * 
+   * @returns {number[]} An array of valid TypeEvent's ID
+   */
+  static async typesAvailable(): Promise<number[]> {
+    const types = await TypeEvent.findAll();
+    return types.map(t => t.id);
+  }
+
 
   static initModel(sequelize: Sequelize.Sequelize): typeof TypeEvent {
     return TypeEvent.init({

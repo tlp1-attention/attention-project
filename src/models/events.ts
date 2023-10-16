@@ -1,8 +1,9 @@
 import * as Sequelize from 'sequelize';
 import { DataTypes, Model, Optional } from 'sequelize';
-import type { Exercises, ExercisesId } from './exercises';
+import type { Exercises } from './exercises';
 import { Users } from './users';
 import type { UsersId } from './users';
+import { TypeEvent, TypeEventId } from './type_events';
 
 export interface EventsAttributes {
   id: number;
@@ -10,15 +11,17 @@ export interface EventsAttributes {
   description: string;
   createdAt: Date;
   updatedAt: Date;
-  startTime: Date;
-  endTime: Date;
+  startDate: Date;
+  endDate: Date;
   userId: number;
   typeId: number;
+  completed: boolean;
+  remindedAt: Date;
 }
 
 export type EventsPk = "id";
 export type EventsId = Events[EventsPk];
-export type EventsOptionalAttributes = "id" | "createdAt" | "updatedAt" | "userId";
+export type EventsOptionalAttributes = "id" | "createdAt" | "updatedAt" | "userId" | "remindedAt" | "completed";
 export type EventsCreationAttributes = Optional<EventsAttributes, EventsOptionalAttributes>;
 
 export class Events extends Model<EventsAttributes, EventsCreationAttributes> implements EventsAttributes {
@@ -26,17 +29,26 @@ export class Events extends Model<EventsAttributes, EventsCreationAttributes> im
   declare title: string;
   declare description: string;
   declare typeId: number;
-  declare startTime: Date;
-  declare endTime: Date;
+  declare startDate: Date;
+  declare endDate: Date;
   declare createdAt: Date;
   declare updatedAt: Date;
   declare userId: number;
+  declare remindedAt: Date;
+  declare completed: boolean;
 
   // Events belongsTo User via userId
-  user!: Exercises;
-  getUser!: Sequelize.BelongsToGetAssociationMixin<Users>;
-  setUser!: Sequelize.BelongsToSetAssociationMixin<Users, UsersId>;
-  createUser!: Sequelize.BelongsToCreateAssociationMixin<Users>;
+  declare user: Exercises;
+  declare getUser: Sequelize.BelongsToGetAssociationMixin<Users>;
+  declare setUser: Sequelize.BelongsToSetAssociationMixin<Users, UsersId>;
+  declare createUser: Sequelize.BelongsToCreateAssociationMixin<Users>;
+
+  // Events belongsTo TypeEvent via typeId
+  declare type: TypeEvent;
+  declare getType: Sequelize.BelongsToGetAssociationMixin<TypeEvent>;
+  declare setTypeEvent: Sequelize.BelongsToSetAssociationMixin<TypeEvent, TypeEventId>;
+  declare createTypeEvent: Sequelize.BelongsToCreateAssociationMixin<TypeEvent>;
+
 
   static initModel(sequelize: Sequelize.Sequelize): typeof Events {
     return Events.init({
@@ -65,6 +77,10 @@ export class Events extends Model<EventsAttributes, EventsCreationAttributes> im
             key: 'id'
         }
     },
+    completed: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+    },
     typeId: {
         type: DataTypes.INTEGER,
         allowNull: false,
@@ -81,13 +97,18 @@ export class Events extends Model<EventsAttributes, EventsCreationAttributes> im
       type: DataTypes.DATE,
       allowNull: false
     },
-    startTime: {
+    startDate: {
       type: DataTypes.DATE,
       allowNull: false
     },
-    endTime: {
+    endDate: {
       type: DataTypes.DATE,
       allowNull: true
+    },
+    remindedAt: {
+      type: DataTypes.DATE,
+      allowNull: true,
+      defaultValue: null
     }
   }, {
     sequelize,

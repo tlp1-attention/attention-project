@@ -5,23 +5,21 @@
             <i class="fas fa-bars"></i>
           </label>
           <a href="#" class="enlace">
-            <img src="./assets/atenttion-logo.png"alt="imagen logo" class="logo"/>
+            <img src="/assets/atenttion-logo.png"alt="imagen logo" class="logo"/>
+            <img src="./assets/logo-1.png" alt="logo pequeño" class="logo-1">
           </a>
           <ul>
-          <li><a href="#" class="text-decoration-none">Contacto</a></li>
-          <% if (registered) { %>
-            <%- 
-                `<li>
-                    <a href="#">
-                        <i class="bi bi-person-icon"></i>
-                    </a>
-                </li>`
-            %>
-          <% } else { %>
-            <%-`<li><a href="./login.html" class="text-decoration-none">Iniciar sesión</a></li>
-                <li><a href="./register.html" class="active text-decoration-none">Registrate</a></li>` 
-            %>
-          <% } %>
-        </ul>
+            <li><a href="#" class="text-decoration-none">Contacto</a></li>
+            <% if (username) { %>
+              <li>
+                <a href="/log-out" class="bi bi-door-open text-decoration-none">
+                  Cerrar sesión
+                </a>
+              </li>
+            <% } else { %>
+              <li><a href="./login.html" class="text-decoration-none">Iniciar sesión</a></li>
+              <li><a href="./register.html" class="active text-decoration-none">Registrate</a></li>
+            <% } %>
+          </ul>
     </nav>
 </header>

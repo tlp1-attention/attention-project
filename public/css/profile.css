@@ -1,0 +1,46 @@
+.purple {
+    color: #430671;
+    font-family: sans-serif
+}
+
+.profile {
+    height: 245px;
+    width: 245px;
+}
+
+.btn-size {
+    width: 180px;
+    height: 70px;
+    font-size: 28px;
+    position: relative;
+    top: 10px;
+    right: 10px;
+}
+
+.z-position {
+    z-index: 1000
+}
+
+.bg-purple {
+    background-color: #430671;
+}
+
+.text-color {
+    color: #36498C
+}
+
+.text-color p {
+    font-size: 18px;
+}
+
+.lead-size {
+    font-size: 22px;
+}
+
+.text-size {
+    font-size: 10px
+}
+
+.bg-grey {
+    background-color: #f8f8f8;
+}
