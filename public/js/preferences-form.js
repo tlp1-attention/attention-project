@@ -74,11 +74,12 @@ formulario.addEventListener("submit", (e) => {
     time_day: preferences.horario,
     subject: preferences.materias[0],
     people: preferences.personas,
-    contact_type: preferences.tipo_contacto,
-    contact: preferences.contacto
+    contact: preferences.tipo_contacto,
+    contact_type: preferences.contacto
   } 
+  console.log(preferencias);
 
-  fetch("http://localhost:3000/api/users/preferences", {
+  fetch("http://localhost:4000/api/users/preferences", {
     method: "POST",
     headers: { 
       "content-type": "application/json",
@@ -107,5 +108,4 @@ formulario.addEventListener("change", (e) => {
     materias: checkeds,
   };
   delete preferences.subject;
-  console.log(preferences);
 });

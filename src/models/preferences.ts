@@ -15,15 +15,16 @@ export interface PreferencesAttributes {
 }
 
 export const TIME_DAY = {
-  DAY: 'day',
-  AFTERNOON: 'afternoon',
-  NIGHT: 'night'
+  DAY: 'Día',
+  AFTERNOON: 'Tarde',
+  NIGHT: 'Noche'
 }
 
 export const CONTACT_TYPES = {
   DISCORD: 'discord',
   SLACK: 'slack',
-  EMAIL: 'email'
+  EMAIL: 'email',
+  PHONE_NUMBER: 'phone number'
 }
 
 export type PreferencesPk = "id";
@@ -80,7 +81,8 @@ export class Preferences extends Model<PreferencesAttributes, PreferencesCreatio
       type: DataTypes.ENUM(
         CONTACT_TYPES.DISCORD,
         CONTACT_TYPES.SLACK,
-        CONTACT_TYPES.EMAIL
+        CONTACT_TYPES.EMAIL,
+        CONTACT_TYPES.PHONE_NUMBER
       ),
       allowNull: false
     },

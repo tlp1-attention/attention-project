@@ -7,7 +7,7 @@ import { createToken } from '../utils/token'
 import configEnv from '../config/env';
 
 
-const { Users } = Models
+const { Users, Preferences } = Models
 
 async function loginController(req: Request, res: Response) {
     const { username, password } = req.body
@@ -110,7 +110,13 @@ async function getUserInfo(req: Request, res: Response) {
     try {
         const decodedToken: any = jwt.verify(token, configEnv.SECRET)
 
-        const user = await Users.findByPk(decodedToken.id)
+        const user = await Users.findByPk(decodedToken.id, {
+            include: {
+                model: Preferences,
+                as: "preferences",
+                attributes: ["time_day", "subject", "contact", "people", "contact_type"]
+            }
+        })
 
         if (!user) {
             res.status(404).send("No se ha encontrado el usuario!")
