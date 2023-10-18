@@ -2,6 +2,7 @@ import { Router } from 'express'
 import {
     createCompleteExercise,
     deleteCompleteExercise,
+    getCompleteExerciseByWeek,
     getCompletedExercise,
     getCompletedExercisesByUser,
     updateUserCompleteExercise,
@@ -18,6 +19,8 @@ const router = Router()
 router.use([verifySession])
 
 router.get('/', getCompletedExercisesByUser)
+
+router.get('/by-week', getCompleteExerciseByWeek);
 
 router.get('/:completedId', getCompletedExercise)
 

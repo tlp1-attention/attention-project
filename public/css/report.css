@@ -1,5 +1,12 @@
 @import url(./general.css);
 
+:root {
+    border-radius: 2rem;
+}
+
+body {
+    overflow-x: hidden;
+}
 
 .colored-item {
     --color: var(--clr-accent-400);
@@ -53,8 +60,9 @@
     width: 100%;
     border-collapse: separate;
     border-spacing: 0;
-    border-radius: 2rem;
+    border-radius: var(--border-radius);
     border: .1rem solid var(--clr-secondary-400);
+    padding: 0.5rem;
 }
 
 .report-table td,
@@ -62,4 +70,59 @@
     padding-block: min(2rem, 10px);
 }
 
+.chart-container {
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: 
+        'events readings'
+        'report report';
+    gap: 1.2rem;
+    width: 100%;
+}
 
+.event-report {
+    grid-area: events;
+    padding: 1.8rem;
+    min-height: 300px;
+    border-radius: var(--border-radius);
+}
+
+.reading-report {
+    grid-area: readings;
+    padding: 1.8rem;
+    min-height: 300px;
+    border-radius: var(--border-radius);
+}
+
+.general-report {
+    grid-area: report;
+    width: 100%;
+}
+
+@media (max-width: 578px) {
+    .chart-container {
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr 1fr 1fr;
+        grid-template-areas:
+            'events'
+            'readings'
+            'report';
+    }
+
+    .event-report {
+        display: flex;
+        place-items: center;
+        padding-inline: 0.3rem;
+        height: min-content;
+        width: 100%;
+    }
+
+    .reading-report {
+        display: flex;
+        place-items: center;
+        padding-inline: 0.3rem;
+        height: min-content;
+        width: 100%;
+    }
+}

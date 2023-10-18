@@ -126,7 +126,31 @@ async function deleteCompleteExercise(req: AuthRequest, res: Response) {
 
         return res.status(200).json({
             message: 'Ejercicio completo eliminado exitosamente',
-            completedExercise: deleted,
+            completedExercises: deleted,
+        });
+
+    } catch (err) {
+        console.error(err)
+        res.status(500).json({
+            message: 'Error interno del servidor',
+        })
+    }
+}
+
+async function getCompleteExerciseByWeek(req: AuthRequest, res: Response) {
+    const { id: userId } = req.user;
+
+    try {
+        const found = await completeExerciseService.groupByWeek(userId);
+
+        if (found.length == 0) {
+            return res.status(404).json({
+                message: `No se encontró ningún ejercicio para el usuario ${userId}`,
+            })
+        }
+
+        return res.status(200).json({
+            completedExercises: found,
         });
 
     } catch (err) {
@@ -142,5 +166,6 @@ export {
     getCompletedExercise,
     createCompleteExercise,
     deleteCompleteExercise,
-    updateUserCompleteExercise
+    updateUserCompleteExercise,
+    getCompleteExerciseByWeek
 };

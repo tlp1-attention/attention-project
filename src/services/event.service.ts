@@ -1,6 +1,13 @@
-import { InferAttributes, InferCreationAttributes } from 'sequelize'
+import {
+    GroupedCountResultItem,
+    InferAttributes,
+    InferCreationAttributes,
+    Model,
+    ModelStatic,
+} from 'sequelize'
 import { Events } from '../models/events'
 import { UserService, userService } from './user.service'
+import { sequelize } from '../database/connection'
 /**
  * Class that encapsulates data operations regarding Events.
  * Uses usersService to retrieve data from users that
@@ -43,7 +50,7 @@ export class EventService {
      * Creates an event given its data and the user's ID.
      * Returns the newly created Event or null if there was
      * a problem in creation. For example,
-     * @param {number} userId 
+     * @param {number} userId
      * @param {InferCreationAttributes<Events>} eventData An object
      * with the desired data to create the Event
      * @returns {Promise<Events | null>} The created Event or null if
@@ -61,7 +68,7 @@ export class EventService {
 
         const created = await this.eventModel.create({
             ...eventData,
-            userId
+            userId,
         })
 
         return created
@@ -109,6 +116,34 @@ export class EventService {
         if (!found) return null
         await found.destroy()
         return found
+    }
+
+    /**
+     * Groups events by the week in which they were created
+     * and returns the count, and the week in question.
+     *
+     * @param {number} userId
+     */
+    async getCountByWeek(userId: number) {
+        const [eventsByWeek] = await sequelize.query({
+            query: `
+            SELECT WEEK(createdAt) as weekNumber, 
+            COUNT(id) as eventCount,
+            DATE_ADD(createdAt, INTERVAL(1-DAYOFWEEK(createdAt)) DAY) as startWeek, 
+            DATE_ADD(createdAt, INTERVAL(7-DAYOFWEEK(createdAt)) DAY) as endWeek
+            FROM \`events\` WHERE userId = ? GROUP BY WEEK(createdAt) ORDER BY WEEK(createdAt) DESC; 
+        `,
+            values: [userId],
+        })
+
+        console.log(eventsByWeek);
+
+        return eventsByWeek as {
+            weekNumber: number
+            startWeek: Date
+            endWeek: Date
+            eventCount: number
+        }[]
     }
 }
 

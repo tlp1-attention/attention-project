@@ -1,80 +1,91 @@
 <article class="w-100 fs-4 fw-bold overflow-hidden">
-        <section class="w-100 p-0 px-md-5">
-            <h1 class="mt-5 mb-4 fs-1 display-1 color-brand fw-semibold" id="report-title">Informe de actividades</h1>
-            <table class="report-table shadow py-3 px-2">
+    <section class="w-100 p-0 px-md-5">
+        <h1 class="mt-5 mb-4 mx-1 fs-1 display-1 color-brand fw-semibold" id="report-title">Informe de actividades</h1>
+        <div class="chart-container">
+            <div class="event-report shadow">
+                <canvas id="event-canvas"></canvas>
+            </div>
+            <div class="reading-report shadow">
+                <canvas id="reading-canvas"></canvas>
+            </div>
+            <div id="report-container" class="general-report">
+                <table class="report-table shadow py-3 px-2">
                     <caption>Informe de actividad en la aplicación, comparado con la última semana</caption>
                     <tr>
-                            <th class="corner top-left">Categoría</th>
-                            <th class="text-center">
-                                <i class="bi bi-arrow-left"></i>
-                                <span class="d-none d-md-inline mx-1">
-                                    Última semana
-                                </span>
-                            </th>
-                            <th class="text-center">
-                                <i class="bi bi-calendar-check"></i>
-                                <span class="d-none d-md-inline mx-1">
-                                    Esta semana
-                                </span>
-                            </th>
-                            <th class="text-center corner top-right">
-                                <i class="bi bi-award"></i>
-                                <span class="d-none d-md-inline mx-1">
-                                    Progreso
-                                </span>
-                            </th>
+                        <th class="corner top-left">Categoría</th>
+                        <th class="text-center">
+                            <i class="bi bi-arrow-left"></i>
+                            <span class="d-none d-md-inline mx-1">
+                                Última semana
+                            </span>
+                        </th>
+                        <th class="text-center">
+                            <i class="bi bi-calendar-check"></i>
+                            <span class="d-none d-md-inline mx-1">
+                                Esta semana
+                            </span>
+                        </th>
+                        <th class="text-center corner top-right">
+                            <i class="bi bi-award"></i>
+                            <span class="d-none d-md-inline mx-1">
+                                Progreso
+                            </span>
+                        </th>
+                    </tr>
+                    <tbody>
+                        <tr>
+                            <td scope="row" class="px-4 report-cell report-accent color-green">
+                                <i class="bi bi-book colored-item color-green"></i>
+                                Lectura
+                            </td>
+                            <td class="text-center">
+                                -
+                            </td>
+                            <td class="text-center">
+                                -
+                            </td>
+                            <td class="text-center">
+                                -
+                            </td>
                         </tr>
-                        <tbody>
-                            <tr>
-                                <td scope="row" class="px-4 report-cell report-accent color-green">
-                                    <i class="bi bi-book colored-item color-green"></i>
-                                    Lectura
-                                </td>
-                                <td class="text-center">
-                                    <%- readingLastWeek %>
-                                </td>
-                                <td class="text-center">
-                                    <%- readingCurrentWeek %>
-                                </td>
-                                <td class="text-center">
-                                    <%- isNaN(Math.floor(readingCurrentWeek * 100 / readingLastWeek)) ? 0 : Math.floor(readingCurrentWeek * 100 / readingLastWeek) %>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td scope="row" class="px-4 report-cell report-accent">
-                                    <i class="bi bi-puzzle-fill colored-item color-yellow"></i>
-                                    Actividades
-                                </td>
-                                <td class="text-center">
-                                    <%- activityLastWeek ?? '-' %>
-                                </td>
-                                <td class="text-center">
-                                    <%- activityCurrentWeek ?? '-' %>
-                                </td>
-                                <td class="text-center">
-                                    <%- isNaN(Math.floor(activityCurrentWeek * 100 / activityLastWeek)) ? 0 : Math.floor(activityCurrentWeek * 100 / activityLastWeek) %>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td scope="row" class="px-4 report-cell report-accent corner bottom-left">
-                                    <i class="bi bi-calendar colored-item color-blue"></i>
-                                    Eventos
-                                </td>
-                                <td class="text-center">
-                                    <%- eventsLastWeek ?? '-' %>
-                                </td>
-                                <td class="text-center">
-                                    <%- eventsCurrentWeek ?? '-' %>
-                                </td>
-                                <td class="text-center corner bottom-right">
-                                    <%- isNaN(Math.floor(eventsCurrentWeek * 100 / eventsLastWeek)) ? 0 : Math.floor(eventsCurrentWeek * 100 / eventsLastWeek) %>
-                                </td>
-                            </tr>
-                        </tbody>
+                        <tr>
+                            <td scope="row" class="px-4 report-cell report-accent">
+                                <i class="bi bi-puzzle-fill colored-item color-yellow"></i>
+                                Actividades
+                            </td>
+                            <td class="text-center">
+                                -
+                            </td>
+                            <td class="text-center">
+                                -
+                            </td>
+                            <td class="text-center">
+                                -
+                            </td>
+                        </tr>
+                        <tr>
+                            <td scope="row" class="px-4 report-cell report-accent corner bottom-left">
+                                <i class="bi bi-calendar colored-item color-blue"></i>
+                                Eventos
+                            </td>
+                            <td class="text-center">
+                                -
+                            </td>
+                            <td class="text-center">
+                                -
+                            </td>
+                            <td class="text-center corner bottom-right">
+                                -
+                            </td>
+                        </tr>
+                    </tbody>
                 </table>
-            </section>
-            
-        </article>
-    </main>
+            </div>
+        </div>
+    </section>
+
+</article>
+</main>
 </body>
+
 </html>

@@ -1,5 +1,6 @@
 import { InferAttributes, InferCreationAttributes, Op } from 'sequelize'
 import { CompleteExercises } from '../models/complete_exercises';
+import { sequelize } from '../database/connection';
 
 /**
  * Class that encapsulates data operations regarding CompleteExercises.
@@ -106,6 +107,37 @@ export class CompleteExercisesService {
         if (!found) return null;
         await found.destroy();
         return found
+    }
+
+    /**
+     * Groups readings by the week in which they were 
+     * created. Returns the count of reading,
+     * the start of the week, the end of the week and 
+     * the week number
+     * 
+     * @param {number} userId
+     */
+    async groupByWeek(userId: number) {
+        const [readingsByWeek] = await sequelize.query({
+            query: `
+            SELECT WEEK(createdAt) as weekNumber, 
+            COUNT(id) as readingCount,
+            DATE_ADD(createdAt, INTERVAL(1-DAYOFWEEK(createdAt)) DAY) as startWeek, 
+            DATE_ADD(createdAt, INTERVAL(7-DAYOFWEEK(createdAt)) DAY) as endWeek
+            FROM \`complete_exercises\` WHERE userId = ? AND typeExerciseId = ? 
+            GROUP BY WEEK(createdAt) ORDER BY WEEK(createdAt) DESC; 
+        `,
+            values: [userId, 1 ],
+        })
+
+        console.log(readingsByWeek);
+
+        return readingsByWeek as {
+            weekNumber: number
+            startWeek: Date
+            endWeek: Date
+            readingCount: number;
+        }[]
     }
 }
 

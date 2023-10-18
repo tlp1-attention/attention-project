@@ -7,6 +7,7 @@ import {
     updateUserEvent,
     getEventsByUser,
     getEventById,
+    getEventCountByWeeks,
 } from '../controllers/events.controllers'
 import {
     createEventSchema,
@@ -17,6 +18,7 @@ import {
 const router = Router()
 
 router.get('/', [verifySession], getEventsByUser)
+router.get('/by-week', [verifySession], getEventCountByWeeks);
 router.get('/:eventId', [verifySession], getEventById)
 router.post('/', [verifySession], validate(createEventSchema), createEvent)
 router.put(

@@ -44,7 +44,7 @@ export function scheduleReminders() {
                     }
 
                     // Once the reminder is sent, update the remindedAt column to avoid 
-                    // doing it again in other 12 hours 
+                    // doing it again in another 12 hours 
                     await event.update({
                         remindedAt: new Date()
                     });
