@@ -23,3 +23,11 @@
 label {
     font-size: 1.2rem;
 }
+
+.logo-with-text img {
+    max-width: 25rem;
+}
+
+.logo-with-text span {
+    font-size: 5rem;
+}
