@@ -119,7 +119,6 @@ export class SubscriptionService {
 
         try {
             const formatted = userFound.subscriptionPayload.replaceAll('\\', '');
-            console.log(formatted);
             const parsed = JSON.parse(formatted.slice(1, formatted.length - 1));
             return webpush.sendNotification(
                 parsed,
@@ -127,7 +126,7 @@ export class SubscriptionService {
             );
 
         } catch (err) {
-            console.error('There was an error updating the User: ', err);
+            console.error('There was an error sending the notification: ', err);
             return null;
         }
     }
