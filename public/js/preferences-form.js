@@ -20,14 +20,20 @@ let preferences = {
 const dInput = document.createElement("input");
 dInput.type = "text";
 dInput.placeholder = "@usuario de discord";
+dInput.classList.add("form-control")
+dInput.classList.add("mt-2")
 
 const sInput = document.createElement("input");
 sInput.type = "text";
 sInput.placeholder = "@usuario de slack";
+sInput.classList.add("form-control")
+sInput.classList.add("mt-2")
 
 const cInput = document.createElement("input");
 cInput.type = "number";
 cInput.placeholder = "000-0000-0000";
+cInput.classList.add("form-control")
+cInput.classList.add("mt-2")
 input.appendChild(cInput);
 
 //detectar cambios del radio de contacto y agregar el input correspondiente

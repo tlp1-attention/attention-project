@@ -1,104 +1,110 @@
 <%- include('partials/head.ejs', { title: title }) %>
+    <link rel="stylesheet" href="/css/preferences-form.css" />
 </head>
 <body>
-    <main>
+    <main class="vw-100 bg-grey">
 
     
     <div
         class="container w-100 hform d-flex justify-content-center align-items-center"
     >
-        <form action="" class="border rounded-3 w-25" id="formulario">
-            <div class="m-3 d-flex flex-column" name="materias">
-                <label class="form-label">¿Qué se le dificulta?</label>
-            <div>
-            <input type="checkbox" name="subject" value="Matemáticas" />
-            <span>Matemáticas</span>
-        </div>
-        <div>
-            <input type="checkbox" name="subject" value="Lenguaje" />
-            <span>Lenguaje</span>
-        </div>
-        <div>
-            <input type="checkbox" name="subject" value="Física" />
-            <span>Física</span>
-        </div>
-        <div>
-            <input type="checkbox" name="subject" value="Química" />
-            <span>Química</span>
-        </div>
-        <div>
-            <input type="checkbox" name="subject" value="Economía" />
-            <span>Economía</span>
-        </div>
-        <div>
-            <input type="checkbox" name="subject" value="Geografía" />
-            <span>Geografía</span>
-        </div>
-        <div>
-            <input type="checkbox" name="subject" value="Estudios Sociales" />
-            <span>Estudios Sociales</span>
-        </div>
-        <div>
-            <input type="checkbox" name="subject" id="" value="Informática" />
-            <span>Informática</span>
-        </div>
-    </div>
-    <div class="m-3">
-        <label class="form-label">
-            ¿En qué momento del día puede estudiar?
-        </label>
-        <select name="horario" id="" class="form-select w-75">
-            <option value="">Seleccione una opción</option>
-            <option>Día</option>
-            <option>Tarde</option>
-            <option>Noche</option>
-        </select>
-        </div>
-    <div class="m-3">
-        <label class="form-label"> ¿Qué le gustaría encontrar? </label>
-        <select name="personas" id="" class="form-select w-75">
-            <option value="">Seleccione una opción</option>
-            <option>alguien que me acompañe al estudiar</option>
-            <option>despejar dudas</option>
-            <option>tutoría</option>
-        </select>
-    </div>
-    <div class="m-3 d-flex flex-column" id="contacts">
-        <label class="form-label"> ¿Qué forma de contacto utiliza? </label>
-        <div>
-            <input
-                type="radio"
-                class="form-check-input"
-                name="tipo_contacto"
-                id="cel"
-                value="phone number"
-                checked
-            />
-            <span>Numero Telefónico</span>
-        </div>
-        <div>
-            <input
-                type="radio"
-                class="form-check-input"
-                name="tipo_contacto"
-                id="discord"
-                value="discord"
-            />
-            <span>Discord</span>
-        </div>
-        <div>
-            <input
-                type="radio"
-                class="form-check-input"
-                name="tipo_contacto"
-                id="slack"
-                value="slack"
-            />
-            <span>Slack</span>
+        <form class="d-flex flex-column border border-3 rounded-3 w-50 mt-5 mb-4 text-color" id="formulario">
+            <h1 class="fs-1 m-3 purple align-self-center">Preferencias de Usuario</h1>
+            <div class="d-flex justify-content-center w-100">
+                <div class="m-3 d-flex flex-column w-50" name="materias">
+                    <label class="form-label">¿Qué se le dificulta?</label>
+                    <div>
+                        <input type="radio" class="form-check-input" name="subject" value="Matemáticas" />
+                        <span>Matemáticas</span>
+                    </div>
+                    <div>
+                        <input type="radio" class="form-check-input" name="subject" value="Lenguaje" />
+                        <span>Lenguaje</span>
+                    </div>
+                    <div>
+                        <input type="radio" class="form-check-input" name="subject" value="Física" />
+                        <span>Física</span>
+                    </div>
+                    <div>
+                        <input type="radio" class="form-check-input" name="subject" value="Química" />
+                        <span>Química</span>
+                    </div>
+                    <div>
+                        <input type="radio" class="form-check-input" name="subject" value="Economía" />
+                        <span>Economía</span>
+                    </div>
+                    <div>
+                        <input type="radio" class="form-check-input" name="subject" value="Geografía" />
+                        <span>Geografía</span>
+                    </div>
+                    <div>
+                        <input type="radio" class="form-check-input" name="subject" value="Estudios Sociales" />
+                        <span>Estudios Sociales</span>
+                    </div>
+                    <div>
+                        <input type="radio" class="form-check-input" name="subject" id="" value="Informática" />
+                        <span>Informática</span>
+                    </div>
+                </div>
+                <div>
+                    <div class="m-3">
+                        <label class="form-label">
+                            ¿En qué momento del día puede estudiar?
+                        </label>
+                        <select name="horario" id="" class="form-select">
+                            <option value="">Seleccione una opción</option>
+                            <option>Día</option>
+                            <option>Tarde</option>
+                            <option>Noche</option>
+                        </select>
+                    </div>
+                    <div class="m-3">
+                        <label class="form-label"> ¿Qué le gustaría encontrar? </label>
+                        <select name="personas" id="" class="form-select">
+                            <option value="">Seleccione una opción</option>
+                            <option>alguien que me acompañe al estudiar</option>
+                            <option>despejar dudas</option>
+                            <option>tutoría</option>
+                        </select>
+                    </div>
+                    <div class="m-3 d-flex flex-column" id="contacts">
+                        <label class="form-label"> ¿Qué forma de contacto utiliza? </label>
+                        <div>
+                            <input
+                                type="radio"
+                                class="form-check-input"
+                                name="tipo_contacto"
+                                id="cel"
+                                value="phone number"
+                                checked
+                            />
+                            <span>Numero Telefónico</span>
+                        </div>
+                        <div>
+                            <input
+                                type="radio"
+                                class="form-check-input"
+                                name="tipo_contacto"
+                                id="discord"
+                                value="discord"
+                            />
+                            <span>Discord</span>
+                        </div>
+                        <div>
+                            <input
+                                type="radio"
+                                class="form-check-input"
+                                name="tipo_contacto"
+                                id="slack"
+                                value="slack"
+                            />
+                            <span>Slack</span>
+                        </div>
+                        <div id="contact-input"></div>
+                    </div>
+                </div>
             </div>
-            <div id="contact-input"></div>
-        </div>
-        <input type="submit" class="btn btn-primary m-3" value="Submit" />
+            <input type="submit" class="btn bg-purple text-white m-3" value="Submit" />
     </form>
     </div>
 </main>
