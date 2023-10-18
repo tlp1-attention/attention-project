@@ -3,6 +3,6 @@ import { renderProfile } from "../controllers/profile.controller.js"
 
 const profileRouter = Router()
 
-profileRouter.get('/user/profile', renderProfile)
+profileRouter.get('/workspace/user', renderProfile)
 
 export default profileRouter

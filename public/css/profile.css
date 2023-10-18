@@ -25,6 +25,12 @@
     background-color: #430671;
 }
 
+.bg-purple:hover {
+    background-color: #ffffff;
+    color: #430671 !important;
+    outline: 1px solid #430671;
+}
+
 .text-color {
     color: #36498C
 }

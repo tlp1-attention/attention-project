@@ -6,7 +6,15 @@ const timeValue = document.getElementById("time_day")
 const peopleValue = document.getElementById("people")
 const contactValue = document.getElementById("contact")
 
+const updatePreferences = document.getElementById("btn-preferences")
+
 const token = localStorage.getItem("token")
+
+updatePreferences.addEventListener("click", (e) => {
+    e.preventDefault()
+
+    window.location.href = "/preferences/form"
+})
 
 const getInfo = async () => {
     const userInfo = await fetch("http://localhost:4000/user/info", {
