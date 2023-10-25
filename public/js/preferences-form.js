@@ -94,7 +94,8 @@ formulario.addEventListener("submit", (e) => {
     body: JSON.stringify(preferencias),
   }).then(res => res.json())
   .then((res) => {
-    console.log("Registro exitoso!");
+    alert("Preferencias registradas correctamente!")
+    window.location.assign("/workspace/user")
   })
 });
 
