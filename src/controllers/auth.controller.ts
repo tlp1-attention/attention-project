@@ -131,6 +131,37 @@ async function getUserInfo(req: Request, res: Response) {
     }
 }
 
+async function updateUserInfo(req: Request, res: Response) {
+    const token: any = req.headers.authorization
+
+    if (!token) {
+        res.status(401).send({ message: 'No se ha proporcionado el token!' })
+    }
+
+    try {
+        const decodedToken: any = jwt.verify(token, configEnv.SECRET)
+
+        const user = await Users.findByPk(decodedToken.id)
+
+        if (!user) {
+            res.status(404).send("No se ha encontrado el usuario!")
+        }
+
+        const updatedUser = await user.update(req.body)
+
+        if (!updatedUser) {
+            res.status(404).send("No se ha podido actualizar la información del usuario!")
+        }
+
+        return res.status(200).send(updatedUser)
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({
+            message: 'Error interno del servidor',
+        })
+    }
+}
+
 async function logoutController(
     req: Request,
     res: Response,
@@ -145,4 +176,5 @@ export {
     changePasswordController,
     logoutController,
     getUserInfo,
+    updateUserInfo,
 }
