@@ -12,13 +12,15 @@ import {
 import {
     createEventSchema,
     deleteEventSchema,
+    getEventsSchema,
     updateEventSchema,
 } from '../schemas/event.schema'
+import { ValidationChain } from 'express-validator'
 
 const router = Router()
 
-router.get('/', [verifySession], getEventsByUser)
-router.get('/by-week', [verifySession], getEventCountByWeeks);
+router.get('/', [verifySession], validate(getEventsSchema), getEventsByUser)
+router.get('/by-week', [verifySession], getEventCountByWeeks)
 router.get('/:eventId', [verifySession], getEventById)
 router.post('/', [verifySession], validate(createEventSchema), createEvent)
 router.put(

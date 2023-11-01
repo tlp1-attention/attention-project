@@ -65,7 +65,7 @@ notifyBtn.addEventListener('click', async (_evt) => {
         if (!response.ok) return showError('Error al solicitar subscripción: ', response);
     } else {
         // Remove all registered service workers
-        navigator.serviceWorker.getRegistrations().then(function(registrations) {
+        navigator.serviceWorker.getRegistrations().then((registrations) => {
             for(let registration of registrations) {
                 registration.unregister();
             } 

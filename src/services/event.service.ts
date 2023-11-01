@@ -1,13 +1,25 @@
 import {
+    FindOptions,
     GroupedCountResultItem,
     InferAttributes,
     InferCreationAttributes,
     Model,
     ModelStatic,
+    Op,
+    WhereOptions,
 } from 'sequelize'
-import { Events } from '../models/events'
+import { Events, EventsAttributes } from '../models/events'
 import { UserService, userService } from './user.service'
 import { sequelize } from '../database/connection'
+
+type OrderOptions<M extends Model<any, any>> = {
+    field: keyof InferAttributes<M>
+    type: 'asc' | 'desc'
+}
+
+type FilterByTimeOptions = 'future' | 'past'
+
+
 /**
  * Class that encapsulates data operations regarding Events.
  * Uses usersService to retrieve data from users that
@@ -76,15 +88,56 @@ export class EventService {
 
     /**
      * Finds all the events from a User, given its ID.
+     * Receives and object with the ordering options
      *
      * @returns {Promise<Events[]>}
      */
-    async findByUserId(id: number): Promise<Events[]> {
-        return this.eventModel.findAll({
+    async findByUserId(
+        id: number,
+        filter: Record<keyof EventsAttributes, any>,
+        order?: OrderOptions<Events>,
+    ): Promise<Events[]> {
+        let query: FindOptions<Events> = {}
+
+        if (order) {
+            console.log(order);
+            query = Object.assign(query, {
+                order: [[order.field, order.type.toUpperCase()]],
+            })
+        }
+        
+        let filterOrDefault = filter ?? {};
+
+        // If filters are passed a string
+        // which starts with +, we filter only future dates,
+        // and, if it starts with -, we filter only past dates
+        if (filter.startDate && filter.startDate.startsWith("+")) {
+            filterOrDefault = {
+                ...filterOrDefault,
+                startDate: {
+                    [Op.gt]: sequelize.literal('CURRENT_TIMESTAMP')
+                }
+            }
+        } else if (filter.startDate && filter.startDate.startsWith("-")) {
+           filterOrDefault = {
+                ...filterOrDefault,
+                startDate: {
+                    [Op.lt]: sequelize.literal('CURRENT_TIMESTAMP')
+                }
+           } 
+        }
+
+        console.log(filterOrDefault);
+
+        const options = {
             where: {
+                ...filterOrDefault,
                 userId: id,
             },
-        })
+            ...(query ?? {}),
+        }
+        console.log(options);
+        return this.eventModel.findAll(options);
     }
 
     /**
@@ -136,7 +189,7 @@ export class EventService {
             values: [userId],
         })
 
-        console.log(eventsByWeek);
+        console.log(eventsByWeek)
 
         return eventsByWeek as {
             weekNumber: number
@@ -144,6 +197,15 @@ export class EventService {
             endWeek: Date
             eventCount: number
         }[]
+    }
+
+    /**
+     * Gets all the attributes for an Event
+     */
+    getAttributes(): keyof EventsAttributes {
+        return Object.keys(
+            this.eventModel.getAttributes()
+        ) as unknown as keyof EventsAttributes;
     }
 }
 

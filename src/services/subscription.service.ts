@@ -104,7 +104,7 @@ export class SubscriptionService {
      * Sends a notification to a given User
      * @param {number} userId
      * @param {any} payload - To send
-     * @returns {Promise<boolean>}  Indicates whether the operation
+     * @returns {Promise<SendResult | null>}  Indicates whether the operation
      * completed properly or not
      */
     async sendNotification(

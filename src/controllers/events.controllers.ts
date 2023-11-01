@@ -31,9 +31,19 @@ async function createEvent(req: AuthRequest, res: Response) {
 // Get all events from a user
 async function getEventsByUser(req: AuthRequest, res: Response) {
     const { id: userId } = req.user!
+    const { orderType, orderField, ...rest  } = req.query;
 
     try {
-        const events = await eventService.findByUserId(userId)
+        const events = await eventService.findByUserId(
+            userId,
+            // Correct query params are enforced
+            // on the schemas
+            rest as any,
+            orderType && orderField && {
+                field: orderField as any,
+                type: orderType as any,
+            },
+        )
 
         if (events.length == 0) {
             return res.status(404).json({
@@ -71,9 +81,8 @@ export async function getEventById(req: AuthRequest, res: Response) {
         }
 
         res.status(200).json({
-            found: Events
-        });
-
+            found: Events,
+        })
     } catch (err) {
         console.error(err)
         res.status(500).json({
@@ -85,16 +94,17 @@ export async function getEventById(req: AuthRequest, res: Response) {
 // Update an existing event for a user
 async function updateUserEvent(req: AuthRequest, res: Response) {
     const { eventId } = req.params
-    const { id: userId } = req.user;
+    const { id: userId } = req.user
 
     try {
         const belongsToUser = await eventService.belongsToUser(
-            parseInt(eventId), userId
-        );
+            parseInt(eventId),
+            userId
+        )
 
         if (!belongsToUser) {
             return res.status(400).json({
-                message: `No se encontró ningún evento con ID ${eventId} para el usuario`
+                message: `No se encontró ningún evento con ID ${eventId} para el usuario`,
             })
         }
 
@@ -124,12 +134,13 @@ async function deleteEvent(req: AuthRequest, res: Response) {
 
     try {
         const belongsToUser = await eventService.belongsToUser(
-            parseInt(eventId), userId
-        );
+            parseInt(eventId),
+            userId
+        )
 
         if (!belongsToUser) {
             return res.status(400).json({
-                message: `No se encontró ningún evento con ID ${eventId} para el usuario`
+                message: `No se encontró ningún evento con ID ${eventId} para el usuario`,
             })
         }
 
@@ -157,20 +168,17 @@ async function getEventCountByWeeks(req: AuthRequest, res: Response) {
     const { id: userId } = req.user
 
     try {
-        const eventsByWeek = await eventService.getCountByWeek(
-            userId,
-        );
+        const eventsByWeek = await eventService.getCountByWeek(userId)
 
         if (eventsByWeek.length == 0) {
             return res.status(400).json({
-                message: `No se encontró ningún evento para el usuario`
+                message: `No se encontró ningún evento para el usuario`,
             })
         }
 
         return res.status(200).json({
             events: eventsByWeek,
-        });
-
+        })
     } catch (err) {
         console.error(err)
         res.status(500).json({
@@ -179,4 +187,10 @@ async function getEventCountByWeeks(req: AuthRequest, res: Response) {
     }
 }
 
-export { createEvent, deleteEvent, getEventsByUser, updateUserEvent, getEventCountByWeeks }
+export {
+    createEvent,
+    deleteEvent,
+    getEventsByUser,
+    updateUserEvent,
+    getEventCountByWeeks,
+}

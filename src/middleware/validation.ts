@@ -1,10 +1,11 @@
 import { Request, Response, NextFunction } from 'express'
 import { validationResult, ValidationChain } from 'express-validator'
-import { ValidationChainLike } from 'express-validator/src/chain'
+import { Middleware } from 'express-validator/src/base'
+import { ContextRunner, ValidationChainLike } from 'express-validator/src/chain'
 import { RunnableValidationChains } from 'express-validator/src/middlewares/schema'
 
 export const validate = <T extends ValidationChain>(
-    schemas: (RunnableValidationChains<T> | ValidationChainLike)[]
+    schemas: (RunnableValidationChains<T> | ValidationChainLike | ContextRunner & Middleware)[]
 ) => {
     return async (request: Request, response: Response, next: NextFunction) => {
         for (const schema of schemas) {
