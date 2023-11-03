@@ -31,14 +31,14 @@ async function createEvent(req: AuthRequest, res: Response) {
 // Get all events from a user
 async function getEventsByUser(req: AuthRequest, res: Response) {
     const { id: userId } = req.user!
-    const { orderType, orderField, ...rest  } = req.query;
+    const { orderType, orderField, filter  } = req.query;
 
     try {
         const events = await eventService.findByUserId(
             userId,
             // Correct query params are enforced
             // on the schemas
-            rest as any,
+            filter as any,
             orderType && orderField && {
                 field: orderField as any,
                 type: orderType as any,

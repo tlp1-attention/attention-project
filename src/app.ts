@@ -3,6 +3,7 @@ import helmet from 'helmet'
 import cors from 'cors'
 import { sequelize } from './database/connection';
 import cookieParser from 'cookie-parser'
+import qs from 'qs';
 
 import session from 'express-session';
 import connectSQLite from 'connect-sqlite3';
@@ -35,6 +36,13 @@ sequelize.authenticate()
 // Set ejs as template engine
 app.set('views', './src/views');
 app.set('view engine', 'ejs');
+
+// Set qs as query string parser
+app.set('query parser', (query: string) => {
+  return qs.parse(query, {
+    plainObjects: true
+  })
+})
 
 // Library Middleware
 app.use(cors());

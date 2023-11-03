@@ -94,7 +94,7 @@ export class EventService {
      */
     async findByUserId(
         id: number,
-        filter: Record<keyof EventsAttributes, any>,
+        filter?: Record<keyof EventsAttributes, any>,
         order?: OrderOptions<Events>,
     ): Promise<Events[]> {
         let query: FindOptions<Events> = {}
@@ -111,14 +111,14 @@ export class EventService {
         // If filters are passed a string
         // which starts with +, we filter only future dates,
         // and, if it starts with -, we filter only past dates
-        if (filter.startDate && filter.startDate.startsWith("+")) {
+        if (filter?.startDate && filter.startDate.startsWith("+")) {
             filterOrDefault = {
                 ...filterOrDefault,
                 startDate: {
                     [Op.gt]: sequelize.literal('CURRENT_TIMESTAMP')
                 }
             }
-        } else if (filter.startDate && filter.startDate.startsWith("-")) {
+        } else if (filter?.startDate && filter.startDate.startsWith("-")) {
            filterOrDefault = {
                 ...filterOrDefault,
                 startDate: {

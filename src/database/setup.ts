@@ -1,3 +1,4 @@
+import env from '../config/env'
 import { TypeExercises } from '../models/type_exercises'
 import { Users } from '../models/users'
 import { sequelize } from './connection'
@@ -33,15 +34,16 @@ export default async function setupDatabase() {
             type: 'READING',
         },
     })
+    if (env.NODE_ENV == 'test') {
+        const { id: userId } = await Users.findOne({
+            where: {
+                name: 'danteBenitez__prueba',
+            },
+        })
+        await createEventsForTesting(10, userId)
+        await createCompleteExercise(10, userId)
+    }
 
-    const { id: userId } = await Users.findOne({
-        where: {
-            name: 'danteBenitez__prueba',
-        },
-    })
-
-    await createEventsForTesting(10, userId)
-    await createCompleteExercise(10, userId)
 
     await createReadings()
 }

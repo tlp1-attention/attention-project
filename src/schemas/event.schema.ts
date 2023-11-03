@@ -72,8 +72,13 @@ const eventSchemaOptions = [
 export const getEventsSchema = [
     query('*')
         .custom((_value, { req }) => {
-            const queryParams = Object.keys(req.query);
-            const attributes = [...eventService.getAttributes(), 'orderField', 'orderType'];
+            console.log("Query params: ");
+            console.log(req.query);
+            if (!req.query.filter) {
+                return true;
+            }
+            const queryParams = Object.keys(req.query.filter);
+            const attributes = [...eventService.getAttributes()];
             for (const param of queryParams) {
                 if (!attributes.includes(param)) {
                     throw new Error(`Clave de query inválida: ${param}`);
