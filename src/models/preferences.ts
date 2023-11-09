@@ -51,79 +51,80 @@ export class Preferences extends Model<PreferencesAttributes, PreferencesCreatio
 
   static initModel(sequelize: Sequelize.Sequelize): typeof Preferences {
     return Preferences.init({
-    id: {
-      autoIncrement: true,
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      primaryKey: true
-    },
-    time_day: {
-      type: DataTypes.ENUM(
-        TIME_DAY.DAY,
-        TIME_DAY.AFTERNOON,
-        TIME_DAY.NIGHT
-      ),
-      allowNull: false
-    },
-    subject: {
-      type: DataTypes.STRING(255),
-      allowNull: false
-    },
-    people: {
-      type: DataTypes.STRING(255),
-      allowNull: false
-    },
-    contact_type: {
-      type: DataTypes.STRING(255),
-      allowNull: false
-    },
-    contact: {
-      type: DataTypes.ENUM(
-        CONTACT_TYPES.DISCORD,
-        CONTACT_TYPES.SLACK,
-        CONTACT_TYPES.EMAIL,
-        CONTACT_TYPES.PHONE_NUMBER
-      ),
-      allowNull: false
-    },
-    userId: {
-      type: DataTypes.INTEGER,
-      allowNull: true,
-      references: {
-        model: 'users',
-        key: 'id'
+      id: {
+        autoIncrement: true,
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        primaryKey: true
+      },
+      time_day: {
+        type: DataTypes.ENUM(
+          TIME_DAY.DAY,
+          TIME_DAY.AFTERNOON,
+          TIME_DAY.NIGHT
+        ),
+        allowNull: false
+      },
+      subject: {
+        type: DataTypes.STRING(255),
+        allowNull: false
+      },
+      people: {
+        type: DataTypes.STRING(255),
+        allowNull: false
+      },
+      contact_type: {
+        type: DataTypes.STRING(255),
+        allowNull: false
+      },
+      contact: {
+        // type: DataTypes.ENUM(
+        //   CONTACT_TYPES.DISCORD,
+        //   CONTACT_TYPES.SLACK,
+        //   CONTACT_TYPES.EMAIL,
+        //   CONTACT_TYPES.PHONE_NUMBER
+        // ),
+        type: DataTypes.STRING(255),
+        allowNull: false
+      },
+      userId: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+        references: {
+          model: 'users',
+          key: 'id'
+        }
+      },
+      createdAt: {
+        type: DataTypes.DATE,
+        allowNull: false,
+      },
+      updatedAt: {
+        type: DataTypes.DATE,
+        allowNull: false,
       }
-    },
-    createdAt: {
-      type: DataTypes.DATE,
-      allowNull: false,
-    },
-    updatedAt:{
-      type: DataTypes.DATE,
-      allowNull: false,
-    }
-  }, {
-    sequelize,
-    tableName: 'preferences',
-    timestamps: true,
-    paranoid: true,
-    indexes: [
-      {
-        name: "PRIMARY",
-        unique: true,
-        using: "BTREE",
-        fields: [
-          { name: "id" },
-        ]
-      },
-      {
-        name: "userId",
-        using: "BTREE",
-        fields: [
-          { name: "userId" },
-        ]
-      },
-    ]
-  });
+    }, {
+      sequelize,
+      tableName: 'preferences',
+      timestamps: true,
+      paranoid: true,
+      indexes: [
+        {
+          name: "PRIMARY",
+          unique: true,
+          using: "BTREE",
+          fields: [
+            { name: "id" },
+          ]
+        },
+        {
+          name: "userId",
+          using: "BTREE",
+          fields: [
+            { name: "userId" },
+          ]
+        },
+      ]
+    });
   }
 }

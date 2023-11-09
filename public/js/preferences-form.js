@@ -1,3 +1,5 @@
+import showSucces from "./utils/showSuccess.js";
+
 //elementos del HTML
 const cel = document.getElementById("cel");
 const discord = document.getElementById("discord");
@@ -94,8 +96,10 @@ formulario.addEventListener("submit", (e) => {
     body: JSON.stringify(preferencias),
   }).then(res => res.json())
   .then((res) => {
-    alert("Preferencias registradas correctamente!")
-    window.location.assign("/workspace/user")
+    showSucces("Preferencias registradas correctamente!")
+    setTimeout(() => {
+      window.location.assign("/workspace/user")
+    }, 2000)
   })
 });
 
