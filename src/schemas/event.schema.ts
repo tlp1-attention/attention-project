@@ -89,7 +89,7 @@ export const getEventsSchema = [
     query('orderField')
         .optional()
         .isString()
-        .isIn(["createdAt", "typeId"]),
+        .isIn(["startDate", "typeId"]),
     query('orderType')
         .optional()
         .isString()

@@ -1,12 +1,9 @@
 import {
     FindOptions,
-    GroupedCountResultItem,
     InferAttributes,
     InferCreationAttributes,
     Model,
-    ModelStatic,
-    Op,
-    WhereOptions,
+    Op
 } from 'sequelize'
 import { Events, EventsAttributes } from '../models/events'
 import { UserService, userService } from './user.service'
@@ -16,9 +13,6 @@ type OrderOptions<M extends Model<any, any>> = {
     field: keyof InferAttributes<M>
     type: 'asc' | 'desc'
 }
-
-type FilterByTimeOptions = 'future' | 'past'
-
 
 /**
  * Class that encapsulates data operations regarding Events.
@@ -184,7 +178,7 @@ export class EventService {
             COUNT(id) as eventCount,
             DATE_ADD(createdAt, INTERVAL(1-DAYOFWEEK(createdAt)) DAY) as startWeek, 
             DATE_ADD(createdAt, INTERVAL(7-DAYOFWEEK(createdAt)) DAY) as endWeek
-            FROM \`events\` WHERE userId = ? GROUP BY WEEK(createdAt) ORDER BY WEEK(createdAt) DESC; 
+            FROM \`events\` WHERE userId = ? GROUP BY WEEK(createdAt) ORDER BY WEEK(createdAt) ASC; 
         `,
             values: [userId],
         })

@@ -125,7 +125,7 @@ export class CompleteExercisesService {
             DATE_ADD(createdAt, INTERVAL(1-DAYOFWEEK(createdAt)) DAY) as startWeek, 
             DATE_ADD(createdAt, INTERVAL(7-DAYOFWEEK(createdAt)) DAY) as endWeek
             FROM \`complete_exercises\` WHERE userId = ? AND typeExerciseId = ? 
-            GROUP BY WEEK(createdAt) ORDER BY WEEK(createdAt) DESC; 
+            GROUP BY WEEK(createdAt) ORDER BY WEEK(createdAt) ASC; 
         `,
             values: [userId, 1 ],
         })
