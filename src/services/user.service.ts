@@ -15,11 +15,15 @@ export class UserService {
      * @returns {Promise<Users | null>}
      */
     async findById(id: number): Promise<Users | null> {
-        return await this.userModel.findByPk(id)
+        return await this.userModel.findByPk(id, {
+            attributes: {
+               exclude: ['password']
+            }
+        })
     }
 
     /**
-     * Returns wheter an Email belongs to
+     * Returns whether an Email belongs to
      * a registered user or not.
      * @param {string} email
      * @returns {Promise<boolean>}
@@ -34,7 +38,7 @@ export class UserService {
     }
 
     /**
-     * Returns wheter a pair username email belongs to
+     * Returns whether a pair username email belongs to
      * a registered user or not.
      * @param {string} username
      * @param {string} email

@@ -82,7 +82,8 @@ export class EventService {
 
     /**
      * Finds all the events from a User, given its ID.
-     * Receives and object with the ordering options
+     * Receives and object with the ordering and
+     * filtering options
      *
      * @returns {Promise<Events[]>}
      */
@@ -192,7 +193,7 @@ export class EventService {
             eventCount: number
         }[]
     }
-
+    
     /**
      * Gets all the attributes for an Event
      */
