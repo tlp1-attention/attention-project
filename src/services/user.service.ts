@@ -6,7 +6,7 @@ import { comparePassword, hashPassword } from '../utils/hash'
  * with find and create methods and password hashing
  */
 export class UserService {
-    constructor(private userModel: typeof Users) {}
+    constructor(private userModel: typeof Users) { }
 
     /**
      * Find and returns a User with the given ID. Resolves
@@ -135,6 +135,10 @@ export class UserService {
         const found = await this.findById(id)
         if (!found) return null
         return await found.update(userData)
+    }
+
+    async findAllUsers(): Promise<Users[] | []> {
+        return await this.userModel.findAll()
     }
 }
 

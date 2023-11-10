@@ -22,6 +22,7 @@ let preferences = {
 const dInput = document.createElement("input");
 dInput.type = "text";
 dInput.placeholder = "@usuario de discord";
+dInput.autocomplete = "off"
 dInput.classList.add("form-control")
 dInput.classList.add("mt-2")
 
