@@ -1,8 +1,6 @@
 import { InferAttributes, InferCreationAttributes, Op } from 'sequelize'
 import { Exercises } from '../models/exercises';
-import { UserService, userService } from './user.service'
 import { Question } from '../models/questions';
-import { read } from 'fs';
 import { Responses } from '../models/responses';
 /**
  * Class that encapsulates data operations regarding Readings.
@@ -108,7 +106,7 @@ export class ExercisesService {
         if (!questions || questions.length === 0) {
             return null;
         }
-
+        
         return questions;
     }
 }

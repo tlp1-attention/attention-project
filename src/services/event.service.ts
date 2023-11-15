@@ -122,7 +122,6 @@ export class EventService {
            } 
         }
 
-        console.log(filterOrDefault);
 
         const options = {
             where: {
