@@ -1,84 +1,52 @@
 import * as Sequelize from 'sequelize'
 import { DataTypes, Model, Optional } from 'sequelize'
-import type { Answers, AnswersId } from './answers'
-import type {
-    CompleteExercises,
-    CompleteExercisesId,
-} from './complete_exercises'
-import { Question, QuestionId } from './questions'
+import { TypeNotifications, TypeNotificationsId } from './type-notifications'
+import { Users } from './users'
 
 export interface NotificationsAttributes {
     id: number
     title: string
-    content: string;
-    typeId: number;
-    read: boolean;
-    createdAt: Date;
-    updatedAt: Date;
+    content: string
+    typeId: number
+    read: boolean
+    iconUrl: string
+    userId: number
+    createdAt: Date
+    updatedAt: Date
 }
 
-export type NotificationPk = 'id'
-export type NotificationId = Notifications[NotificationPk]
-export type NotificationsOptionalAttributes =
-    | 'id'
-    | 'title'
-    | 'content'
-    | 'read'
-    | 'typeId'
-    | 'createdAt'
-    | 'updatedAt';
+export type NotificationsPk = 'id'
+export type NotificationsId = Notifications[NotificationsPk]
+export type NotificationsOptionalAttributes = 'read' | 'createdAt' | 'updatedAt'
 export type NotificationCreationAttributes = Optional<
     NotificationsAttributes,
     NotificationsOptionalAttributes
 >
 
-export class Notifications 
+export class Notifications
     extends Model<NotificationsAttributes, NotificationCreationAttributes>
-    implements NotificationsAttributes 
+    implements NotificationsAttributes
 {
     declare id: number
-    declare read?: boolean; 
-    declare title: string;
-    declare content: string;
-    declare typeId: number;
+    declare read: boolean
+    declare title: string
+    declare content: string
+    declare userId: number
+    declare iconUrl: string;
+    declare typeId: number
     declare createdAt: Date
     declare updatedAt: Date
 
-    // Exercises hasMany Questions svia exerciseId
-    declare typeNotification: TypeNotification
-    declare getQuestion: Sequelize.HasManyGetAssociationsMixin<Question>
-    declare setQuestion: Sequelize.HasManySetAssociationsMixin<
-        Question,
-        QuestionId
+    // Notifications belongsTo TypeNotifications via typeId
+    declare typeNotification: TypeNotifications
+    declare getTypeNotification: Sequelize.BelongsToGetAssociationMixin<TypeNotifications>
+    declare setTypeNotification: Sequelize.BelongsToSetAssociationMixin<
+        TypeNotifications,
+        TypeNotificationsId
     >
-    declare addQuestion: Sequelize.HasManyAddAssociationMixin<
-        Question,
-        QuestionId
-    >
-    declare addQuestions: Sequelize.HasManyAddAssociationsMixin<
-        Question,
-        QuestionId
-    >
-    declare createQuestion: Sequelize.HasManyCreateAssociationMixin<Question>
-    declare removeQuestion: Sequelize.HasManyRemoveAssociationMixin<
-        Question,
-        QuestionId
-    >
-    declare removeQuestions: Sequelize.HasManyRemoveAssociationsMixin<
-        Question,
-        QuestionId
-    >
-    declare hasQuestion: Sequelize.HasManyHasAssociationMixin<
-        Question,
-        QuestionId
-    >
-    declare hasQuestions: Sequelize.HasManyHasAssociationsMixin<
-        Question,
-        QuestionId
-    >
-    declare countQuestions: Sequelize.HasManyCountAssociationsMixin
+    declare createTypeNotification: Sequelize.BelongsToCreateAssociationMixin<TypeNotifications>
 
-    static initModel(sequelize: Sequelize.Sequelize): typeof Exercises {
+    static initModel(sequelize: Sequelize.Sequelize): typeof Notifications {
         return Notifications.init(
             {
                 id: {
@@ -87,48 +55,36 @@ export class Notifications
                     allowNull: false,
                     primaryKey: true,
                 },
-                read: {
+                title: {
+                    type: DataTypes.STRING(255),
+                    allowNull: false
+                },
+                content: {
                     type: DataTypes.TEXT('long'),
-                    allowNull: true,
+                    defaultValue: ''
                 },
-                readTitle: {
+                iconUrl: {
                     type: DataTypes.STRING(255),
-                    allowNull: true,
+                    allowNull: false
                 },
-                readSummary: {
-                    type: DataTypes.TEXT('medium'),
-                    allowNull: false,
-                },
-                readCoverPath: {
-                    type: DataTypes.STRING(255),
-                    allowNull: true,
-                },
-                difficulty: {
-                    type: DataTypes.ENUM(
-                        DIFFICULTIES.EASY,
-                        DIFFICULTIES.EXPERT,
-                        DIFFICULTIES.MEDIUM
-                    ),
-                    allowNull: true,
-                },
-                questionId: {
+                typeId: {
                     type: DataTypes.INTEGER,
-                    allowNull: true,
+                    allowNull: false,
+                    references: {
+                        model: 'type_notifications',
+                        key: 'id'
+                    }
                 },
-                memorama_tematic: {
-                    type: DataTypes.STRING(255),
-                    allowNull: true,
+                userId: {
+                    type: DataTypes.INTEGER,
+                    allowNull: false,
+                    references: {
+                        model: Users,
+                        key: 'id'
+                    }
                 },
-                memorama_img: {
-                    type: DataTypes.STRING(255),
-                    allowNull: true,
-                },
-                puzzle_name: {
-                    type: DataTypes.STRING(255),
-                    allowNull: true,
-                },
-                puzzle: {
-                    type: DataTypes.STRING(255),
+                read: {
+                    type: DataTypes.BOOLEAN,
                     allowNull: true,
                 },
                 createdAt: {
@@ -142,7 +98,7 @@ export class Notifications
             },
             {
                 sequelize,
-                tableName: 'exercises',
+                tableName: 'notifications',
                 timestamps: true,
                 paranoid: true,
                 indexes: [

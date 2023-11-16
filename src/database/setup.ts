@@ -1,4 +1,5 @@
 import env from '../config/env'
+import { TypeNotifications } from '../models/type-notifications'
 import { TypeExercises } from '../models/type_exercises'
 import { Users } from '../models/users'
 import { sequelize } from './connection'
@@ -6,6 +7,7 @@ import { Models } from './models'
 import { createCompleteExercise } from './seeds/mock/complete_exercises'
 import { createEventsForTesting } from './seeds/mock/events'
 import { createReadings } from './seeds/readings'
+import { createTypeNotifications } from './seeds/type-notifications'
 
 const { TypeEvent } = Models
 
@@ -33,7 +35,8 @@ export default async function setupDatabase() {
             id: 1,
             type: 'READING',
         },
-    })
+    });
+
     if (env.NODE_ENV == 'test') {
         const { id: userId } = await Users.findOne({
             where: {
@@ -46,4 +49,5 @@ export default async function setupDatabase() {
 
 
     await createReadings()
+    await createTypeNotifications();
 }

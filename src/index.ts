@@ -13,7 +13,8 @@ socketServer.run();
 
 export const server = httpServer.listen(PORT, async () => {
     await scheduleReminders();
-    await setupDatabase();
+    await setupDatabase()
+        .then(() => console.log('Base de datos configurada.'));
     console.log(`Server listening in: http://localhost:${PORT}`);
 });
 

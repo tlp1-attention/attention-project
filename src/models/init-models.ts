@@ -21,6 +21,10 @@ import type { TypeEventAttributes, TypeEventCreationAttributes } from "./type_ev
 import { TypeEvent as _TypeEvent } from "./type_events";
 import { Question as _Question } from "./questions";
 import type { QuestionAttributes, QuestionCreationAttributes } from "./questions";
+import type { NotificationsAttributes, NotificationCreationAttributes  } from "./notifications";
+import { Notifications as _Notifications } from "./notifications";
+import type { TypeNotificationsAttributes, TypeNotificationsCreationAttributes } from "./type-notifications";
+import { TypeNotifications as _TypeNotifications } from "./type-notifications";
 
 export {
   _Answers as Answers,
@@ -32,7 +36,9 @@ export {
   _TypeExercises as TypeExercises,
   _Users as Users,
   _TypeEvent as TypeEvent,
-  _Question as Question
+  _Question as Question,
+  _Notifications as Notifications,
+  _TypeNotifications as TypeNotifications
 };
 
 export type {
@@ -57,7 +63,11 @@ export type {
   TypeEventAttributes,
   TypeEventCreationAttributes,
   QuestionAttributes,
-  QuestionCreationAttributes
+  QuestionCreationAttributes,
+  NotificationsAttributes,
+  NotificationCreationAttributes,
+  TypeNotificationsAttributes,
+  TypeNotificationsCreationAttributes
 };
 
 export function initModels(sequelize: Sequelize) {
@@ -72,6 +82,8 @@ export function initModels(sequelize: Sequelize) {
   const TypeEvent = _TypeEvent.initModel(sequelize);
   const Events = _Events.initModel(sequelize);
   const Question = _Question.initModel(sequelize);
+  const Notifications = _Notifications.initModel(sequelize);
+  const TypeNotifications = _TypeNotifications.initModel(sequelize);
 
   return {
     Answers: Answers,
@@ -84,6 +96,8 @@ export function initModels(sequelize: Sequelize) {
     Users: Users,
     Events: Events,
     TypeEvent: TypeEvent,
-    Question: Question
+    Question: Question,
+    Notifications: Notifications,
+    TypeNotifications: TypeNotifications
   };
 }

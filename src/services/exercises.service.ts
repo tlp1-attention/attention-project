@@ -106,7 +106,6 @@ export class ExercisesService {
         if (!questions || questions.length === 0) {
             return null;
         }
-        
         return questions;
     }
 }

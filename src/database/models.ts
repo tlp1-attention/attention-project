@@ -13,7 +13,9 @@ const {
     Responses,
     Events,
     TypeEvent,
-    Question
+    Question,
+    Notifications,
+    TypeNotifications
 } = Models
 
 Exercises.hasMany(Question, { as: 'question', foreignKey: 'exerciseId' })
@@ -53,5 +55,8 @@ Events.belongsTo(Users, { foreignKey: 'userId' })
 Users.hasMany(Events, { foreignKey: 'userId' })
 Events.belongsTo(TypeEvent, { as: 'type', foreignKey: 'typeId' })
 TypeEvent.hasMany(Events, { as: 'event', foreignKey: 'typeId' })
+
+TypeNotifications.hasMany(Notifications, { foreignKey: 'typeId' });
+Notifications.hasOne(TypeNotifications, { foreignKey: 'typeId' });
 
 export { Models };
