@@ -3,11 +3,13 @@ import {
     InferAttributes,
     InferCreationAttributes,
     Model,
-    Op
+    Op,
 } from 'sequelize'
 import { Events, EventsAttributes } from '../models/events'
 import { UserService, userService } from './user.service'
 import { sequelize } from '../database/connection'
+import { EventEmitterService } from './emitter/emitter.service'
+import { APP_EVENTS, EventNames } from './emitter/emit.interface'
 
 type OrderOptions<M extends Model<any, any>> = {
     field: keyof InferAttributes<M>
@@ -22,7 +24,11 @@ type OrderOptions<M extends Model<any, any>> = {
 export class EventService {
     constructor(
         private eventModel: typeof Events,
-        private usersService: UserService
+        private usersService: UserService,
+        public eventEmitter: EventEmitterService<
+            EventNames['EventModel'],
+            Events
+        >
     ) {}
 
     /**
@@ -77,6 +83,8 @@ export class EventService {
             userId,
         })
 
+        this.eventEmitter.emit(APP_EVENTS.EVENT.CREATION, created);
+
         return created
     }
 
@@ -90,38 +98,37 @@ export class EventService {
     async findByUserId(
         id: number,
         filter?: Record<keyof EventsAttributes, any>,
-        order?: OrderOptions<Events>,
+        order?: OrderOptions<Events>
     ): Promise<Events[]> {
         let query: FindOptions<Events> = {}
 
         if (order) {
-            console.log(order);
+            console.log(order)
             query = Object.assign(query, {
                 order: [[order.field, order.type.toUpperCase()]],
             })
         }
-        
-        let filterOrDefault = filter ?? {};
+
+        let filterOrDefault = filter ?? {}
 
         // If filters are passed a string
         // which starts with +, we filter only future dates,
         // and, if it starts with -, we filter only past dates
-        if (filter?.startDate && filter.startDate.startsWith("+")) {
+        if (filter?.startDate && filter.startDate.startsWith('+')) {
             filterOrDefault = {
                 ...filterOrDefault,
                 startDate: {
-                    [Op.gt]: sequelize.literal('CURRENT_TIMESTAMP')
-                }
+                    [Op.gt]: sequelize.literal('CURRENT_TIMESTAMP'),
+                },
             }
-        } else if (filter?.startDate && filter.startDate.startsWith("-")) {
-           filterOrDefault = {
+        } else if (filter?.startDate && filter.startDate.startsWith('-')) {
+            filterOrDefault = {
                 ...filterOrDefault,
                 startDate: {
-                    [Op.lt]: sequelize.literal('CURRENT_TIMESTAMP')
-                }
-           } 
+                    [Op.lt]: sequelize.literal('CURRENT_TIMESTAMP'),
+                },
+            }
         }
-
 
         const options = {
             where: {
@@ -130,8 +137,8 @@ export class EventService {
             },
             ...(query ?? {}),
         }
-        console.log(options);
-        return this.eventModel.findAll(options);
+        console.log(options)
+        return this.eventModel.findAll(options)
     }
 
     /**
@@ -192,15 +199,19 @@ export class EventService {
             eventCount: number
         }[]
     }
-    
+
     /**
      * Gets all the attributes for an Event
      */
     getAttributes(): keyof EventsAttributes {
         return Object.keys(
             this.eventModel.getAttributes()
-        ) as unknown as keyof EventsAttributes;
+        ) as unknown as keyof EventsAttributes
     }
 }
 
-export const eventService = new EventService(Events, userService)
+export const eventEmitter = new EventEmitterService<
+    EventNames['EventModel'],
+    Events
+>();
+export const eventService = new EventService(Events, userService, eventEmitter);
