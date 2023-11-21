@@ -16,7 +16,7 @@ export interface NotificationsAttributes {
 
 export type NotificationsPk = 'id'
 export type NotificationsId = Notifications[NotificationsPk]
-export type NotificationsOptionalAttributes = 'read' | 'createdAt' | 'updatedAt'
+export type NotificationsOptionalAttributes = 'id' | 'read' | 'createdAt' | 'updatedAt'
 export type NotificationCreationAttributes = Optional<
     NotificationsAttributes,
     NotificationsOptionalAttributes

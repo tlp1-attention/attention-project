@@ -1,40 +1,59 @@
 import { Server as HttpServer } from 'http'
 import { Server, Socket } from 'socket.io'
 import { UserService } from './user.service'
+import { IndividualEvent } from './emitter/emit.interface'
+import { AppEventsMap } from './emitter/app-events-map'
+import { WEBSOCKET_EVENTS } from './socket/socket-events'
 
 type SocketMiddleware = (socket: Socket, next: Function) => void
 
 /**
  * Service that handles incoming socket
- * connections using socket.io.
- * Exposes an interface to send real-time
- * notifications to clients
+ * connections using socke.io.
+ *
+ * Exposes an interface to emit real-time
+ * events to clients
  */
 export class SocketService {
     server: Server
-    middleware: SocketMiddleware[] = [];
+    middleware: SocketMiddleware[] = []
 
     /**
-     *
+     * Constructor of the class.
+     * We give the opportunity to lazy-load
+     * the HttpServer
+     * 
      * @param usersService
      * @param httpServer
      */
-    constructor(
-        private httpServer: HttpServer
-    ) {
-        this.server = new Server(httpServer, {
-            cors: {
-                origin: '*',
-            },
-        })
-    }
+    constructor() {}
 
     /**
      * Starts listening for connections
      */
-    async run() {
+    async runOn(httpServer: HttpServer) {
+        this.server = new Server(httpServer, {
+            cors: {
+                origin: '*'
+            }
+        });
         this.middleware.forEach((m) => this.server.use(m))
-        this.server.on('connection', this.getConnectionHandler());
+        this.server.on('connection', this.getConnectionHandler())
+    }
+
+    /**
+     * Emits an event through a websocket
+     * connection to a given room 
+     */
+    emitEvent<TWsEvent extends keyof WEBSOCKET_EVENTS>(
+        emitEvent: TWsEvent,
+        data: WEBSOCKET_EVENTS[TWsEvent],
+        roomId: number
+    ) {
+        this.server.to(`${roomId}`).emit(
+            emitEvent,
+            data
+        );
     }
 
     /**
@@ -42,7 +61,7 @@ export class SocketService {
      */
     getConnectionHandler() {
         return (socket: Socket) => {
-            console.log('Se ha conectado un usuario...', socket.id);
+            console.log('Se ha conectado un usuario...', socket.id)
         }
     }
 
@@ -57,6 +76,10 @@ export class SocketService {
     }
 }
 
-export function socketServerFrom(httpServer: HttpServer) {
-    return new SocketService(httpServer);
+export class SocketWithAuthenticationService extends SocketService {
+    constructor() {
+        super();
+    }
 }
+
+export const socketService = new SocketService();

@@ -8,17 +8,19 @@ import { AppEventsMap } from './app-events-map'
  * We extend the base class {@link EventEmitter2} to strictly type-check
  * our events
  */
-export class EventEmitterService<EventsMap> extends EventEmitter2 {
+export class EventEmitterService<
+    EventsMap extends Record<string, [any, any]>
+> extends EventEmitter2 {
     emit<TEventName extends keyof EventsMap & string>(
         eventName: TEventName,
-        value: EventsMap[TEventName]
+        ...value: EventsMap[TEventName]
     ) {
-        return super.emit(eventName, value)
+        return super.emit(eventName, ...(value as [any, any]))
     }
 
     on<TEventName extends keyof EventsMap & string>(
         eventName: TEventName,
-        listener: (value: EventsMap[TEventName]) => void
+        listener: (...value: EventsMap[TEventName]) => void
     ) {
         return super.on(eventName, listener)
     }

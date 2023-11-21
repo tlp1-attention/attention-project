@@ -19,6 +19,16 @@ export const APP_EVENTS = {
     COMPLETED_EXERCISE: {
         CREATION: "completed_exercise.create",
         DELETION: "completed_exercise.delete",
+        RECORD: "exercise.record"
+    },
+    
+    TIMER: {
+        WORK_DONE: "timer.work.done",
+        FREE_DONE: "timer.free.done"
+    },
+
+    COLABORATION: {
+        CONTACT: "colaboration.contact"
     }
 } as const;
 

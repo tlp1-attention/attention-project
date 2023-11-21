@@ -80,7 +80,7 @@ export class EventService {
             userId,
         })
 
-        this.eventEmitter.emit(APP_EVENTS.EVENT.CREATION, created);
+        this.eventEmitter.emit(APP_EVENTS.EVENT.CREATION, created, created.userId);
 
         return created
     }
