@@ -9,7 +9,6 @@ export interface NotificationsAttributes {
     content: string
     typeId: number
     read: boolean
-    iconUrl: string
     userId: number
     createdAt: Date
     updatedAt: Date
@@ -32,7 +31,6 @@ export class Notifications
     declare title: string
     declare content: string
     declare userId: number
-    declare iconUrl: string;
     declare typeId: number
     declare createdAt: Date
     declare updatedAt: Date
@@ -62,10 +60,6 @@ export class Notifications
                 content: {
                     type: DataTypes.TEXT('long'),
                     defaultValue: ''
-                },
-                iconUrl: {
-                    type: DataTypes.STRING(255),
-                    allowNull: false
                 },
                 typeId: {
                     type: DataTypes.INTEGER,

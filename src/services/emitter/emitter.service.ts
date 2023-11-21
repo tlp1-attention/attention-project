@@ -1,5 +1,5 @@
 import { EventEmitter2 } from 'eventemitter2'
-import { APP_EVENTS, IEventEmitter, IndividualEvent } from './emit.interface'
+import { APP_EVENTS, IndividualEvent } from './emit.interface'
 import { Events } from '../../models/events'
 
 type ValueOf<T> = T[keyof T]
@@ -35,4 +35,4 @@ export class EventEmitterService<EventsMap> extends EventEmitter2 {
     }
 }
 
-const emitterService = new EventEmitterService()
+export const emitterService = new EventEmitterService<AppEventsMap>();

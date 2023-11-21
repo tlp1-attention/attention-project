@@ -8,8 +8,8 @@ import {
 import { Events, EventsAttributes } from '../models/events'
 import { UserService, userService } from './user.service'
 import { sequelize } from '../database/connection'
-import { EventEmitterService } from './emitter/emitter.service'
-import { APP_EVENTS, EventNames } from './emitter/emit.interface'
+import { emitterService } from './emitter/emitter.service'
+import { APP_EVENTS } from './emitter/emit.interface'
 
 type OrderOptions<M extends Model<any, any>> = {
     field: keyof InferAttributes<M>
@@ -25,10 +25,7 @@ export class EventService {
     constructor(
         private eventModel: typeof Events,
         private usersService: UserService,
-        public eventEmitter: EventEmitterService<
-            EventNames['EventModel'],
-            Events
-        >
+        public eventEmitter: typeof emitterService
     ) {}
 
     /**
@@ -210,8 +207,4 @@ export class EventService {
     }
 }
 
-export const eventEmitter = new EventEmitterService<
-    EventNames['EventModel'],
-    Events
->();
-export const eventService = new EventService(Events, userService, eventEmitter);
+export const eventService = new EventService(Events, userService, emitterService);

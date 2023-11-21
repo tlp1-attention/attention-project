@@ -5,6 +5,7 @@ import { Notifications, NotificationsId } from './notifications'
 export interface TypeNotificationsAttributes {
     id: number;
     description: string;
+    iconUrl: string;
     createdAt: Date
     updatedAt: Date
 }
@@ -14,7 +15,7 @@ export type TypeNotificationsId = TypeNotifications[TypeNotificationsPk]
 export type TypeNotificationsOptionalAttributes =
     | 'id'
     | 'createdAt'
-    | 'updatedAt'
+    | 'updatedAt';
 export type TypeNotificationsCreationAttributes = Optional<
     TypeNotificationsAttributes,
     TypeNotificationsOptionalAttributes
@@ -26,6 +27,7 @@ export class TypeNotifications
 {
     declare id: number
     declare description: string;
+    declare iconUrl: string;
     declare createdAt: Date
     declare updatedAt: Date
 
@@ -66,6 +68,10 @@ export class TypeNotifications
                     type: DataTypes.INTEGER,
                     allowNull: false,
                     primaryKey: true,
+                },
+                iconUrl: {
+                    type: DataTypes.STRING,
+                    allowNull: false
                 },
                 description: {
                     type: DataTypes.TEXT,
