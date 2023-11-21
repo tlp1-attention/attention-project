@@ -1,16 +1,5 @@
 import { EventEmitter2 } from 'eventemitter2'
-import { APP_EVENTS, IndividualEvent } from './emit.interface'
-import { Events } from '../../models/events'
-
-type ValueOf<T> = T[keyof T]
-
-/**
- * A type that maps event names to its corresponding
- * type params
- */
-type AppEventsMap = {
-    [k in ValueOf<(typeof APP_EVENTS)['EVENT']>]: Events
-}
+import { AppEventsMap } from './app-events-map'
 
 /**
  * Service that allows for the application to emit
@@ -28,11 +17,11 @@ export class EventEmitterService<EventsMap> extends EventEmitter2 {
     }
 
     on<TEventName extends keyof EventsMap & string>(
-        eventName: IndividualEvent,
+        eventName: TEventName,
         listener: (value: EventsMap[TEventName]) => void
     ) {
         return super.on(eventName, listener)
     }
 }
 
-export const emitterService = new EventEmitterService<AppEventsMap>();
+export const emitterService = new EventEmitterService<AppEventsMap>()
