@@ -18,4 +18,17 @@ function createToken(id: number): Promise<string> {
     })
 }
 
-export { createToken };
+function verifyToken<T>(token: string): Promise<T> {
+    return new Promise((resolve, reject) => {
+        jwt.verify(token, env.SECRET, (err, decoded) => {
+            if (err) {
+                console.error(err);
+                reject(err);
+            } else {
+                resolve(decoded as T);
+            }
+        })
+    })
+}
+
+export { createToken, verifyToken };

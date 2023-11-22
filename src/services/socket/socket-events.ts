@@ -5,5 +5,7 @@ import { Notifications } from "../../models/notifications";
  * data sent with it
  */
 export type WEBSOCKET_EVENTS = {
-    'new-notification': Notifications
+    'new-notification': Notifications,
+    'get-notifications': undefined,
+    'all-notifications': Notifications[]
 }

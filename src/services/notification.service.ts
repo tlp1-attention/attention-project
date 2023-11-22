@@ -1,3 +1,4 @@
+import { Server, Socket } from 'socket.io'
 import {
     NotificationCreationAttributes,
     Notifications,
@@ -6,27 +7,54 @@ import { TypeNotifications } from '../models/type-notifications'
 import { AppEventsMap } from './emitter/app-events-map'
 import { APP_EVENTS } from './emitter/emit.interface'
 import { emitterService } from './emitter/emitter.service'
-import { socketService } from './socket.service'
+import { SocketService, socketService as _socketService } from './socket.service'
 
 /**
  * Service that abstracts away the
  * operation of sending notifications
- * to users through a {@link socket.io} Server
+ * to users through a {@link socketService.io} Server
  *
  * It registers event listeners to
  * many events on the application to send
  * notifications when those happen
  */
 export class NotificationService {
+    private socketService: SocketService;
+    
     constructor(
         private eventEmitter: typeof emitterService,
-        private socket: typeof socketService,
         private notificationModel: typeof Notifications,
         private typeNotificationModel: typeof TypeNotifications
     ) {
-        this.registerListeners();
+        
     }
 
+    /**
+     * Attach the notification service to a
+     * Websocket server
+     */
+    attach(server: SocketService) {
+        this.socketService = server;
+        this.registerListeners();
+        // We implement a socket to
+        // send notifications to users
+        this.socketService.useMiddleware((socket, next) => {
+            socket.on('get-notifications', async () => {
+                // If socket is authenticated, we send notifications
+                // else, we pass to the next handlers
+                // action
+                if (!socket.data.userId) return next();
+                const notifications = await this.findAll(socket.data.userId)
+                this.socketService.emitEventToRoom(
+                    'all-notifications',
+                    notifications,
+                    socket.data.userId
+                );
+            });
+
+            next();
+        });
+    }
     /**
      * Maps Application Events {@link APP_EVENTS}
      * to {@link TypeNotifications} instances
@@ -48,8 +76,12 @@ export class NotificationService {
     private async sendNotification(
         notification: NotificationCreationAttributes
     ) {
-        const created = await this.notificationModel.create(notification);
-        this.socket.emitEvent('new-notification', created, notification.userId)
+        const created = await this.notificationModel.create(notification)
+        this.socketService.emitEventToRoom(
+            'new-notification',
+            created,
+            notification.userId
+        )
     }
 
     /**
@@ -57,8 +89,8 @@ export class NotificationService {
      */
     private async findAll(userId: number) {
         return this.notificationModel.findAll({
-            where: { userId }
-        });
+            where: { userId },
+        })
     }
 
     /**
@@ -66,26 +98,32 @@ export class NotificationService {
      * from which we want to send notifications
      */
     private registerListeners() {
-        const entries = Object.entries(NotificationService.eventsToTypeNotifications);
+        const entries = Object.entries(
+            NotificationService.eventsToTypeNotifications
+        )
         for (const [eventName, typeId] of entries) {
-            this.eventEmitter.on(eventName as keyof AppEventsMap, async (data, userId) => {
-                const type = await this.typeNotificationModel.findByPk(typeId);
+            this.eventEmitter.on(
+                eventName as keyof AppEventsMap,
+                async (data, userId) => {
+                    const type = await this.typeNotificationModel.findByPk(
+                        typeId
+                    )
 
-                this.sendNotification({
-                    read: false,
-                    typeId,
-                    title: `${type.description}`,
-                    content: '',
-                    userId: userId
-                });
-            });
+                    this.sendNotification({
+                        read: false,
+                        typeId,
+                        title: `${type.description}`,
+                        content: '',
+                        userId: userId,
+                    })
+                }
+            )
         }
     }
 }
 
 export const notificationService = new NotificationService(
     emitterService,
-    socketService,
     Notifications,
     TypeNotifications
-);
+)

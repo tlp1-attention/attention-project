@@ -100,7 +100,6 @@ export class EventService {
         let query: FindOptions<Events> = {}
 
         if (order) {
-            console.log(order)
             query = Object.assign(query, {
                 order: [[order.field, order.type.toUpperCase()]],
             })

@@ -10,7 +10,6 @@ export async function logRequests(
     res: Response,
     next: NextFunction
 ) {
-    console.log(req.headers);
     const stream = await getStreamForLogFile(LOGGING_FOLDER, 'access')
 
     const logger = morgan('combined', {

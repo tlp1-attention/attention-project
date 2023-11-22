@@ -5,10 +5,12 @@ import setupDatabase from './database/setup';
 import { socketService } from './services/socket.service';
 import { scheduleReminders } from './utils/schedule-reminder';
 import { setupLogger } from './services/logger.service';
+import { notificationService } from './services/notification.service';
 
 const PORT = env.PORT;
 
-const httpServer = createServer(app);;
+const httpServer = createServer(app);
+notificationService.attach(socketService);
 socketService.runOn(httpServer);
 
 export const server = httpServer.listen(PORT, async () => {

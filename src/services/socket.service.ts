@@ -1,15 +1,14 @@
 import { Server as HttpServer } from 'http'
 import { Server, Socket } from 'socket.io'
-import { UserService } from './user.service'
-import { IndividualEvent } from './emitter/emit.interface'
-import { AppEventsMap } from './emitter/app-events-map'
 import { WEBSOCKET_EVENTS } from './socket/socket-events'
+import { verifyToken } from '../utils/token'
+import env from '../config/env'
 
 type SocketMiddleware = (socket: Socket, next: Function) => void
 
 /**
  * Service that handles incoming socket
- * connections using socke.io.
+ * connections using socket.io.
  *
  * Exposes an interface to emit real-time
  * events to clients
@@ -22,7 +21,7 @@ export class SocketService {
      * Constructor of the class.
      * We give the opportunity to lazy-load
      * the HttpServer
-     * 
+     *
      * @param usersService
      * @param httpServer
      */
@@ -34,34 +33,35 @@ export class SocketService {
     async runOn(httpServer: HttpServer) {
         this.server = new Server(httpServer, {
             cors: {
-                origin: '*'
-            }
-        });
+                origin: '*',
+            },
+        })
         this.middleware.forEach((m) => this.server.use(m))
         this.server.on('connection', this.getConnectionHandler())
     }
 
     /**
      * Emits an event through a websocket
-     * connection to a given room 
+     * connection to a given room
      */
-    emitEvent<TWsEvent extends keyof WEBSOCKET_EVENTS>(
+    emitEventToRoom<TWsEvent extends keyof WEBSOCKET_EVENTS>(
         emitEvent: TWsEvent,
         data: WEBSOCKET_EVENTS[TWsEvent],
         roomId: number
     ) {
-        this.server.to(`${roomId}`).emit(
-            emitEvent,
-            data
-        );
+        this.server.to(`${roomId}`).emit(emitEvent, data)
     }
 
     /**
-     * Returns the handler used for connections
+     * Returns the handler used for all connections
      */
     getConnectionHandler() {
         return (socket: Socket) => {
-            console.log('Se ha conectado un usuario...', socket.id)
+            if (env.NODE_ENV !== "production") {
+                console.log('=================================');
+                console.log('Se ha conectado un usuario...', socket.id);
+                console.log('=================================');
+            }
         }
     }
 
@@ -78,8 +78,23 @@ export class SocketService {
 
 export class SocketWithAuthenticationService extends SocketService {
     constructor() {
-        super();
+        super()
+        this.useMiddleware((socket, next) => this.verifyAuthSocket(socket, next));
+    }
+
+    async verifyAuthSocket(socket: Socket, next: Function) {
+        const token = socket.handshake.headers.authorization
+        if (!token) return socket.disconnect()
+        try {
+            const { id: userId } = await verifyToken<{ id: number }>(token)
+            socket.data.userId = userId;
+            socket.join(`${userId}`);
+        } catch (err) {
+            return socket.disconnect()
+        }
+
+        next();
     }
 }
 
-export const socketService = new SocketService();
+export const socketService = new SocketWithAuthenticationService()
