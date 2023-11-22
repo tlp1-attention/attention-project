@@ -14,7 +14,7 @@ export type AppEventsMap = {
     [k in ValueOf<(typeof APP_EVENTS)['EXERCISE']>]: [payload: Exercises, userId: number]
 } & {
     /** For a timer event, we just receive the userId */
-    [k in ValueOf<(typeof APP_EVENTS)['TIMER']>]: [payload: string, userId: number]
+    [k in ValueOf<(typeof APP_EVENTS)['TIMER']>]: [payload: undefined, userId: number]
 } & {
     /**
      * For a colaboration event, we receive the

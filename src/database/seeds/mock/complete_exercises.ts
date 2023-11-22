@@ -1,6 +1,6 @@
 import env from '../../../config/env'
 import { CompleteExercises } from '../../../models/complete_exercises'
-import { createDatesByWeek } from '../../../utils/createDatesByWeek'
+import { createDatesByWeek } from '../../../utils/create-dates-by-week'
 
 export async function createCompleteExercise(quantity: number, userId: number) {
     if (env.NODE_ENV.startsWith('prod')) {

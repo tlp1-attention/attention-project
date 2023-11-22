@@ -1,7 +1,6 @@
 import { Events } from "../models/events";
 import { eventService } from "./event.service";
 import { APP_EVENTS } from "./emitter/emit.interface";
-import env from "../config/env";
 
 class Logger {
     constructor(
@@ -17,7 +16,7 @@ class Logger {
      */
     onEventCreation(event: Events)  {
         this.write('Un evento ha sido creado: ', 
-            JSON.stringify(event)
+            JSON.stringify(event, null, 2)
         );
     }
 }

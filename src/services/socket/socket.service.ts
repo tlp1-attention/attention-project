@@ -1,8 +1,8 @@
 import { Server as HttpServer } from 'http'
 import { Server, Socket } from 'socket.io'
-import { WEBSOCKET_EVENTS } from './socket/socket-events'
-import { verifyToken } from '../utils/token'
-import env from '../config/env'
+import env from '../../config/env'
+import { verifyToken } from '../../utils/token'
+import { WEBSOCKET_EVENTS } from './socket-events'
 
 type SocketMiddleware = (socket: Socket, next: Function) => void
 
@@ -57,7 +57,7 @@ export class SocketService {
      */
     getConnectionHandler() {
         return (socket: Socket) => {
-            if (env.NODE_ENV !== "production") {
+            if (env.NODE_ENV !== 'production') {
                 console.log('=================================');
                 console.log('Se ha conectado un usuario...', socket.id);
                 console.log('=================================');
@@ -69,31 +69,33 @@ export class SocketService {
      * Registers middleware to use for the socket
      * server
      *
-     * @param middleware
+     * @param {SocketMiddleware} middleware
      */
     async useMiddleware(middleware: SocketMiddleware) {
-        this.middleware.push(middleware)
+        this.middleware.push(middleware);
     }
 }
 
 export class SocketWithAuthenticationService extends SocketService {
     constructor() {
         super()
-        this.useMiddleware((socket, next) => this.verifyAuthSocket(socket, next));
+        this.useMiddleware((socket, next) =>
+            this.verifyAuthSocket(socket, next)
+        )
     }
 
     async verifyAuthSocket(socket: Socket, next: Function) {
-        const token = socket.handshake.headers.authorization
-        if (!token) return socket.disconnect()
+        const token = socket.handshake.auth.authorization;
+        if (!token) return socket.disconnect();
         try {
             const { id: userId } = await verifyToken<{ id: number }>(token)
-            socket.data.userId = userId;
-            socket.join(`${userId}`);
+            socket.data.userId = userId
+            socket.join(`${userId}`)
         } catch (err) {
             return socket.disconnect()
         }
 
-        next();
+        next()
     }
 }
 

@@ -1,16 +1,16 @@
 import env from '../../../config/env'
 import { Events } from '../../../models/events'
-import { createDatesByWeek } from '../../../utils/createDatesByWeek'
+import { createDatesByWeek } from '../../../utils/create-dates-by-week'
 
 export async function createEventsForTesting(quantity: number, userId: number) {
     if (env.NODE_ENV.startsWith('prod')) {
         throw new Error('Should not create mock events in Production.')
     }
 
-    const now = new Date();
-    const day = now.getDate();
-    const month = now.getMonth();
-    const year = now.getFullYear();
+    const now = new Date()
+    const day = now.getDate()
+    const month = now.getMonth()
+    const year = now.getFullYear()
 
     const weekDates = createDatesByWeek(now, quantity)
 
@@ -31,5 +31,5 @@ export async function createEventsForTesting(quantity: number, userId: number) {
         )
     }
 
-    console.log('Creados eventos de prueba satisfactoriamente');
+    console.log('Creados eventos de prueba satisfactoriamente')
 }

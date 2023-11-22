@@ -1,6 +1,8 @@
 import { Models } from "../database/models";
 import { Op } from 'sequelize';
 import { sendMessage } from "../controllers/push-subscriber.controller";
+import { emitterService } from "../services/emitter/emitter.service";
+import { APP_EVENTS } from "../services/emitter/emit.interface";
 const {  Users } = Models;
 
 const ONE_DAY_MS = 1000 * 60 * 60 * 24;
@@ -31,6 +33,9 @@ export function scheduleReminders() {
 
                 if (event.startDate.getTime() - now < ONE_DAY_MS &&
                     !hasBeenReminded) {
+                    // Emit an event so the application knows that an event
+                    // is close
+                    emitterService.emit(APP_EVENTS.EVENT.CLOSE, event, user.id);
 
                     const typeEvent = await event.getType();
                     const payload = {

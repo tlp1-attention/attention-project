@@ -1,4 +1,5 @@
 import { Listener } from "eventemitter2";
+import { ValueOf } from "../../utils/value-of";
 
 export const APP_EVENTS = {
     EVENT: { 
@@ -31,8 +32,6 @@ export const APP_EVENTS = {
         CONTACT: "colaboration.contact"
     }
 } as const;
-
-type ValueOf<T> = T[keyof T];
 
 export type EventNames = {
     EventModel: ValueOf<typeof APP_EVENTS["EVENT"]>;
