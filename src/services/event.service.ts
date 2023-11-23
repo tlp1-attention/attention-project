@@ -25,7 +25,7 @@ export class EventService {
     constructor(
         private eventModel: typeof Events,
         private usersService: UserService,
-        public eventEmitter: typeof emitterService
+        private eventEmitter: typeof emitterService
     ) {}
 
     /**
@@ -186,8 +186,6 @@ export class EventService {
             values: [userId],
         })
 
-        console.log(eventsByWeek)
-
         return eventsByWeek as {
             weekNumber: number
             startWeek: Date
@@ -202,7 +200,7 @@ export class EventService {
     getAttributes(): keyof EventsAttributes {
         return Object.keys(
             this.eventModel.getAttributes()
-        ) as unknown as keyof EventsAttributes
+        ) as unknown as keyof EventsAttributes;
     }
 }
 

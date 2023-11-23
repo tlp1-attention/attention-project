@@ -13,6 +13,7 @@ webpush.setVapidDetails(
 )
 
 function sendMessage(payload: any, userId: number) {
+    console.log("Enviando notificación: ", payload);
     return subscriptionService.sendNotification(userId, payload)
 }
 

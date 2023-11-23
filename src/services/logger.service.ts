@@ -1,11 +1,11 @@
 import { Events } from "../models/events";
-import { eventService } from "./event.service";
 import { APP_EVENTS } from "./emitter/emit.interface";
+import { emitterService } from "./emitter/emitter.service";
 
 class Logger {
     constructor(
         private write: (...str: string[]) => void = console.log,
-        private emitter: typeof eventService.eventEmitter
+        private emitter: typeof emitterService
     ) {
         this.emitter.on(APP_EVENTS.EVENT.CREATION, (e) => this.onEventCreation(e));
     }
@@ -24,6 +24,6 @@ class Logger {
 export function setupLogger() {
     return new Logger(
         console.log,
-        eventService.eventEmitter
+        emitterService
     );
 }

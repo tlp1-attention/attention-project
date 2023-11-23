@@ -17,6 +17,7 @@ export function scheduleReminders() {
                 }
             }
         });
+        console.log(subscribers);
 
         for (const user of subscribers) {
             const events = await user.getEvents();
@@ -27,7 +28,7 @@ export function scheduleReminders() {
                 const now = Date.now();
 
                 const hasBeenReminded = event.remindedAt
-                                     ? now - event.remindedAt?.getTime() < ONE_DAY_MS / 2
+                                     ? now - event.remindedAt?.getTime() < (ONE_DAY_MS / 2)
                                      : false
 
 
@@ -36,7 +37,7 @@ export function scheduleReminders() {
                     // Emit an event so the application knows that an event
                     // is close
                     emitterService.emit(APP_EVENTS.EVENT.CLOSE, event, user.id);
-
+                    
                     const typeEvent = await event.getType();
                     const payload = {
                         title: `Recordatorio de evento ${typeEvent.description.toLowerCase()}`,

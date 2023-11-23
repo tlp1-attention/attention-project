@@ -211,6 +211,19 @@ export class NotificationService {
         )
     }
 
+    registerCalendarEvents() {
+        this.eventEmitter.on(APP_EVENTS.EVENT.CLOSE, async (event, userId) => {
+            const id = this.getTypeNotificationForEvent(APP_EVENTS.EVENT.CLOSE);
+            this.sendNotification({
+                read: false,
+                typeId: id,
+                title: `Evento próximo`,
+                content: `Un evento se acerca: ${event.title}`,
+                userId: userId,
+            })
+        })
+    }
+
     /**
      * Register listeners for any events
      * from which we want to send notifications
@@ -219,6 +232,7 @@ export class NotificationService {
         this.registerTimerEvents()
         this.registerColaborationEvents()
         this.registerCompletedExerciseEvents()
+        this.registerCalendarEvents()
     }
 }
 
