@@ -1,6 +1,7 @@
 import { InferAttributes, Op } from 'sequelize'
 import { Users } from '../models/users'
 import { comparePassword, hashPassword } from '../utils/hash'
+import { Preferences } from '../models/preferences'
 /**
  * Service that encapsules data operations regarding users,
  * with find and create methods and password hashing
@@ -15,11 +16,15 @@ export class UserService {
      * @returns {Promise<Users | null>}
      */
     async findById(id: number): Promise<Users | null> {
-        return await this.userModel.findByPk(id)
+        return await this.userModel.findByPk(id, {
+            attributes: {
+                exclude: ['password']
+            }
+        })
     }
 
     /**
-     * Returns wheter an Email belongs to
+     * Returns whether an Email belongs to
      * a registered user or not.
      * @param {string} email
      * @returns {Promise<boolean>}
@@ -34,7 +39,7 @@ export class UserService {
     }
 
     /**
-     * Returns wheter a pair username email belongs to
+     * Returns whether a pair username email belongs to
      * a registered user or not.
      * @param {string} username
      * @param {string} email
@@ -138,7 +143,12 @@ export class UserService {
     }
 
     async findAllUsers(): Promise<Users[] | []> {
-        return await this.userModel.findAll()
+        return await this.userModel.findAll({
+            include: {
+                model: Preferences,
+                as: 'preferences',
+            }
+        })
     }
 }
 
