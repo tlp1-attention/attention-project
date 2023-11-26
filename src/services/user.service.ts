@@ -2,7 +2,6 @@ import { InferAttributes, Op } from 'sequelize'
 import { Users } from '../models/users'
 import { Preferences } from '../models/preferences'
 import { comparePassword, hashPassword } from '../utils/hash'
-import { Preferences } from '../models/preferences'
 /**
  * Service that encapsules data operations regarding users,
  * with find and create methods and password hashing
