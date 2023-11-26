@@ -1,5 +1,6 @@
 import { InferAttributes, Op } from 'sequelize'
 import { Users } from '../models/users'
+import { Preferences } from '../models/preferences'
 import { comparePassword, hashPassword } from '../utils/hash'
 /**
  * Service that encapsules data operations regarding users,
@@ -138,7 +139,13 @@ export class UserService {
     }
 
     async findAllUsers(): Promise<Users[] | []> {
-        return await this.userModel.findAll()
+        return await this.userModel.findAll({
+            include: [{
+                model: Preferences,
+                as: "preferences",
+                attributes: ["time_day", "subject", "contact", "people", "contact_type"]
+            }]
+        })
     }
 }
 
