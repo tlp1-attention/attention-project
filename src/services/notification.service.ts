@@ -47,6 +47,7 @@ export class NotificationService {
                 const notifications = await this.notificationModel
                     .findAll({
                         where: { userId: socket.data.userId },
+                        order: [["createdAt", "DESC"]]
                     })
                     .then((notes) => {
                         return notes.map(async (n) => {
@@ -78,6 +79,21 @@ export class NotificationService {
                 )
             })
 
+            // Clear notifications
+            socket.on('clear-notifications', async () => {
+                if (!socket.data.userId) return next()
+                await this.notificationModel.destroy({
+                    where: {
+                        userId: socket.data.userId,
+                    },
+                });
+                this.socketService.emitEventToRoom(
+                    'all-notifications',
+                    [],
+                    socket.data.userId
+                );
+            });
+
             // Declare an event to notify about a timer
             // being done
             socket.on('timer-work-done', async () => {
@@ -95,6 +111,7 @@ export class NotificationService {
                     socket.data.userId
                 )
             })
+
 
             next()
         })
