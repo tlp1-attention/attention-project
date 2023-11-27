@@ -1,12 +1,13 @@
 import { InferAttributes, Op } from 'sequelize'
 import { Users } from '../models/users'
+import { Preferences } from '../models/preferences'
 import { comparePassword, hashPassword } from '../utils/hash'
 /**
  * Service that encapsules data operations regarding users,
  * with find and create methods and password hashing
  */
 export class UserService {
-    constructor(private userModel: typeof Users) {}
+    constructor(private userModel: typeof Users) { }
 
     /**
      * Find and returns a User with the given ID. Resolves
@@ -139,6 +140,21 @@ export class UserService {
         const found = await this.findById(id)
         if (!found) return null
         return await found.update(userData)
+    }
+
+    /**
+     * Finds all users with their preferences attached
+     * 
+     * @returns {Promise<Users[]>} 
+     */
+    async findAllUsers(): Promise<Users[]> {
+        return await this.userModel.findAll({
+            include: [{
+                model: Preferences,
+                as: "preferences",
+                attributes: ["time_day", "subject", "contact", "people", "contact_type"]
+            }]
+        });
     }
 }
 

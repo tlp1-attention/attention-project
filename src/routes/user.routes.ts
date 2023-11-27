@@ -6,6 +6,8 @@ const router = Router()
 
 router.use([verifySession])
 
-router.get('/', getUserByToken)
+router.get('/', getUserByToken);
+
+
 
 export default router;

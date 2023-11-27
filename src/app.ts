@@ -19,6 +19,9 @@ import preferenceRouter from './routes/preferences.routes';
 import exerciseRouter from './routes/exercises.routes';
 import userRouter from './routes/user.routes';
 import completeExerciseRouter from './routes/complete-exercise';
+import preferenceFormRouter from './routes/preferencesForm.routes';
+import profileRouter from './routes/profile.routes';
+import usersRouter from './routes/users.routes';
 import { resolve } from 'path';
 import configEnv from './config/env';
 
@@ -27,11 +30,12 @@ const SessionStore = connectSQLite(session);
 const SESSION_PATH = resolve('./session-store');
 
 // Check database connection
+
 sequelize.authenticate()
-    .then(() => {
-        console.log('Succesful database connection');
-    })
-    .catch(console.error);
+  .then(() => {
+    console.log('Succesful database connection');
+  })
+  .catch(console.error);
 
 // Set ejs as template engine
 app.set('views', './src/views');
@@ -49,7 +53,7 @@ app.use(cors());
 app.use(express.json());
 app.use(logRequests);
 app.use(helmet({
-    contentSecurityPolicy: false // Allow CDN's resources to be delivered
+  contentSecurityPolicy: false // Allow CDN's resources to be delivered
 }));
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
@@ -77,11 +81,15 @@ app.use(staticServer);
 app.use(loginRouter);
 app.use(indexRouter);
 app.use(workSpaceRouter);
+app.use(preferenceFormRouter)
+app.use(profileRouter)
 app.use('/api/events', eventRouter);
 app.use('/api/notifications', webPushRouter);
 app.use('/api/users/', userRouter);
 app.use('/api/users/preferences', preferenceRouter);
 app.use('/api/exercises/completed', completeExerciseRouter);
 app.use('/api/exercises/readings', exerciseRouter);
+app.use('/api/users/list', usersRouter)
+
 
 export default app;
