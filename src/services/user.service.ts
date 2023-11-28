@@ -195,7 +195,13 @@ export class UserService {
                 }
             }
         });
-        const user = this.userModel.findByPk(userId);
+        const user = this.userModel.findByPk(userId, {
+            include: [{
+                model: Preferences,
+                as: "preferences",
+                attributes: ["time_day", "subject", "contact", "people", "contact_type"]
+            }]
+        });
 
         const [all, current] = await Promise.all([allUsers, user]);
         const currentPreferences = current.preferences;
@@ -206,8 +212,12 @@ export class UserService {
 
             // If a user has not registered any preferences,
             // then theirs points are zero
-            if (!preferences || preferences.length === 0) {
-                return { ...otherUser, match: points };
+            console.log(
+                currentPreferences,
+                preferences,
+            );
+            if (!currentPreferences || !preferences || preferences.length === 0) {
+                return { ...otherUser.dataValues, match: points };
             }
 
             // If both want to study/work with someone,
@@ -232,10 +242,12 @@ export class UserService {
                 points += 5;
             }
 
-            return { ...otherUser, match: points };
+            return { ...otherUser.dataValues, match: points };
         });
 
-        return withMatch;
+        return withMatch.sort((a, b) => {
+            return a.match - b.match;
+        });
     }
 }
 

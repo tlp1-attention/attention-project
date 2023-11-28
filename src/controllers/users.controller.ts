@@ -11,9 +11,10 @@ export function getUserByToken(req: Request, res: Response) {
     });
 }
 
-export async function getListUsers(_: Request, res: Response) {
+export async function getListUsers(req: Request, res: Response) {
+    const user = req.user;
     try {
-        const listUsers = await userService.findAllUsers()
+        const listUsers = await userService.findUsersWithMatch(user.id);
 
         if (listUsers.length === 0) {
             res.status(404).send({
