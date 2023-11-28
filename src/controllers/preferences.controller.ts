@@ -66,7 +66,7 @@ async function updatePreferenceForUser(req: AuthRequest, res: Response) {
         }
 
         return res.status(200).json({
-            message: 'Evento actualizado',
+            message: 'Preferencias actualizadas',
             preferences: updated,
         });
 

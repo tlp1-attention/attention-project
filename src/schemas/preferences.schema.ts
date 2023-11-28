@@ -18,14 +18,6 @@ const commonSchemaOptions = {
         body('subjects')
             .optional()
             .isArray().withMessage('Los temas deben estar dispuestos en un array')
-            /* .custom((subjectArr: Array<unknown>) => {
-                for (const subject of subjectArr) {
-                    if (typeof subject !== "string") {
-                        throw new Error('Las materias deben ser un string');
-                    } 
-                }
-                return true;
-            }) */
     ],
     validateContact: [
         body('contactType')

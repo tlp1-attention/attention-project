@@ -1,6 +1,9 @@
 import { Request, Response } from "express";
 import { userService } from "../services/user.service";
 import { AuthRequest } from '../interfaces/auth-request';
+import { Users } from "../models/users";
+import jwt from 'jsonwebtoken';
+import configEnv from '../config/env';
 
 export function getUserByToken(req: Request, res: Response) {
     res.status(200).json({
@@ -24,6 +27,38 @@ export async function getListUsers(_: Request, res: Response) {
     } catch (err) {
         console.error(err)
         res.status(500).json({
+            message: 'Error interno del servidor',
+        })
+    }
+}
+
+// TODO: Make this controller use the userService and `createToken` function
+export async function updateUserInfo(req: Request, res: Response) {
+    const token: any = req.headers.authorization
+
+    if (!token) {
+        res.status(401).send({ message: 'No se ha proporcionado el token!' })
+    }
+
+    try {
+        const decodedToken: any = jwt.verify(token, configEnv.SECRET)
+
+        const user = await Users.findByPk(decodedToken.id)
+
+        if (!user) {
+            res.status(404).send("No se ha encontrado el usuario!")
+        }
+
+        const updatedUser = await user.update(req.body)
+
+        if (!updatedUser) {
+            res.status(404).send("No se ha podido actualizar la información del usuario!")
+        }
+
+        return res.status(200).send(updatedUser)
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({
             message: 'Error interno del servidor',
         })
     }

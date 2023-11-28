@@ -7,7 +7,7 @@ import { comparePassword, hashPassword } from '../utils/hash'
  * with find and create methods and password hashing
  */
 export class UserService {
-    constructor(private userModel: typeof Users) { }
+    constructor(private userModel: typeof Users, private preferenceModel: typeof Preferences) { }
 
     /**
      * Find and returns a User with the given ID. Resolves
@@ -18,7 +18,12 @@ export class UserService {
     async findById(id: number): Promise<Users | null> {
         return await this.userModel.findByPk(id, {
             attributes: {
-               exclude: ['password']
+               exclude: ['password'],
+            },
+            include: {
+                model: this.preferenceModel,
+                as: "preferences",
+                attributes: ["time_day", "subject", "contact", "people", "contact_type"]
             }
         })
     }
@@ -158,4 +163,4 @@ export class UserService {
     }
 }
 
-export const userService = new UserService(Users)
+export const userService = new UserService(Users, Preferences);
