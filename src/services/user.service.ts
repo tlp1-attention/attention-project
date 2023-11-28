@@ -1,7 +1,16 @@
 import { InferAttributes, Op } from 'sequelize'
-import { Users } from '../models/users'
+import { Users, UsersAttributes } from '../models/users'
 import { Preferences } from '../models/preferences'
 import { comparePassword, hashPassword } from '../utils/hash'
+
+/**
+ * The preference text that indicates that a user wants 
+ * to study/work with someone. 
+ * 
+ * TODO: Move this text to be a different table and entity on the Models
+ */
+const COLABORATIVE_STUDY_PREFERENCE = "alguien que me acompañe al estudiar";
+
 /**
  * Service that encapsules data operations regarding users,
  * with find and create methods and password hashing
@@ -160,6 +169,73 @@ export class UserService {
                 attributes: ["time_day", "subject", "contact", "people", "contact_type"]
             }]
         });
+    }
+
+    /**
+     * Finds all users and attaches a `match` score that indicates
+     * the level in which the preference of each user matches
+     * with the current one.
+     * 
+     * @param {number} userId The user's ID whose preference we
+     * want to match against all other users
+     * @returns {Promise<(Users & { match: number })[]>} 
+     */
+    async findUsersWithMatch(
+        userId: number
+    ): Promise<(UsersAttributes & { match: number })[]> {
+        const allUsers = this.userModel.findAll({
+            include: [{
+                model: Preferences,
+                as: "preferences",
+                attributes: ["time_day", "subject", "contact", "people", "contact_type"]
+            }],
+            where: {
+                id: {
+                    [Op.ne]: userId
+                }
+            }
+        });
+        const user = this.userModel.findByPk(userId);
+
+        const [all, current] = await Promise.all([allUsers, user]);
+        const currentPreferences = current.preferences;
+
+        const withMatch = all.map(otherUser => {
+            let points = 0;
+            const preferences = otherUser.preferences;
+
+            // If a user has not registered any preferences,
+            // then theirs points are zero
+            if (!preferences || preferences.length === 0) {
+                return { ...otherUser, match: points };
+            }
+
+            // If both want to study/work with someone,
+            // then add 10 points
+            if (
+                currentPreferences[0].people === COLABORATIVE_STUDY_PREFERENCE && 
+                preferences[0].people === COLABORATIVE_STUDY_PREFERENCE
+            ) {
+                points += 10;
+            }
+
+            // If both users study at the same 
+            // time of the day, then add 5 points
+            if (currentPreferences[0].time_day == preferences[0].time_day) {
+                points += 5;
+            }
+
+            // If the subject which they find difficult,
+            // the other does not find difficult, then add
+            // 5 points.
+            if (current.preferences[0].subject !== preferences[0].subject) {
+                points += 5;
+            }
+
+            return { ...otherUser, match: points };
+        });
+
+        return withMatch;
     }
 }
 

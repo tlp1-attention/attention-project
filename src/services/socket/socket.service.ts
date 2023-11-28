@@ -21,9 +21,6 @@ export class SocketService {
      * Constructor of the class.
      * We give the opportunity to lazy-load
      * the HttpServer
-     *
-     * @param usersService
-     * @param httpServer
      */
     constructor() {}
 

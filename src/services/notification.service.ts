@@ -10,6 +10,7 @@ import {
     SocketService,
     SocketWithAuthenticationService,
 } from './socket/socket.service'
+import { UserService, userService } from './user.service'
 
 /**
  * Service that abstracts away the
@@ -26,7 +27,8 @@ export class NotificationService {
     constructor(
         private eventEmitter: typeof emitterService,
         private notificationModel: typeof Notifications,
-        private typeNotificationModel: typeof TypeNotifications
+        private typeNotificationModel: typeof TypeNotifications,
+        private userService: UserService
     ) {}
 
     /**
@@ -47,7 +49,7 @@ export class NotificationService {
                 const notifications = await this.notificationModel
                     .findAll({
                         where: { userId: socket.data.userId },
-                        order: [["createdAt", "DESC"]]
+                        order: [['createdAt', 'DESC']],
                     })
                     .then((notes) => {
                         return notes.map(async (n) => {
@@ -66,18 +68,21 @@ export class NotificationService {
             })
 
             // Mark a notification as read
-            socket.on('read-notifications', async (notificationIds: number[]) => {
-                if (!socket.data.userId) return next()
-                await this.notificationModel.update(
-                    { read: true },
-                    {
-                        where: {
-                            id: notificationIds,
-                            userId: socket.data.userId,
-                        },
-                    }
-                )
-            })
+            socket.on(
+                'read-notifications',
+                async (notificationIds: number[]) => {
+                    if (!socket.data.userId) return next()
+                    await this.notificationModel.update(
+                        { read: true },
+                        {
+                            where: {
+                                id: notificationIds,
+                                userId: socket.data.userId,
+                            },
+                        }
+                    )
+                }
+            )
 
             // Clear notifications
             socket.on('clear-notifications', async () => {
@@ -86,13 +91,13 @@ export class NotificationService {
                     where: {
                         userId: socket.data.userId,
                     },
-                });
+                })
                 this.socketService.emitEventToRoom(
                     'all-notifications',
                     [],
                     socket.data.userId
-                );
-            });
+                )
+            })
 
             // Declare an event to notify about a timer
             // being done
@@ -112,6 +117,24 @@ export class NotificationService {
                 )
             })
 
+            // Declare an event to notify about
+            // a possible collaboration contact
+            socket.on('colaboration-contact', async (contactedUserId) => {
+                const currentUser = await this.userService.findById(
+                    socket.data.userId
+                )
+                if (!currentUser) return
+                console.log('==============================')
+                console.log(
+                    `El usuario ${currentUser.name} se ha contactado con ${contactedUserId}`
+                )
+                console.log('==============================')
+                this.eventEmitter.emit(
+                    APP_EVENTS.COLABORATION.CONTACT,
+                    currentUser,
+                    contactedUserId 
+                )
+            })
 
             next()
         })
@@ -135,7 +158,8 @@ export class NotificationService {
      * @param {Notifications} notification
      */
     private async sendNotification(
-        notification: NotificationCreationAttributes
+        notification: NotificationCreationAttributes,
+        requestedContactUserId: number | null = null
     ) {
         const created = await this.notificationModel.create(notification)
         const type = await this.typeNotificationModel.findByPk(
@@ -143,7 +167,11 @@ export class NotificationService {
         )
         this.socketService.emitEventToRoom(
             'new-notification',
-            { ...created.dataValues, type },
+            {
+                ...created.dataValues,
+                type,
+                requestedContactUserId,
+            },
             notification.userId
         )
     }
@@ -195,17 +223,20 @@ export class NotificationService {
     registerColaborationEvents() {
         this.eventEmitter.on(
             APP_EVENTS.COLABORATION.CONTACT,
-            async (data, userId) => {
+            async (userThatRequestedContact, sentTo) => {
                 const id = this.getTypeNotificationForEvent(
                     APP_EVENTS.COLABORATION.CONTACT
                 )
-                this.sendNotification({
-                    read: false,
-                    typeId: id,
-                    title: `Nuevo contacto`,
-                    content: `El usuario ${data.name} te ha agregado como contacto`,
-                    userId: userId,
-                })
+                this.sendNotification(
+                    {
+                        read: false,
+                        typeId: id,
+                        title: `Nuevo contacto`,
+                        content: `El usuario ${userThatRequestedContact.name} te ha agregado como contacto`,
+                        userId: sentTo,
+                    },
+                    userThatRequestedContact.id
+                )
             }
         )
     }
@@ -230,7 +261,7 @@ export class NotificationService {
 
     registerCalendarEvents() {
         this.eventEmitter.on(APP_EVENTS.EVENT.CLOSE, async (event, userId) => {
-            const id = this.getTypeNotificationForEvent(APP_EVENTS.EVENT.CLOSE);
+            const id = this.getTypeNotificationForEvent(APP_EVENTS.EVENT.CLOSE)
             this.sendNotification({
                 read: false,
                 typeId: id,
@@ -256,5 +287,6 @@ export class NotificationService {
 export const notificationService = new NotificationService(
     emitterService,
     Notifications,
-    TypeNotifications
+    TypeNotifications,
+    userService
 )
