@@ -7,6 +7,9 @@ import cookieParser from 'cookie-parser'
 import session from 'express-session';
 import connectSQLite from 'connect-sqlite3';
 
+import cloudinary from "cloudinary"
+import fileupload from "express-fileupload"
+
 import loginRouter from './routes/auth.routes'
 import staticServer from './middleware/__server-static.middleware';
 import { logRequests } from './middleware/logging'
@@ -20,6 +23,12 @@ import profileRouter from './routes/profile.routes';
 import usersRouter from './routes/users.routes';
 import { resolve } from 'path';
 import configEnv from './config/env';
+
+cloudinary.v2.config({ 
+  cloud_name: configEnv.CLOUDINARY.CLOUD_NAME, 
+  api_key: configEnv.CLOUDINARY.API_KEY, 
+  api_secret: configEnv.CLOUDINARY.API_SECRET 
+})
 
 const app = express();
 const SessionStore = connectSQLite(session);
@@ -46,6 +55,12 @@ app.use(helmet({
 }));
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
+app.use(fileupload({
+  createParentPath: true,
+  limits: { fileSize: 25 * 1024 * 1024 },
+  abortOnLimit: true,
+  responseOnLimit: "Archivo demasiado grande!"
+}))
 
 app.use(session({
   secret: configEnv.SECRET,

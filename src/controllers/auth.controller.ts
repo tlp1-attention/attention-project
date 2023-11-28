@@ -4,6 +4,7 @@ import type { Response, Request, NextFunction } from 'express'
 import jwt from 'jsonwebtoken'
 import { userService } from '../services/user.service'
 import { createToken } from '../utils/token'
+import { uploadImage } from '../utils/upload-cloudinary'
 import configEnv from '../config/env';
 
 
@@ -147,7 +148,18 @@ async function updateUserInfo(req: Request, res: Response) {
             res.status(404).send("No se ha encontrado el usuario!")
         }
 
-        const updatedUser = await user.update(req.body)
+        let imageUrl = ''
+        
+        if((req as any).hasOwnProperty('files') && (req as any).files.profileImage) {
+
+            const image: any = await uploadImage(
+                (req as any).files.profileImage
+            )
+            imageUrl = image
+
+        }
+
+        const updatedUser = await user.update({...req.body, profileImage: imageUrl})
 
         if (!updatedUser) {
             res.status(404).send("No se ha podido actualizar la información del usuario!")
