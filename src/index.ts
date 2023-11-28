@@ -9,13 +9,19 @@ import { scheduleReminders } from './utils/schedule-reminder'
 
 const PORT = env.PORT
 
-const httpServer = createServer(app)
-notificationService.attach(socketService)
-socketService.runOn(httpServer)
-
-export const server = httpServer.listen(PORT, async () => {
-    await scheduleReminders()
+async function runServer() {
+    const httpServer = createServer(app)
+    notificationService.attach(socketService)
+    socketService.runOn(httpServer);
     await setupDatabase().then(() => console.log('Base de datos configurada.'))
-    setupLogger()
-    console.log(`Server listening in: http://localhost:${PORT}`)
-})
+    await scheduleReminders();
+    setupLogger();
+    
+    return httpServer.listen(PORT, () => {
+        console.log(`Server listening in: http://localhost:${PORT}`)
+    });
+}
+
+export const server = runServer();
+
+

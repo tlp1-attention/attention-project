@@ -23,6 +23,11 @@ const env = {
         SECRET: process.env.SECRET || 'ññññññ',
         NODE_ENV: process.env.NODE_ENV,
         LOGGING_DIR: resolve(process.cwd(), process.env.LOG_DIR || "./logs"),
+        CLOUDINARY: {
+            CLOUD_NAME: process.env.CLOUD_NAME,
+            API_KEY: process.env.API_KEY,
+            API_SECRET: process.env.API_SECRET
+        }
     },
     development: {
         PORT: process.env.PORT || 8080,
@@ -44,6 +49,11 @@ const env = {
         SECRET: process.env.SECRET || 'ñññññ',
         NODE_ENV: process.env.NODE_ENV,
         LOGGING_DIR: resolve(process.cwd(), process.env.LOG_DIR || "./logs"),
+        CLOUDINARY: {
+            CLOUD_NAME: process.env.CLOUD_NAME,
+            API_KEY: process.env.API_KEY,
+            API_SECRET: process.env.API_SECRET
+        }
     },
     test: {
         PORT: process.env.PORT || 8080,
@@ -65,6 +75,11 @@ const env = {
         SECRET: process.env.SECRET || 'ñññññ',
         NODE_ENV: process.env.NODE_ENV,
         LOGGING_DIR: resolve(process.cwd(), process.env.LOG_DIR || "./logs"),
+        CLOUDINARY: {
+            CLOUD_NAME: process.env.CLOUD_NAME,
+            API_KEY: process.env.API_KEY,
+            API_SECRET: process.env.API_SECRET
+        }
     },
  
 } as const;

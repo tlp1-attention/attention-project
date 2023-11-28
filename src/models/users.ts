@@ -12,6 +12,7 @@ export interface UsersAttributes {
     password: string
     description?: string
     ocupation?: string
+    profileImage?: string
     problem: string
     createdAt: Date
     updatedAt: Date
@@ -25,6 +26,7 @@ export type UsersOptionalAttributes =
     | 'id'
     | 'description'
     | 'ocupation'
+    | 'profileImage'
     | 'createdAt'
     | 'updatedAt'
     | 'subscriptionPayload'
@@ -45,6 +47,7 @@ export class Users
     declare password: string
     declare description?: string
     declare ocupation?: string
+    declare profileImage?: string
     declare problem: string
     declare createdAt: Date
     declare updatedAt: Date
@@ -169,6 +172,10 @@ export class Users
                     allowNull: true,
                 },
                 problem: {
+                    type: DataTypes.STRING(255),
+                    allowNull: true,
+                },
+                profileImage: {
                     type: DataTypes.STRING(255),
                     allowNull: true,
                 },

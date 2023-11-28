@@ -131,8 +131,6 @@ async function getUserInfo(req: Request, res: Response) {
     }
 }
 
-
-
 async function logoutController(
     req: Request,
     res: Response,
