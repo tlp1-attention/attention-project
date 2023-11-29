@@ -9,7 +9,6 @@ const ONE_DAY_MS = 1000 * 60 * 60 * 24;
 
 export function scheduleReminders() {
     return new Promise(resolve => resolve(setInterval(async () => {
-
         const subscribers = await Users.findAll({
             where: {
                 [Op.not]: {
@@ -27,11 +26,12 @@ export function scheduleReminders() {
 
                 const now = Date.now();
 
-                const hasBeenReminded = event.remindedAt
-                                     ? now - event.remindedAt?.getTime() < (ONE_DAY_MS / 2)
-                                     : false
+                // If the event is 12 hours ahead, and it has not been reminded
+                // in 12 hours, then remind it
+                const hasBeenReminded = event.remindedAt !== null && 
+                    now - event.remindedAt.getTime() > 0 && now - event.remindedAt.getTime() < ONE_DAY_MS;
 
-
+                // If event.remindedAt is less than 12 hours ago, don't remind again
                 if (event.startDate.getTime() - now < ONE_DAY_MS &&
                     !hasBeenReminded) {
                     // Emit an event so the application knows that an event
