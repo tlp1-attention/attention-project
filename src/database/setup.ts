@@ -43,8 +43,8 @@ export default async function setupDatabase() {
                 name: 'danteBenitez__prueba',
             },
         })
-        await createEventsForTesting(10, userId)
-        await createCompleteExercise(10, userId)
+        // await createEventsForTesting(10, userId)
+        // await createCompleteExercise(10, userId)
     }
 
 

@@ -30,8 +30,6 @@ async function verifyUser(
     }
 }
 
-// Use passport's Local Strategy to verify
-// incoming username and password against database
 passport.use(
     new JwtStrategy(
         {
