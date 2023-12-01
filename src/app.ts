@@ -24,6 +24,7 @@ import userRouter from './routes/user.routes';
 import completeExerciseRouter from './routes/complete-exercise';
 import preferenceFormRouter from './routes/preferencesForm.routes';
 import profileRouter from './routes/profile.routes';
+import federatedAuthRouter from './routes/federated.auth.routes';
 import usersRouter from './routes/users.routes';
 import { resolve } from 'path';
 import configEnv from './config/env';
@@ -98,6 +99,7 @@ app.use(indexRouter);
 app.use(workSpaceRouter);
 app.use(preferenceFormRouter)
 app.use(profileRouter)
+app.use(federatedAuthRouter);
 app.use('/api/events', eventRouter);
 app.use('/api/notifications', webPushRouter);
 app.use('/api/users/', userRouter);

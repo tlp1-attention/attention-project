@@ -62,6 +62,7 @@
     "express-fileupload": "^1.4.3",
     "express-session": "^1.17.3",
     "express-validator": "^7.0.1",
+    "google-auth-library": "^9.4.0",
     "helmet": "^7.0.0",
     "jsonwebtoken": "^9.0.0",
     "morgan": "^1.10.0",

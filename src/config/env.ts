@@ -27,6 +27,11 @@ const env = {
             CLOUD_NAME: process.env.CLOUD_NAME,
             API_KEY: process.env.API_KEY,
             API_SECRET: process.env.API_SECRET
+        },
+        GOOGLE: {
+            CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
+            CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
+            ENABLED: process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET ? true : false
         }
     },
     development: {
@@ -53,6 +58,11 @@ const env = {
             CLOUD_NAME: process.env.CLOUD_NAME,
             API_KEY: process.env.API_KEY,
             API_SECRET: process.env.API_SECRET
+        },
+        GOOGLE: {
+            CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
+            CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
+            ENABLED: process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET ? true : false
         }
     },
     test: {
@@ -79,6 +89,11 @@ const env = {
             CLOUD_NAME: process.env.CLOUD_NAME,
             API_KEY: process.env.API_KEY,
             API_SECRET: process.env.API_SECRET
+        },
+        GOOGLE: {
+            CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
+            CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
+            ENABLED: process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET ? true : false
         }
     },
  

@@ -1,4 +1,4 @@
-import { initModels } from '../models/init-models'
+import { FederatedCredentials, initModels } from '../models/init-models'
 import { sequelize } from './connection'
 
 const Models = initModels(sequelize)
@@ -15,7 +15,7 @@ const {
     TypeEvent,
     Question,
     Notifications,
-    TypeNotifications
+    TypeNotifications,
 } = Models
 
 Exercises.hasMany(Question, { as: 'question', foreignKey: 'exerciseId' })
@@ -59,4 +59,6 @@ TypeEvent.hasMany(Events, { as: 'event', foreignKey: 'typeId' })
 TypeNotifications.hasMany(Notifications, { foreignKey: 'typeId' });
 Notifications.hasOne(TypeNotifications, { foreignKey: 'typeId' });
 
+FederatedCredentials.hasOne(Users, { foreignKey: 'userId' });
+Users.hasMany(FederatedCredentials, { foreignKey: 'userId' });
 export { Models };

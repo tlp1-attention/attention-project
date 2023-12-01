@@ -25,6 +25,8 @@ import type { NotificationsAttributes, NotificationCreationAttributes  } from ".
 import { Notifications as _Notifications } from "./notifications";
 import type { TypeNotificationsAttributes, TypeNotificationsCreationAttributes } from "./type-notifications";
 import { TypeNotifications as _TypeNotifications } from "./type-notifications";
+import type { FederatedCredentialsAttributes, FederatedCredentialsCreationAttributes } from "./federated-credentials";
+import { FederatedCredentials as _FederatedCredentials } from "./federated-credentials";
 
 export {
   _Answers as Answers,
@@ -38,7 +40,8 @@ export {
   _TypeEvent as TypeEvent,
   _Question as Question,
   _Notifications as Notifications,
-  _TypeNotifications as TypeNotifications
+  _TypeNotifications as TypeNotifications,
+  _FederatedCredentials as FederatedCredentials
 };
 
 export type {
@@ -67,7 +70,9 @@ export type {
   NotificationsAttributes,
   NotificationCreationAttributes,
   TypeNotificationsAttributes,
-  TypeNotificationsCreationAttributes
+  TypeNotificationsCreationAttributes,
+  FederatedCredentialsAttributes,
+  FederatedCredentialsCreationAttributes
 };
 
 export function initModels(sequelize: Sequelize) {
@@ -84,6 +89,7 @@ export function initModels(sequelize: Sequelize) {
   const Question = _Question.initModel(sequelize);
   const Notifications = _Notifications.initModel(sequelize);
   const TypeNotifications = _TypeNotifications.initModel(sequelize);
+  const FederatedCredentials = _FederatedCredentials.initModel(sequelize);
 
   return {
     Answers: Answers,
@@ -98,6 +104,7 @@ export function initModels(sequelize: Sequelize) {
     TypeEvent: TypeEvent,
     Question: Question,
     Notifications: Notifications,
-    TypeNotifications: TypeNotifications
+    TypeNotifications: TypeNotifications,
+    FederatedCredentials: FederatedCredentials
   };
 }

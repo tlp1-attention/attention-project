@@ -1,22 +1,27 @@
 import { InferAttributes, Op } from 'sequelize'
-import { Users, UsersAttributes } from '../models/users'
+import { Users, UsersAttributes, UsersCreationAttributes } from '../models/users'
 import { Preferences } from '../models/preferences'
 import { comparePassword, hashPassword } from '../utils/hash'
+import { FederatedCredentials, FederatedCredentialsAttributes, FederatedCredentialsCreationAttributes } from '../models/federated-credentials'
 
 /**
- * The preference text that indicates that a user wants 
- * to study/work with someone. 
- * 
+ * The preference text that indicates that a user wants
+ * to study/work with someone.
+ *
  * TODO: Move this text to be a different table and entity on the Models
  */
-const COLABORATIVE_STUDY_PREFERENCE = "alguien que me acompañe al estudiar";
+const COLABORATIVE_STUDY_PREFERENCE = 'alguien que me acompañe al estudiar'
 
 /**
  * Service that encapsules data operations regarding users,
  * with find and create methods and password hashing
  */
 export class UserService {
-    constructor(private userModel: typeof Users, private preferenceModel: typeof Preferences) { }
+    constructor(
+        private userModel: typeof Users,
+        private preferenceModel: typeof Preferences,
+        private credentialModel: typeof FederatedCredentials
+    ) {}
 
     /**
      * Find and returns a User with the given ID. Resolves
@@ -27,13 +32,19 @@ export class UserService {
     async findById(id: number): Promise<Users | null> {
         return await this.userModel.findByPk(id, {
             attributes: {
-               exclude: ['password'],
+                exclude: ['password'],
             },
             include: {
                 model: this.preferenceModel,
-                as: "preferences",
-                attributes: ["time_day", "subject", "contact", "people", "contact_type"]
-            }
+                as: 'preferences',
+                attributes: [
+                    'time_day',
+                    'subject',
+                    'contact',
+                    'people',
+                    'contact_type',
+                ],
+            },
         })
     }
 
@@ -67,9 +78,92 @@ export class UserService {
                     email,
                 },
             },
+        })
+
+        return found.length > 0
+    }
+
+    /**
+     * Finds or creates a Federated Credentials
+     * associated to a given user, as the one used by Google
+     *
+     * @param {UsersAttributes} user
+     * @returns {Promise<Users | null>} The created or found User
+     */
+    async findOrCreateFederatedCredential(
+        user: UsersCreationAttributes,
+        credential: FederatedCredentialsCreationAttributes 
+    ): Promise<Users | null> {
+        let userToReturn: Users;
+        userToReturn = await this.userModel.findOne({
+            where: {
+                [Op.or]: {
+                    name: user.name,
+                    email: user.email,
+                },
+            },
+        })
+
+        const hasCredential = await this.credentialModel.findOne({
+            where: { userId: userToReturn.id }
         });
 
-        return found.length > 0;
+        // If a user exists with a certain email,
+        // but its not registered with Google,
+        // then return null
+        if (userToReturn && !hasCredential) {
+            return null;
+        }
+
+        if (!userToReturn) {
+            const hashedPassword = await hashPassword(user.password);
+
+            userToReturn = await this.userModel.create({
+                ...user,
+                password: hashedPassword
+            });
+        }
+
+        await this.credentialModel.findOrCreate({
+            where: {
+                subject: credential.subject,
+                provider: credential.provider,
+                userId: userToReturn.id,
+            }
+        });
+
+        return userToReturn; 
+    }
+
+    /**
+     * Finds a user with the given username
+     * and email, creating it if it does not exist already
+     *
+     * @param {UsersAttributes} user
+     * @returns {Promise<Users | null>} The created or found User
+     */
+    async findOrCreate(user: UsersAttributes): Promise<Users | null> {
+        const found = await this.userModel.findOne({
+            where: {
+                [Op.or]: {
+                    name: user.name,
+                    email: user.email,
+                },
+            },
+        })
+
+        if (found) {
+            return found
+        }
+
+        const hashed = await hashPassword(user.password)
+
+        const created = await this.userModel.create({
+            ...user,
+            password: hashed,
+        })
+
+        return created
     }
 
     /**
@@ -88,7 +182,6 @@ export class UserService {
         email: string,
         password: string
     ): Promise<Users | null> {
-
         if (await this.exists(username, email)) {
             return null
         }
@@ -158,97 +251,123 @@ export class UserService {
 
     /**
      * Finds all users with their preferences attached
-     * 
-     * @returns {Promise<Users[]>} 
+     *
+     * @returns {Promise<Users[]>}
      */
     async findAllUsers(): Promise<Users[]> {
         return await this.userModel.findAll({
-            include: [{
-                model: Preferences,
-                as: "preferences",
-                attributes: ["time_day", "subject", "contact", "people", "contact_type"]
-            }]
-        });
+            include: [
+                {
+                    model: Preferences,
+                    as: 'preferences',
+                    attributes: [
+                        'time_day',
+                        'subject',
+                        'contact',
+                        'people',
+                        'contact_type',
+                    ],
+                },
+            ],
+        })
     }
 
     /**
      * Finds all users and attaches a `match` score that indicates
      * the level in which the preference of each user matches
      * with the current one.
-     * 
+     *
      * @param {number} userId The user's ID whose preference we
      * want to match against all other users
-     * @returns {Promise<(Users & { match: number })[]>} 
+     * @returns {Promise<(Users & { match: number })[]>}
      */
     async findUsersWithMatch(
         userId: number
     ): Promise<(UsersAttributes & { match: number })[]> {
         const allUsers = this.userModel.findAll({
-            include: [{
-                model: Preferences,
-                as: "preferences",
-                attributes: ["time_day", "subject", "contact", "people", "contact_type"]
-            }],
+            include: [
+                {
+                    model: Preferences,
+                    as: 'preferences',
+                    attributes: [
+                        'time_day',
+                        'subject',
+                        'contact',
+                        'people',
+                        'contact_type',
+                    ],
+                },
+            ],
             where: {
                 id: {
-                    [Op.ne]: userId
-                }
-            }
-        });
+                    [Op.ne]: userId,
+                },
+            },
+        })
         const user = this.userModel.findByPk(userId, {
-            include: [{
-                model: Preferences,
-                as: "preferences",
-                attributes: ["time_day", "subject", "contact", "people", "contact_type"]
-            }]
-        });
+            include: [
+                {
+                    model: Preferences,
+                    as: 'preferences',
+                    attributes: [
+                        'time_day',
+                        'subject',
+                        'contact',
+                        'people',
+                        'contact_type',
+                    ],
+                },
+            ],
+        })
 
-        const [all, current] = await Promise.all([allUsers, user]);
-        const currentPreferences = current.preferences;
+        const [all, current] = await Promise.all([allUsers, user])
+        const currentPreferences = current.preferences
 
-        const withMatch = all.map(otherUser => {
-            let points = 0;
-            const preferences = otherUser.preferences;
+        const withMatch = all.map((otherUser) => {
+            let points = 0
+            const preferences = otherUser.preferences
 
             // If a user has not registered any preferences,
             // then theirs points are zero
-            console.log(
-                currentPreferences,
-                preferences,
-            );
-            if (!currentPreferences || !preferences || preferences.length === 0) {
-                return { ...otherUser.dataValues, match: points };
+            console.log(currentPreferences, preferences)
+            if (
+                !currentPreferences ||
+                !preferences ||
+                preferences.length === 0
+            ) {
+                return { ...otherUser.dataValues, match: points }
             }
 
             // If both want to study/work with someone,
             // then add 10 points
             if (
-                currentPreferences[0].people === COLABORATIVE_STUDY_PREFERENCE && 
+                currentPreferences[0].people ===
+                    COLABORATIVE_STUDY_PREFERENCE &&
                 preferences[0].people === COLABORATIVE_STUDY_PREFERENCE
             ) {
-                points += 10;
+                points += 10
             }
 
-            // If both users study at the same 
+            // If both users study at the same
             // time of the day, then add 5 points
             if (currentPreferences[0].time_day == preferences[0].time_day) {
-                points += 5;
+                points += 5
             }
 
             // If the subject which they find difficult,
             // the other does not find difficult, then add
             // 5 points.
             if (current.preferences[0].subject !== preferences[0].subject) {
-                points += 5;
+                points += 5
             }
 
-            return { ...otherUser.dataValues, match: points };
-        });
+            return { ...otherUser.dataValues, match: points }
+        })
 
         return withMatch.sort((a, b) => {
-            return a.match - b.match;
-        });
+            return a.match - b.match
+        })
     }
 }
 
-export const userService = new UserService(Users, Preferences);
+export const userService = new UserService(Users, Preferences, FederatedCredentials)
