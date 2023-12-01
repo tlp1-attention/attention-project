@@ -25,6 +25,7 @@ export async function loginWithGoogle(req: Request, res: Response) {
         });
     }
 
+
     const payload = ticket.getPayload();
 
     const user = await userService.findOrCreateFederatedCredential({

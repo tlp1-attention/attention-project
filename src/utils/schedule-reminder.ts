@@ -16,7 +16,6 @@ export function scheduleReminders() {
                 }
             }
         });
-        console.log(subscribers);
 
         for (const user of subscribers) {
             const events = await user.getEvents();

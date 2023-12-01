@@ -104,15 +104,23 @@ export class UserService {
             },
         })
 
-        const hasCredential = await this.credentialModel.findOne({
-            where: { userId: userToReturn.id }
-        });
-
         // If a user exists with a certain email,
         // but its not registered with Google,
         // then return null
-        if (userToReturn && !hasCredential) {
-            return null;
+        if (userToReturn) {
+            console.log('=============');
+            console.log(userToReturn, userToReturn?.id);
+            console.log('=============');
+            const hasCredential = await this.credentialModel.findOne({
+                where: { 
+                    userId: userToReturn?.id,
+                    provider: credential.provider,
+                }
+            });
+
+            if (hasCredential) {
+                return null;
+            }
         }
 
         if (!userToReturn) {
@@ -198,6 +206,8 @@ export class UserService {
     }
     /**
      * Logs in a user given its username and password.
+     * If the user has a federated credential,
+     * then this login returns null
      *
      * @param {string} username
      * @param {string} password
@@ -205,11 +215,19 @@ export class UserService {
      * in case of errors while logging
      */
     async login(username: string, password: string): Promise<Users | null> {
-        const found = await this.findByUsername(username)
+        const found = await this.findByUsername(username);
+
         if (!found) return null
 
-        const passwordMatch = await comparePassword(password, found.password)
+        const hasCredential = await this.credentialModel.findOne({
+            where: { userId: found?.id }
+        });
 
+        if (hasCredential) {
+            return null;
+        }
+
+        const passwordMatch = await comparePassword(password, found.password)
         return passwordMatch ? found : null
     }
 
