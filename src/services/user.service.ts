@@ -118,7 +118,7 @@ export class UserService {
                 }
             });
 
-            if (hasCredential) {
+            if (!hasCredential) {
                 return null;
             }
         }
