@@ -13,16 +13,30 @@ export class ExercisesService {
 
     /**
      * Find all exercises which are readings 
-     * and returns them
+     * and returns them. Accepts a optional
+     * to match the title of the reading or the
+     * content
      * 
      * @returns {Promise<Exercises | null>}
      */
-    async findAllReadings(): Promise<Exercises[]> {
+    async findAllReadings(query: string = ""): Promise<Exercises[]> {
         return this.exerciseModel.findAll({
             where: {
                 read: {
-                    [Op.ne]: null
-                }
+                    [Op.ne]: null,
+                },
+                [Op.or]: [
+                    {
+                        read: {
+                            [Op.like]: `%${query}%`
+                        }
+                    },
+                    {
+                        readTitle: {
+                            [Op.like]: `%${query}%`
+                        }
+                    }
+                ]
             }
         });
     }

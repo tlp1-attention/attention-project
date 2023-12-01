@@ -1,9 +1,10 @@
 import type { Request, Response } from "express";
 import { exerciseService } from "../services/exercises.service";
 
-export async function getAllExercises(_req: Request, res: Response) {
+export async function getAllExercises(req: Request, res: Response) {
+    const { q } = req.query;
     try {
-        const found = await exerciseService.findAllReadings();
+        const found = await exerciseService.findAllReadings(q && q.toString());
 
         if (found.length == 0) {
             return res.status(404).json({
