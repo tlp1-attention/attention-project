@@ -31,10 +31,10 @@ async function createEvent(req: AuthRequest, res: Response) {
 // Get all events from a user
 async function getEventsByUser(req: AuthRequest, res: Response) {
     const { id: userId } = req.user!
-    const { orderType, orderField, filter  } = req.query;
+    const { orderType, orderField, filter , page, pageSize } = req.query;
 
     try {
-        const events = await eventService.findByUserId(
+        const { rows: events, count } = await eventService.findByUserId(
             userId,
             // Correct query params are enforced
             // on the schemas
@@ -43,6 +43,11 @@ async function getEventsByUser(req: AuthRequest, res: Response) {
                 field: orderField as any,
                 type: orderType as any,
             },
+            {
+                // Type enforced in schema
+                page: page as unknown as number || 1,
+                pageSize: pageSize as unknown as number || 10
+            }
         )
 
         if (events.length == 0) {
@@ -53,7 +58,9 @@ async function getEventsByUser(req: AuthRequest, res: Response) {
 
         return res.json({
             events: events,
-        })
+            count
+        });
+
     } catch (err) {
         console.error(err)
         res.status(500).json({

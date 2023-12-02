@@ -4,6 +4,8 @@ import {
     InferCreationAttributes,
     Model,
     Op,
+    QueryOptions,
+    WhereOptions,
 } from 'sequelize'
 import { Events, EventsAttributes } from '../models/events'
 import { UserService, userService } from './user.service'
@@ -14,6 +16,11 @@ import { APP_EVENTS } from './emitter/emit.interface'
 type OrderOptions<M extends Model<any, any>> = {
     field: keyof InferAttributes<M>
     type: 'asc' | 'desc'
+}
+
+type PaginationOptions = {
+    page: number
+    pageSize: number
 }
 
 /**
@@ -95,8 +102,9 @@ export class EventService {
     async findByUserId(
         id: number,
         filter?: Record<keyof EventsAttributes, any>,
-        order?: OrderOptions<Events>
-    ): Promise<Events[]> {
+        order?: OrderOptions<Events>,
+        { page, pageSize }: PaginationOptions = { page: 1, pageSize: 10 }
+    ): Promise<{ rows:  Events[], count: number }> {
         let query: FindOptions<Events> = {}
 
         if (order) {
@@ -125,16 +133,19 @@ export class EventService {
                 },
             }
         }
-
-        const options = {
+        const options: FindOptions = {
             where: {
                 ...filterOrDefault,
                 userId: id,
             },
+            offset: (page - 1) * pageSize, 
+            limit: +pageSize,
             ...(query ?? {}),
         }
-        console.log(options)
-        return this.eventModel.findAll(options)
+
+        console.log(options);
+
+        return this.eventModel.findAndCountAll(options)
     }
 
     /**

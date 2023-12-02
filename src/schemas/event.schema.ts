@@ -92,6 +92,18 @@ export const getEventsSchema = [
         .optional()
         .isString()
         .isIn(["asc", "desc"]),
+    query('page')
+        .optional()
+        .default(1)
+        .isNumeric()
+        .toInt()
+        .custom(number => number > 0),
+    query('pageSize')
+        .optional()
+        .default(10)
+        .isNumeric()
+        .toInt()
+        .custom(number => number > 0),
 ];
 
 export const createEventSchema = eventSchemaOptions
