@@ -1,79 +1,60 @@
 import type { Sequelize } from "sequelize";
-import { Answers as _Answers } from "./answers";
 import type { AnswersAttributes, AnswersCreationAttributes } from "./answers";
-import { CompleteExercises as _CompleteExercises } from "./complete_exercises";
+import { Answers as _Answers } from "./answers";
 import type { CompleteExercisesAttributes, CompleteExercisesCreationAttributes } from "./complete_exercises";
-import { Exercises as _Exercises } from "./exercises";
-import type { ExercisesAttributes, ExercisesCreationAttributes } from "./exercises";
-import { Preferences as _Preferences } from "./preferences";
-import type { PreferencesAttributes, PreferencesCreationAttributes } from "./preferences";
-import { Reports as _Reports } from "./reports";
-import type { ReportsAttributes, ReportsCreationAttributes } from "./reports";
-import { Responses as _Responses } from "./responses";
-import type { ResponsesAttributes, ResponsesCreationAttributes } from "./responses";
-import { TypeExercises as _TypeExercises } from "./type_exercises";
-import type { TypeExercisesAttributes, TypeExercisesCreationAttributes } from "./type_exercises";
-import { Users as _Users } from "./users";
-import type { UsersAttributes, UsersCreationAttributes } from "./users";
-import { Events as _Events } from './events'
+import { CompleteExercises as _CompleteExercises } from "./complete_exercises";
 import type { EventsAttributes, EventsCreationAttributes } from "./events";
-import type { TypeEventAttributes, TypeEventCreationAttributes } from "./type_events";
-import { TypeEvent as _TypeEvent } from "./type_events";
-import { Question as _Question } from "./questions";
-import type { QuestionAttributes, QuestionCreationAttributes } from "./questions";
-import type { NotificationsAttributes, NotificationCreationAttributes  } from "./notifications";
-import { Notifications as _Notifications } from "./notifications";
-import type { TypeNotificationsAttributes, TypeNotificationsCreationAttributes } from "./type-notifications";
-import { TypeNotifications as _TypeNotifications } from "./type-notifications";
+import { Events as _Events } from './events';
+import type { ExercisesAttributes, ExercisesCreationAttributes } from "./exercises";
+import { Exercises as _Exercises } from "./exercises";
 import type { FederatedCredentialsAttributes, FederatedCredentialsCreationAttributes } from "./federated-credentials";
 import { FederatedCredentials as _FederatedCredentials } from "./federated-credentials";
+import type { NotificationCreationAttributes, NotificationsAttributes } from "./notifications";
+import { Notifications as _Notifications } from "./notifications";
+import type { PreferencesAttributes, PreferencesCreationAttributes } from "./preferences";
+import { Preferences as _Preferences } from "./preferences";
+import type { QuestionAttributes, QuestionCreationAttributes } from "./questions";
+import { Question as _Question } from "./questions";
+import type { ReportsAttributes, ReportsCreationAttributes } from "./reports";
+import { Reports as _Reports } from "./reports";
+import type { ResponsesAttributes, ResponsesCreationAttributes } from "./responses";
+import { Responses as _Responses } from "./responses";
+import { RolesAttributes, RolesCreationAttributes, Roles as _Roles } from './roles';
+import type { TypeNotificationsAttributes, TypeNotificationsCreationAttributes } from "./type-notifications";
+import { TypeNotifications as _TypeNotifications } from "./type-notifications";
+import type { TypeEventAttributes, TypeEventCreationAttributes } from "./type_events";
+import { TypeEvent as _TypeEvent } from "./type_events";
+import type { TypeExercisesAttributes, TypeExercisesCreationAttributes } from "./type_exercises";
+import { TypeExercises as _TypeExercises } from "./type_exercises";
+import type { UsersAttributes, UsersCreationAttributes } from "./users";
+import { Users as _Users } from "./users";
 
 export {
   _Answers as Answers,
   _CompleteExercises as CompleteExercises,
-  _Exercises as Exercises,
-  _Preferences as Preferences,
-  _Reports as Reports,
-  _Responses as Responses,
-  _TypeExercises as TypeExercises,
-  _Users as Users,
-  _TypeEvent as TypeEvent,
-  _Question as Question,
-  _Notifications as Notifications,
-  _TypeNotifications as TypeNotifications,
-  _FederatedCredentials as FederatedCredentials
+  _Exercises as Exercises, _FederatedCredentials as FederatedCredentials, _Notifications as Notifications, _Preferences as Preferences, _Question as Question, _Reports as Reports,
+  _Responses as Responses, _Roles as Roles, _TypeEvent as TypeEvent, _TypeExercises as TypeExercises, _TypeNotifications as TypeNotifications, _Users as Users
 };
 
-export type {
-  AnswersAttributes,
-  AnswersCreationAttributes,
-  CompleteExercisesAttributes,
-  CompleteExercisesCreationAttributes,
-  ExercisesAttributes,
-  ExercisesCreationAttributes,
-  PreferencesAttributes,
-  PreferencesCreationAttributes,
-  ReportsAttributes,
-  ReportsCreationAttributes,
-  ResponsesAttributes,
-  ResponsesCreationAttributes,
-  TypeExercisesAttributes,
-  TypeExercisesCreationAttributes,
-  UsersAttributes,
-  UsersCreationAttributes,
-  EventsAttributes,
-  EventsCreationAttributes,
-  TypeEventAttributes,
-  TypeEventCreationAttributes,
-  QuestionAttributes,
-  QuestionCreationAttributes,
-  NotificationsAttributes,
-  NotificationCreationAttributes,
-  TypeNotificationsAttributes,
-  TypeNotificationsCreationAttributes,
-  FederatedCredentialsAttributes,
-  FederatedCredentialsCreationAttributes
-};
+  export type {
+    AnswersAttributes,
+    AnswersCreationAttributes,
+    CompleteExercisesAttributes,
+    CompleteExercisesCreationAttributes, EventsAttributes,
+    EventsCreationAttributes, ExercisesAttributes,
+    ExercisesCreationAttributes, FederatedCredentialsAttributes,
+    FederatedCredentialsCreationAttributes, NotificationCreationAttributes, NotificationsAttributes, PreferencesAttributes,
+    PreferencesCreationAttributes, QuestionAttributes,
+    QuestionCreationAttributes, ReportsAttributes,
+    ReportsCreationAttributes,
+    ResponsesAttributes,
+    ResponsesCreationAttributes, RolesAttributes,
+    RolesCreationAttributes, TypeEventAttributes,
+    TypeEventCreationAttributes, TypeExercisesAttributes,
+    TypeExercisesCreationAttributes, TypeNotificationsAttributes,
+    TypeNotificationsCreationAttributes, UsersAttributes,
+    UsersCreationAttributes
+  };
 
 export function initModels(sequelize: Sequelize) {
   const Answers = _Answers.initModel(sequelize);
@@ -90,6 +71,7 @@ export function initModels(sequelize: Sequelize) {
   const Notifications = _Notifications.initModel(sequelize);
   const TypeNotifications = _TypeNotifications.initModel(sequelize);
   const FederatedCredentials = _FederatedCredentials.initModel(sequelize);
+  const Roles = _Roles.initModel(sequelize);
 
   return {
     Answers: Answers,
@@ -105,6 +87,7 @@ export function initModels(sequelize: Sequelize) {
     Question: Question,
     Notifications: Notifications,
     TypeNotifications: TypeNotifications,
-    FederatedCredentials: FederatedCredentials
+    FederatedCredentials: FederatedCredentials,
+    Roles: Roles
   };
 }

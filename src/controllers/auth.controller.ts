@@ -1,10 +1,10 @@
-import { Models } from '../database/models'
-import { hashPassword } from '../utils/hash'
-import type { Response, Request, NextFunction } from 'express'
+import type { NextFunction, Request, Response } from 'express'
 import jwt from 'jsonwebtoken'
+import configEnv from '../config/env'
+import { Models } from '../database/models'
 import { userService } from '../services/user.service'
+import { hashPassword } from '../utils/hash'
 import { createToken } from '../utils/token'
-import configEnv from '../config/env';
 
 
 const { Users, Preferences } = Models
@@ -38,7 +38,7 @@ async function loginController(req: Request, res: Response) {
 }
 
 async function registerController(req: Request, res: Response) {
-    const { username, password, email } = req.body
+    const { username, password, email } = req.body;
 
     try {
         const registeredUser = await userService.register(
@@ -140,9 +140,6 @@ async function logoutController(
 }
 
 export {
-    loginController,
-    registerController,
-    changePasswordController,
-    logoutController,
-    getUserInfo,
+    changePasswordController, getUserInfo, loginController, logoutController, registerController
 }
+

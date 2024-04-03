@@ -1,18 +1,19 @@
 import * as Sequelize from 'sequelize'
 import { DataTypes, Model, Optional } from 'sequelize'
+import type { Events, EventsId } from './events'
 import type { Preferences, PreferencesId } from './preferences'
 import type { Reports, ReportsId } from './reports'
-import type { Events, EventsId } from './events'
-import type { PushSubscription } from 'web-push'
+import { AppRoles, AppRolesId, Roles } from './roles'
 
 export interface UsersAttributes {
     id: number
     name: string
     email: string
+    roleId: number;
     password: string
     description?: string
     ocupation?: string
-    profileImage?: string
+    profileImage?: string,
     problem: string
     createdAt: Date
     updatedAt: Date
@@ -29,6 +30,7 @@ export type UsersOptionalAttributes =
     | 'profileImage'
     | 'createdAt'
     | 'updatedAt'
+    | 'roleId'
     | 'subscriptionPayload'
     | 'problem'
     | 'deletedAt'
@@ -45,6 +47,7 @@ export class Users
     declare name: string
     declare email: string
     declare password: string
+    declare roleId: number;
     declare description?: string
     declare ocupation?: string
     declare profileImage?: string
@@ -178,6 +181,14 @@ export class Users
                 profileImage: {
                     type: DataTypes.STRING(255),
                     allowNull: true,
+                },
+                roleId: {
+                    type: DataTypes.INTEGER,
+                    defaultValue: AppRolesId[AppRoles.USER],
+                    references: {
+                        model: 'roles',
+                        key: 'id'
+                    }
                 },
                 createdAt: {
                     type: DataTypes.DATE,
