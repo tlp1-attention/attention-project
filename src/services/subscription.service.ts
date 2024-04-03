@@ -10,6 +10,7 @@ import { Users } from '../models/users'
  *  b) Allow to unsubscribe to notifications
  *  c) Allow to send notifications
  */
+console.log(webpush.generateVAPIDKeys());
 
 export class SubscriptionService {
     private publicKey: string;

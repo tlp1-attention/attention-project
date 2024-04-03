@@ -29,10 +29,10 @@ import usersRouter from './routes/users.routes';
 import { resolve } from 'path';
 import configEnv from './config/env';
 
-cloudinary.v2.config({ 
-  cloud_name: configEnv.CLOUDINARY.CLOUD_NAME, 
-  api_key: configEnv.CLOUDINARY.API_KEY, 
-  api_secret: configEnv.CLOUDINARY.API_SECRET 
+cloudinary.v2.config({
+  cloud_name: configEnv.CLOUDINARY.CLOUD_NAME,
+  api_key: configEnv.CLOUDINARY.API_KEY,
+  api_secret: configEnv.CLOUDINARY.API_SECRET
 })
 
 const app = express();

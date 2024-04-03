@@ -39,7 +39,7 @@ const env = {
         DB: {
             // Offer the chance to connect with Database URL
             URL: process.env.DEV_DB_URL,
-            NAME: process.env.DEV_DB_NAME|| 'attention__dev',
+            NAME: process.env.DEV_DB_NAME || 'attention__dev',
             USER: process.env.DEV_DB_USERNAME || 'root',
             PASSWORD: process.env.DEV_DB_PASSWORD || '',
             HOST: process.env.DEV_DB_HOST || 'localhost',
@@ -70,8 +70,8 @@ const env = {
         DB: {
             // Offer the chance to connect with Database URL
             URL: process.env.TEST_DB_URL,
-            NAME: process.env.TEST_DB_NAME|| 'attention__test',
-            USER: process.env.TEST_DB_USERNAME|| 'root',
+            NAME: process.env.TEST_DB_NAME || 'attention__test',
+            USER: process.env.TEST_DB_USERNAME || 'root',
             PASSWORD: process.env.TEST_DB_PASSWORD || '',
             HOST: process.env.TEST_DB_HOST || 'localhost',
             PORT: process.env.TEST_DB_PORT || 3306,
@@ -96,7 +96,7 @@ const env = {
             ENABLED: process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET ? true : false
         }
     },
- 
+
 } as const;
 
 if (!(process.env.NODE_ENV in env)) {

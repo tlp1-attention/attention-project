@@ -30,8 +30,7 @@ export type NotificationCreationAttributes = Optional<
 
 export class Notifications
     extends Model<NotificationsAttributes, NotificationCreationAttributes>
-    implements NotificationsAttributes
-{
+    implements NotificationsAttributes {
     declare id: number
     declare read: boolean
     declare title: string
@@ -66,7 +65,6 @@ export class Notifications
                 },
                 content: {
                     type: DataTypes.TEXT('long'),
-                    defaultValue: '',
                 },
                 typeId: {
                     type: DataTypes.INTEGER,
