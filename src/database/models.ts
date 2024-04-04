@@ -64,7 +64,7 @@ Notifications.hasOne(TypeNotifications, { foreignKey: 'typeId' });
 FederatedCredentials.hasOne(Users, { foreignKey: 'userId' });
 Users.hasMany(FederatedCredentials, { foreignKey: 'userId' });
 
-Users.hasOne(Roles, { foreignKey: 'roleId' })
-Roles.hasMany(Users, { foreignKey: 'roleId' })
+Users.hasOne(Roles, { as: 'roles', foreignKey: 'roleId' })
+Roles.hasMany(Users, { as: 'users', foreignKey: 'roleId' })
 
 export { Models };

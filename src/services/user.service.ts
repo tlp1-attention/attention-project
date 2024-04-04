@@ -50,7 +50,7 @@ export class UserService {
             },
             {
                 model: this.roleModel,
-                as: 'role',
+                as: 'roles',
                 attributes: [
                     'name'
                 ]
