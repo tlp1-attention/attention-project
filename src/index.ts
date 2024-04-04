@@ -13,7 +13,10 @@ async function runServer() {
     const httpServer = createServer(app)
     notificationService.attach(socketService)
     socketService.runOn(httpServer);
-    await setupDatabase().then(() => console.log('Base de datos configurada.'))
+    const shouldRunDatabaseSetup = process.argv[2] === "--setup";
+    if (shouldRunDatabaseSetup) {
+        await setupDatabase().then(() => console.log('Base de datos configurada.'))
+    }
     await scheduleReminders();
     setupLogger();
 

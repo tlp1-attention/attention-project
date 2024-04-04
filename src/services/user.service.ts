@@ -1,8 +1,9 @@
 import { InferAttributes, Op } from 'sequelize'
-import { Users, UsersAttributes, UsersCreationAttributes } from '../models/users'
+import { FederatedCredentials, FederatedCredentialsCreationAttributes } from '../models/federated-credentials'
 import { Preferences } from '../models/preferences'
+import { Roles } from '../models/roles'
+import { Users, UsersAttributes, UsersCreationAttributes } from '../models/users'
 import { comparePassword, hashPassword } from '../utils/hash'
-import { FederatedCredentials, FederatedCredentialsAttributes, FederatedCredentialsCreationAttributes } from '../models/federated-credentials'
 
 /**
  * The preference text that indicates that a user wants
@@ -20,7 +21,8 @@ export class UserService {
     constructor(
         private userModel: typeof Users,
         private preferenceModel: typeof Preferences,
-        private credentialModel: typeof FederatedCredentials
+        private credentialModel: typeof FederatedCredentials,
+        private roleModel: typeof Roles
     ) {}
 
     /**
@@ -34,7 +36,8 @@ export class UserService {
             attributes: {
                 exclude: ['password'],
             },
-            include: {
+            include: [
+            {
                 model: this.preferenceModel,
                 as: 'preferences',
                 attributes: [
@@ -45,6 +48,14 @@ export class UserService {
                     'contact_type',
                 ],
             },
+            {
+                model: this.roleModel,
+                as: 'role',
+                attributes: [
+                    'name'
+                ]
+            }
+            ],
         })
     }
 
@@ -388,4 +399,4 @@ export class UserService {
     }
 }
 
-export const userService = new UserService(Users, Preferences, FederatedCredentials)
+export const userService = new UserService(Users, Preferences, FederatedCredentials, Roles)

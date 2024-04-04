@@ -3,7 +3,7 @@ import { DataTypes, Model, Optional } from 'sequelize'
 import type { Events, EventsId } from './events'
 import type { Preferences, PreferencesId } from './preferences'
 import type { Reports, ReportsId } from './reports'
-import { AppRoles, AppRolesId, Roles } from './roles'
+import { AppRoles, AppRolesId } from './roles'
 
 export interface UsersAttributes {
     id: number

@@ -1,14 +1,14 @@
+import { NextFunction, Request, Response } from 'express'
+import { JwtPayload } from 'jsonwebtoken'
 import passport from 'passport'
 import {
     ExtractJwt,
     Strategy as JwtStrategy,
     VerifiedCallback,
 } from 'passport-jwt'
+import env from '../config/env'
 import { AuthRequest } from '../interfaces/auth-request'
 import type { Users as TUsers } from '../models/init-models'
-import { JwtPayload } from 'jsonwebtoken'
-import env from '../config/env'
-import { Request, Response, NextFunction } from 'express'
 import { userService } from '../services/user.service'
 
 async function verifyUser(
@@ -24,9 +24,10 @@ async function verifyUser(
         done(null, foundUser)
 
     } catch (err) {
+        console.log("Error when verifying user: ", err);
         done(err, null, {
             message: 'Hubo un error al verificar el token',
-        })
+        });
     }
 }
 
