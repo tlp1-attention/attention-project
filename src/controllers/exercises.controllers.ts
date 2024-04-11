@@ -16,7 +16,7 @@ export async function getAllExercises(req: Request, res: Response) {
             exercises: found
         });
 
-    } catch(err) {
+    } catch (err) {
         console.error(err);
         res.status(500).json({
             message: 'Error interno del servidor.'
@@ -43,7 +43,7 @@ export async function getExercise(req: Request, res: Response) {
             exercise: found
         });
 
-    } catch(err) {
+    } catch (err) {
         console.error(err);
         res.status(500).json({
             message: 'Error interno del servidor.'
@@ -71,7 +71,26 @@ export async function getQuestionsForExercise(req: Request, res: Response) {
             questions: found
         });
 
-    } catch(err) {
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({
+            message: 'Error interno del servidor.'
+        })
+    }
+}
+
+export function createReading(req: Request, res: Response) {
+    const { title, contents, summary, questions, path } = req.body;
+    try {
+        const reading = exerciseService.createWithQuestions({
+            readTitle: title,
+            readCoverPath: path,
+            read: contents,
+            readSummary: summary,
+        });
+
+
+    } catch (err) {
         console.error(err);
         res.status(500).json({
             message: 'Error interno del servidor.'

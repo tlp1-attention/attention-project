@@ -1,7 +1,9 @@
 import { InferAttributes, InferCreationAttributes, Op } from 'sequelize'
-import { Exercises } from '../models/exercises';
+import { Exercises, ExercisesCreationAttributes } from '../models/exercises';
 import { Question } from '../models/questions';
 import { Responses } from '../models/responses';
+
+
 /**
  * Class that encapsulates data operations regarding Readings.
  */
@@ -56,12 +58,12 @@ export class ExercisesService {
     /**
      * Creates a reading exercise given its data
      * Returns the newly created Exercise
-     * @param {InferCreationAttributes<Exercises>} eventData An object
+     * @param {ExercisesCreationAttributes} exerciseData An object
      * with the desired data to create the Exercise 
      * @returns {Promise<Exercises>} The created Exercise 
      */
     async create(
-        exerciseData: InferCreationAttributes<Exercises>
+        exerciseData: ExercisesCreationAttributes
     ): Promise<Exercises | null> {
         const created = await this.exerciseModel.create({
             ...exerciseData,
@@ -69,6 +71,19 @@ export class ExercisesService {
 
         return created
     }
+
+
+    /**
+     * Creates a reading exercise with the given data and
+     * the questions provided. Returns the newly created
+     * Exercise or null if an error happened.
+     * 
+     * Each question can also have upto four responses associated
+     * with it. 
+     * 
+     * @param {ExercisesCreationAttributes} exerciseData The data for the exercise
+     */
+    async createWithQuestions(): Promise<Exercises | null> {}
 
     /**
      * Updates and returns the exercise with the given ID and the provided
