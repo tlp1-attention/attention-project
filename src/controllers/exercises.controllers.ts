@@ -81,16 +81,34 @@ export async function getQuestionsForExercise(req: Request, res: Response) {
     }
 }
 
-export function createReading(req: Request, res: Response) {
-    const { title, contents, summary, questions, path } = req.body;
+export async function createReading(req: Request, res: Response) {
+    const { title, contents, summary, questions } = req.body;
+    const files = req.files as FileArray;
     try {
-        const reading = exerciseService.createWithQuestions({
-            readTitle: title,
-            readCoverPath: path,
-            read: contents,
-            readSummary: summary,
+        let imageUrl = '';
+        if (files && files.image) {
+            const image = await uploadImage(files.image);
+            imageUrl = image;
+        }
+
+        const created = await exerciseService.createWithQuestions({
+            title,
+            text: contents,
+            questions,
+            coverURL: imageUrl,
+            summary
         });
 
+        if (!created) {
+            console.log("There was an error when creating the exercise. Check for errors in the service.");
+            return res.status(400).json({
+                message: 'No se pudo crear el ejercicio'
+            });
+        }
+
+        res.status(201).json({
+            exercise: created
+        });
 
     } catch (err) {
         console.error(err);
