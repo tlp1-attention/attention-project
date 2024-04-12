@@ -1,8 +1,8 @@
-import { InferAttributes, InferCreationAttributes, Op } from 'sequelize'
+import { InferAttributes, Op } from 'sequelize'
 import { Exercises, ExercisesCreationAttributes } from '../models/exercises';
 import { Question } from '../models/questions';
 import { Responses } from '../models/responses';
-
+import { ReadingWithQuestions } from '../interfaces/readings';
 
 /**
  * Class that encapsulates data operations regarding Readings.
@@ -10,7 +10,8 @@ import { Responses } from '../models/responses';
 export class ExercisesService {
     constructor(
         private exerciseModel: typeof Exercises,
-        private questionModel: typeof Question
+        private questionModel: typeof Question,
+        private responseModel: typeof Responses
     ) {}
 
     /**
@@ -81,9 +82,37 @@ export class ExercisesService {
      * Each question can also have upto four responses associated
      * with it. 
      * 
-     * @param {ExercisesCreationAttributes} exerciseData The data for the exercise
+     * @param {ReadingWithQuestions} exerciseData The data for the exercise
      */
-    async createWithQuestions(): Promise<Exercises | null> {}
+    async createWithQuestions(reading: ReadingWithQuestions): Promise<Exercises | null> {
+        try {
+            const exercise = await this.exerciseModel.create({
+                readTitle: reading.title,
+                readSummary: reading.summary,
+                readCoverPath: reading.coverURL,
+                read: reading.text,
+            });
+            for (const question of reading.questions) {
+                const questionsToInsert = {
+                        exerciseId: exercise.id,
+                        text: question.questionText
+                };
+                await this.questionModel.create(questionsToInsert);
+                for (const option of question.options) {
+                    const optionToInsert = {
+                        response: option.optionText,
+                        correct: option.correct                        
+                    };
+                    await this.responseModel.create(optionToInsert);
+                }
+            }
+
+            return exercise;
+        } catch(err) {
+            console.warn("Error al crear ejercicios con preguntas: ", err);
+            return null;
+        }
+    }
 
     /**
      * Updates and returns the exercise with the given ID and the provided
@@ -139,4 +168,4 @@ export class ExercisesService {
     }
 }
 
-export const exerciseService = new ExercisesService(Exercises, Question);
+export const exerciseService = new ExercisesService(Exercises, Question, Responses);

@@ -1,5 +1,7 @@
 import type { Request, Response } from "express";
 import { exerciseService } from "../services/exercises.service";
+import { FileArray } from "express-fileupload";
+import { uploadImage } from "../utils/upload-cloudinary";
 
 export async function getAllExercises(req: Request, res: Response) {
     const { q } = req.query;

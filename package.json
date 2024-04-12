@@ -50,6 +50,7 @@
   },
   "dependencies": {
     "@types/cors": "^2.8.15",
+    "@types/express-fileupload": "^1.5.0",
     "bcrypt": "^5.1.0",
     "cloudinary": "^1.41.0",
     "connect-sqlite3": "^0.9.13",

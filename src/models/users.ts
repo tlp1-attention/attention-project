@@ -3,7 +3,7 @@ import { DataTypes, Model, Optional } from 'sequelize'
 import type { Events, EventsId } from './events'
 import type { Preferences, PreferencesId } from './preferences'
 import type { Reports, ReportsId } from './reports'
-import { AppRoles, AppRolesId } from './roles'
+import { AppRoles, AppRolesId, Roles } from './roles'
 
 export interface UsersAttributes {
     id: number
@@ -135,6 +135,9 @@ export class Users
     declare hasEvent: Sequelize.HasManyHasAssociationMixin<Events, EventsId>
     declare hasEvents: Sequelize.HasManyHasAssociationsMixin<Events, EventsId>
     declare countEvents: Sequelize.HasManyCountAssociationsMixin
+
+    // Users hasOne Role via roleId
+    declare role: Roles
 
     static initModel(sequelize: Sequelize.Sequelize): typeof Users {
         return Users.init(

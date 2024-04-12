@@ -1,4 +1,4 @@
-type QuestionWithResponse = {
+export type QuestionWithResponse = {
     questionText: string,
     options: {
         optionText: string,
@@ -6,7 +6,7 @@ type QuestionWithResponse = {
     }[]
 }
 
-type ReadingWithQuestions = {
+export type ReadingWithQuestions = {
     title: string,
     summary: string,
     coverURL: string,
