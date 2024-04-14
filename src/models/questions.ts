@@ -58,7 +58,7 @@ export class Question extends Model<QuestionAttributes, QuestionCreationAttribut
       allowNull: false,
       references: {
         key: 'id',
-        model: Exercises
+        model: Exercises,
       }
     },
     createdAt: {

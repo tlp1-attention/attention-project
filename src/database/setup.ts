@@ -12,7 +12,7 @@ const { TypeEvent } = Models
 export default async function setupDatabase() {
     await sequelize
         .sync({
-            alter: true,
+            force: true,
         })
         .then(() => console.log('Sincronizados modelos'))
     await TypeEvent.findOrCreate({

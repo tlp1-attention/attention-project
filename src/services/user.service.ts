@@ -52,6 +52,7 @@ export class UserService {
                 model: this.roleModel,
                 as: 'roles',
                 attributes: [
+                    'id',
                     'name'
                 ]
             }

@@ -86,8 +86,8 @@ export async function createReading(req: Request, res: Response) {
     const files = req.files as FileArray;
     try {
         let imageUrl = '';
-        if (files && files.image) {
-            const image = await uploadImage(files.image);
+        if (files && files.cover) {
+            const image = await uploadImage(files.cover);
             imageUrl = image;
         }
 

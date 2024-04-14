@@ -7,6 +7,8 @@
     "test": "cross-env-shell NODE_ENV=test \"jest --runInBand\"",
     "test:band": "cross-env NODE_ENV=test \"jest --runInBand\"",
     "watch": "tsc-watch --onSuccess \"node ./dist/src/index.js\"",
+    "watch:setup": "tsc-watch --onSuccess \"node ./dist/src/index.js --setup\"",
+    "dev:setup": "cross-env-shell NODE_ENV=development \"npm run watch:setup\"",
     "dev": "cross-env-shell NODE_ENV=development \"npm run watch\"",
     "build": "npm install && tsc",
     "start": "cross-env-shell NODE_ENV=production \"npm run build && node ./dist/src/index.js\""

@@ -3,7 +3,7 @@ import { Exercises } from '../../models/exercises'
 import { Question } from '../../models/questions'
 import { Responses } from '../../models/responses'
 
-const READINGS: ReadingWithQuestions[] = [
+const READINGS = [
     {
         title: 'El Sistema Solar',
         coverURL:

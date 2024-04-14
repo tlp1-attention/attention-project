@@ -97,11 +97,12 @@ export class ExercisesService {
                         exerciseId: exercise.id,
                         text: question.questionText
                 };
-                await this.questionModel.create(questionsToInsert);
+                const { id: questionId } = await this.questionModel.create(questionsToInsert);
                 for (const option of question.options) {
                     const optionToInsert = {
+                        questionId,
                         response: option.optionText,
-                        correct: option.correct                        
+                        correct: option.isCorrect
                     };
                     await this.responseModel.create(optionToInsert);
                 }

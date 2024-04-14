@@ -20,6 +20,7 @@ async function verifyUser(
 
     try {
         const foundUser = await userService.findById(id)
+        console.log(foundUser);
 
         done(null, foundUser)
 

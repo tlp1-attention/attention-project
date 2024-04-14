@@ -29,14 +29,20 @@ CompleteExercises.belongsTo(Exercises, {
 Exercises.hasMany(CompleteExercises, {
     as: 'complete_exercises',
     foreignKey: 'exerciseId',
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE'
 })
 Responses.belongsTo(Question, {
     as: 'question',
-    foreignKey: 'questionId'
+    foreignKey: 'questionId',
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE'
 });
 Question.hasMany(Responses, {
     as: 'response',
-    foreignKey: 'questionId'
+    foreignKey: 'questionId',
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE'
 });
 CompleteExercises.belongsTo(Users, { as: 'users', foreignKey: 'userId' })
 Users.hasMany(CompleteExercises, { as: 'complete_exercises', foreignKey: 'userId' })

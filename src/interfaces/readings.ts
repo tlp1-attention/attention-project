@@ -2,7 +2,7 @@ export type QuestionWithResponse = {
     questionText: string,
     options: {
         optionText: string,
-        correct: boolean
+        isCorrect: boolean
     }[]
 }
 

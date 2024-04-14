@@ -13,8 +13,8 @@ export function adminRoute(req: Request, res: Response, next: NextFunction) {
             message: "Unauthorized"
         });
     }
-
-    if (req.user.role.id !== AppRolesId[AppRoles.ADMIN]) {
+    console.log(req.user);
+    if (req.user.roleId !== AppRolesId[AppRoles.ADMIN]) {
         return res.status(403).send({
             message: "Unauthorized"
         });

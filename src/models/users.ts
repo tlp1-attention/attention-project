@@ -136,9 +136,6 @@ export class Users
     declare hasEvents: Sequelize.HasManyHasAssociationsMixin<Events, EventsId>
     declare countEvents: Sequelize.HasManyCountAssociationsMixin
 
-    // Users hasOne Role via roleId
-    declare role: Roles
-
     static initModel(sequelize: Sequelize.Sequelize): typeof Users {
         return Users.init(
             {
