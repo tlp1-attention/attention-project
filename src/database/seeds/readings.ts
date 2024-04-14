@@ -1,3 +1,4 @@
+import { ReadingWithQuestions } from '../../interfaces/readings';
 import { Exercises } from '../../models/exercises'
 import { Question } from '../../models/questions'
 import { Responses } from '../../models/responses'
