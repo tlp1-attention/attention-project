@@ -2,7 +2,6 @@ import type { Request, Response } from "express";
 import { FileArray } from "express-fileupload";
 import { exerciseService } from "../services/exercises.service";
 import { deleteImage, uploadImage } from "../utils/file-uploading";
-import { Result } from "express-validator";
 import { UploadApiResponse } from "cloudinary";
 
 export async function getAllExercises(req: Request, res: Response) {
