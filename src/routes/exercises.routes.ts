@@ -6,10 +6,11 @@ import {
     getAllExercises,
     getExercise,
     getQuestionsForExercise,
+    updateReadingCover,
 } from '../controllers/exercises.controllers.js'
 import { query } from 'express-validator'
 import { adminRoute } from '../middleware/authorization.js'
-import { createReadingSchema } from '../schemas/reading.schema.js'
+import { createReadingSchema, updateReadingCoverSchema } from '../schemas/reading.schema.js'
 
 const router = Router()
 
@@ -27,5 +28,7 @@ router.get('/:exerciseId', getExercise);
 router.get('/:exerciseId/questions', getQuestionsForExercise)
 
 router.post('/', [adminRoute, validate(createReadingSchema)], createReading);
+
+router.post('/:exerciseId/cover', [adminRoute, validate(updateReadingCoverSchema)], updateReadingCover);
 
 export default router

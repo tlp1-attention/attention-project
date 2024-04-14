@@ -1,7 +1,9 @@
 import type { Request, Response } from "express";
-import { exerciseService } from "../services/exercises.service";
 import { FileArray } from "express-fileupload";
-import { uploadImage } from "../utils/upload-cloudinary";
+import { exerciseService } from "../services/exercises.service";
+import { deleteImage, uploadImage } from "../utils/file-uploading";
+import { Result } from "express-validator";
+import { UploadApiResponse } from "cloudinary";
 
 export async function getAllExercises(req: Request, res: Response) {
     const { q } = req.query;
@@ -83,19 +85,13 @@ export async function getQuestionsForExercise(req: Request, res: Response) {
 
 export async function createReading(req: Request, res: Response) {
     const { title, contents, summary, questions } = req.body;
-    const files = req.files as FileArray;
     try {
-        let imageUrl = '';
-        if (files && files.cover) {
-            const image = await uploadImage(files.cover);
-            imageUrl = image;
-        }
 
         const created = await exerciseService.createWithQuestions({
             title,
             text: contents,
             questions,
-            coverURL: imageUrl,
+            coverURL: '',
             summary
         });
 
@@ -111,6 +107,44 @@ export async function createReading(req: Request, res: Response) {
         });
 
     } catch (err) {
+        console.error(err);
+        res.status(500).json({
+            message: 'Error interno del servidor.'
+        })
+    }
+}
+
+export async function updateReadingCover(req: Request, res: Response) {
+    const files = req.files as FileArray;
+    let image: UploadApiResponse | null = null;
+    try {
+        console.log("Recibido archivo...", files);
+        if (files && files.cover) {
+            const result = await uploadImage(files.cover);
+            image = result;
+        }
+
+        const { exerciseId } = req.params;
+
+        const updated = await exerciseService.update(
+            parseInt(exerciseId),
+            { readCoverPath: image.secure_url }
+        );
+
+        if (!updated) {
+            return res.status(404).json({
+                message: 'No se encontró el ejercicio'
+            });
+        }
+
+        res.status(200).json({
+            exercise: updated
+        });
+
+    } catch (err) {
+        if (image) {
+            await deleteImage(image);
+        }
         console.error(err);
         res.status(500).json({
             message: 'Error interno del servidor.'

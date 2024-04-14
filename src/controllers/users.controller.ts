@@ -1,10 +1,10 @@
 import { Request, Response } from 'express'
-import { userService } from '../services/user.service'
-import { AuthRequest } from '../interfaces/auth-request'
-import { Users } from '../models/users'
 import jwt from 'jsonwebtoken'
 import configEnv from '../config/env'
-import { uploadImage } from '../utils/upload-cloudinary'
+import { AuthRequest } from '../interfaces/auth-request'
+import { Users } from '../models/users'
+import { userService } from '../services/user.service'
+import { uploadImage } from '../utils/file-uploading'
 
 export function getUserByToken(req: Request, res: Response) {
     res.status(200).json({
@@ -56,7 +56,7 @@ export async function updateUserInfo(req: Request, res: Response) {
             (req as any).files.profileImage
         ) {
             const image = await uploadImage((req as any).files.profileImage)
-            imageUrl = image
+            imageUrl = image.secure_url
         }
 
         const updatedUser = await user.update({

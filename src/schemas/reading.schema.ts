@@ -72,8 +72,8 @@ export const createReadingSchema = [
     ...commonSchemaOptions.validateReadingContents,
     ...commonSchemaOptions.validateReadingSummary,
     ...commonSchemaOptions.validateQuestions,
-    ...commonSchemaOptions.validateCover
 ];
 
 export const updateReadingSchema = [...createReadingSchema];
+export const updateReadingCoverSchema = [...commonSchemaOptions.validateCover];
 

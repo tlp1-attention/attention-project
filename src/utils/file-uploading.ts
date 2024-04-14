@@ -1,4 +1,4 @@
-import cloudinary from "cloudinary"
+import cloudinary, { UploadApiResponse } from "cloudinary"
 import { join } from "path";
 
 export const uploadImageToCloudinary = async (filePath: string) => {
@@ -15,7 +15,7 @@ export const uploadImageToCloudinary = async (filePath: string) => {
 }
 
 export const uploadImage = async (file: any) => {
-    return new Promise<string>(async (resolve, reject) => {
+    return new Promise<UploadApiResponse>(async (resolve, reject) => {
         try {
             const filePath: string = join(__dirname, "../../files", file.name)
 
@@ -26,11 +26,23 @@ export const uploadImage = async (file: any) => {
 
                 const uploadImage = await uploadImageToCloudinary(filePath)
 
-                resolve(uploadImage.secure_url)
+                resolve(uploadImage)
             })  
         } catch (err) {
             console.error(err)
             reject(err)
         }
+    })
+}
+
+export const deleteImage = async (uploadResponse: UploadApiResponse) => {
+    return new Promise<void>((resolve, reject) => {
+        cloudinary.v2.uploader.destroy(uploadResponse.publicId, (error, result) => {
+            if (error) {
+                reject(error)
+            } else {
+                resolve()
+            }
+        })
     })
 }
